@@ -1,47 +1,32 @@
 package simplex;
 
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 
-public class Main extends BasicGame{
+ 
+public class Main extends StateBasedGame{
 
-    private World world;
-    private Display display;
-    private Input input;
+    public static final int MAINMENUSTATE = 0;
+    public static final int GAMESTATE = 1;
+    public static final int HELPSTATE = 2;
+    public static final int LOADINGSTATE = 3;
+    public static final int HIGHSCORESTATE = 4;
  
     public Main()
     {
-        super("Slick2DPath2Glory - SimpleGame");
-        
-        world = new World();
-        display = new Display(world);
-        input = new Input(world);
+        super("Simplex");
         
     }
- 
+
     @Override
-    public void init(GameContainer gc) 
-			throws SlickException {
- 
+    public void initStatesList(GameContainer gc) throws SlickException {
+        addState(new MainMenuState(MAINMENUSTATE));
+        addState(new GameState(GAMESTATE));
     }
- 
-    @Override
-    public void update(GameContainer gc, int delta) 
-			throws SlickException     
-    {
-        world.update(gc, delta);
-    }
- 
-    public void render(GameContainer gc, Graphics g) 
-			throws SlickException 
-    {
-        display.render(gc, g);
-    }
- 
+
     public static void main(String[] args) 
 			throws SlickException
     {
