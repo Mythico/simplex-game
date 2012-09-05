@@ -4,15 +4,10 @@
  */
 package simplex;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Transform;
+import org.newdawn.slick.*;
+import org.newdawn.slick.gui.AbstractComponent;
+import org.newdawn.slick.gui.ComponentListener;
+import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -20,13 +15,19 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Emil
  */
-public class MainMenuState extends BasicGameState {
+public class MainMenuState extends BasicGameState{
 
     private final int stateId;
     private int selectedOption = Main.MAINMENUSTATE; //Do nothing
 
+    
+    private MouseOverArea playButton;
+    private MouseOverArea quitButton;
+    
     public MainMenuState(int stateId) {
         this.stateId = stateId;
+        
+        
     }
        
     
@@ -38,16 +39,19 @@ public class MainMenuState extends BasicGameState {
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         
+        Image playImage = new Image("play.png");
+        Image quitImage = new Image("quit.png");
+        playButton = new MouseOverArea(gc, playImage, 10, 100, playClicked);
+        quitButton = new MouseOverArea(gc, quitImage, 10, 164, quitClicked);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException {
         
+        playButton.render(gc, g);
+        quitButton.render(gc, g);
         
-        
-        g.drawString("Play", 10, 100);
-        g.drawString("Quit", 10, 115);
     }
 
     @Override
@@ -59,20 +63,22 @@ public class MainMenuState extends BasicGameState {
         }
         
     }
+
     
-    @Override
-    public void mouseReleased(int button, int x, int y){
-        Point point = new Point(x, y);
-        
-        Rectangle rec = new Rectangle(10, 100, 50, 15);
-        if(rec.contains(point))
-        {
+    private ComponentListener playClicked = new ComponentListener() {
+
+        @Override
+        public void componentActivated(AbstractComponent ac) {
             selectedOption = Main.GAMESTATE;
-        } 
-        rec = new Rectangle(10, 115, 50, 15);
-        if (rec.contains(point)){
+        }
+    }; 
+    
+    private ComponentListener quitClicked = new ComponentListener() {
+
+        @Override
+        public void componentActivated(AbstractComponent ac) {
             System.exit(0);
         }
-    }
+    }; 
     
 }
