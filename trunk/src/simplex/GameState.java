@@ -12,8 +12,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import simplex.entity.Connection;
-import simplex.entity.Consumer;
-import simplex.entity.Factory;
 import simplex.entity.Node;
 
 /**
