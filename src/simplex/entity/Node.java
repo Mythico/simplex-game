@@ -20,10 +20,10 @@ public class Node {
     private List<Connection> connections = new LinkedList<>();
     
     private int resourceType;
-    public int rate = 1;
+    private int rate = 1;
 
-    public Node(int x, int y) {
-	position = new Vector2f(x, y);
+    public Node(Vector2f pos) {
+	position = pos;
     }
 
     public void render(Graphics g) {
@@ -54,5 +54,13 @@ public class Node {
 
     public Vector2f getPosition() {
 	return position;
+    }
+
+    void setResourceRate(int resourceRate) {
+	rate = resourceRate;
+    }
+
+    void setResourceType(int resourceType) {
+	this.resourceType = resourceType;
     }
 }
