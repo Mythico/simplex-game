@@ -6,6 +6,7 @@ package simplex;
 
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.text.Position;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -22,10 +23,10 @@ public class GameState extends BasicGameState{
     
     private final int stateId;
     
-    private List<Node> nodes = new LinkedList<>();
+    private List<Node> factories = new LinkedList<>();
 
     public GameState(int stateId) {
-        this.stateId = stateId;
+        this.stateId = stateId;        
     }
  
     
@@ -37,39 +38,44 @@ public class GameState extends BasicGameState{
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     
-        Node n1 = new Node(gc);
-        Node n2 = new Node(gc);
-        Node n3 = new Node(gc);
-        Node n4 = new Node(gc);
+	
+        Node n1 = new Node(100,100);
+        Node n2 = new Node(200, 100);
+        Node n3 = new Node(100, 200);
+        Node n4 = new Node(200, 200);
         
-        new Connection(gc, n1, n2);
-        new Connection(gc, n2, n3);
-        new Connection(gc, n2, n4);
-        new Connection(gc, n3, n4);
+	
+	
+        Connection c1 = new Connection(n2);
+        Connection c2 = new Connection(n3);
+        Connection c3 = new Connection(n4);
+        Connection c4 = new Connection(n4);
         
-        n1.setLocation(100, 100);
-        n2.setLocation(200, 100);
-        n3.setLocation(100, 200);
-        n4.setLocation(200, 200);
+	n1.addConnection(c1);
+	n2.addConnection(c2);
+	n3.addConnection(c3);
+	n2.addConnection(c4);
         
-        nodes.add(n1);
-        nodes.add(n2);
-        nodes.add(n3);
-        nodes.add(n4);
+	//TODO: fulhack bort!!
+	n2.rate = 2;
+	
+        factories.add(n1);
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) 
             throws SlickException {
-        for(Node node : nodes){
-            node.render(gc, g);
+        for(Node node : factories){
+            node.render(g);
         }
-        
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) 
             throws SlickException {
-        
+	
+        for(Node node : factories){
+            node.update(delta);
+        }
     }
 }

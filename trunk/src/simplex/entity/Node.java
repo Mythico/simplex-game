@@ -6,59 +6,41 @@ package simplex.entity;
 
 import java.util.LinkedList;
 import java.util.List;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.GUIContext;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  *
  * @author Emil
  */
-public class Node extends AbstractComponent {
+public class Node {
 
-    private int x, y, width, height;
+    private Vector2f position;
     private List<Connection> connections = new LinkedList<>();
+    
+    private int resourceType;
+    public int rate = 1;
 
-    public Node(GUIContext container) {
-        super(container);
+    public Node(int x, int y) {
+	position = new Vector2f(x, y);
     }
 
-    @Override
-    public void render(GUIContext guic, Graphics g) throws SlickException {
-        //Render the node;
-        
-        
-        
-        for (Connection conn : connections) {
-            conn.render(guic, g);
-        }
+    public void render(Graphics g) {
+	g.setColor(Color.red);
+	g.fillOval(position.x, position.y, 20, 20);
+	for(Connection conn : connections){
+	    conn.render(g);
+	}
     }
-
-    @Override
-    public void setLocation(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
+    
+    public void update(int delta) {
+	
+	for(Connection conn : connections){
+	    conn.setResourceType(resourceType);
+	    conn.setResourceRate(rate);	    
+	    conn.update(delta);
+	}
     }
 
     public void removeConnection(Connection conn) {
@@ -67,5 +49,10 @@ public class Node extends AbstractComponent {
 
     public void addConnection(Connection conn) {
         connections.add(conn);
+	conn.setStartPosition(position);
+    }
+
+    public Vector2f getPosition() {
+	return position;
     }
 }

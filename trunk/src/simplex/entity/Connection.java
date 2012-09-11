@@ -4,84 +4,82 @@
  */
 package simplex.entity;
 
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.GUIContext;
 
 /**
  *
  * @author Emil
  */
-public class Connection extends AbstractComponent {
+public class Connection {
 
-    private Node startNode;
-    private Node endNode;
-    private boolean fromStartToEnd;
-    private int x, y, width, height;
+    private Node node;
+    private Vector2f startPos;
+    private Vector2f endPos;
+    private int rate = 1;
+    private int resourceType;
+    private ResourceBall resourceBall;
+    
+    
 
-    public Connection(GUIContext container, Node startNode, Node endNode) {
-        super(container);
-        this.startNode = startNode;
-        this.endNode = endNode;
-        startNode.addConnection(this);
-        endNode.addConnection(this);
+    public Connection(Node node) {
+	this.node = node;
+	endPos = node.getPosition();
+	resourceBall = new ResourceBall();
+    }
 
+    public void render(Graphics g) {
+	g.setColor(Color.yellow);
+	g.drawLine(startPos.x, startPos.y, endPos.x, endPos.y);
+	resourceBall.render(g);
+	node.render(g);
+    }
+
+    void setResourceType(int resourceType) {
+	this.resourceType = resourceType;
+    }
+
+    void setResourceRate(int rate) {
+	this.rate = rate;
+    }
+
+    void update(int delta) {
+	//TODO: Move the resource balls.
+
+	float k = 0.1f;
+	
+	Vector2f dir = endPos.copy().sub(startPos).normalise().scale(rate*k);
+	resourceBall.position.add(dir);
+	
+	
+	float dist = resourceBall.position.distanceSquared(endPos);
+	if(dist < 1 ){
+	    resourceBall.position = startPos.copy();
+	}
+	
+	node.update(delta);
     }
 
     /**
-     * Removes the connection between this object and the connected nodes.
+     * Set the position where the connection starts.
+     * @param startPosition the startPosition to set
      */
-    public void remove() {
-        startNode.removeConnection(this);
-        endNode.removeConnection(this);
+    public void setStartPosition(Vector2f startPosition) {
+	this.startPos = startPosition;
+	resourceBall.position.set(startPosition.copy());
     }
+}
 
-    @Override
-    public void render(GUIContext guic, Graphics g) throws SlickException {
-        x = startNode.getX();
-        y = startNode.getY();
-        width = endNode.getX();
-        height = endNode.getY();
+class ResourceBall{
 
+    Vector2f position = new Vector2f();
 
-        
-        //Draw line
-        g.setColor(Color.yellow);
-        g.drawLine(x, y, width, height);
-        
-
-    }
-
-    public void toggleDirection() {
-        fromStartToEnd = !fromStartToEnd;
-    }
     
-    @Override
-    public void setLocation(int x, int y) {
-        this.x = x;
-        this.y = y;
+    void render(Graphics g) {
+	g.setColor(Color.pink);
+	g.fillOval(position.x, position.y, 10, 10);
     }
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
 }
