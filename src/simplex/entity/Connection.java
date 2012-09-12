@@ -29,8 +29,7 @@ public class Connection {
     }
 
     public void render(Graphics g) {
-        resourceBall.render(g);
-        node.render(g);
+	resourceBall.render(g);
     }
 
     void setResourceType(int resourceType) {
