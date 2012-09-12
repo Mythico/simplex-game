@@ -13,7 +13,8 @@ import org.newdawn.slick.geom.Vector2f;
 
 /**
  * 
- * @author Emil, Samuel
+ * @author Emil
+ * @author Samuel
  */
 public class Node {
 

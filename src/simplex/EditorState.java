@@ -147,6 +147,7 @@ public class EditorState extends BasicGameState {
             }
         }
     };
+    
     private ComponentListener placeDummyListener = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent source) {
