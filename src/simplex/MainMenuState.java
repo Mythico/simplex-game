@@ -22,6 +22,7 @@ public class MainMenuState extends BasicGameState{
 
     
     private MouseOverArea playButton;
+    private MouseOverArea editButton;
     private MouseOverArea quitButton;
     
     public MainMenuState(int stateId) {
@@ -39,10 +40,12 @@ public class MainMenuState extends BasicGameState{
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         
-        Image playImage = new Image("play.png");
-        Image quitImage = new Image("quit.png");
+        Image playImage = new Image("img/play.png");
+        Image editImage = new Image("img/edit.png");
+        Image quitImage = new Image("img/quit.png");
         playButton = new MouseOverArea(gc, playImage, 10, 100, playClicked);
-        quitButton = new MouseOverArea(gc, quitImage, 10, 164, quitClicked);
+        editButton = new MouseOverArea(gc, editImage, 10, 164, editClicked);
+        quitButton = new MouseOverArea(gc, quitImage, 10, 228, quitClicked);
     }
 
     @Override
@@ -50,6 +53,7 @@ public class MainMenuState extends BasicGameState{
             throws SlickException {
         
         playButton.render(gc, g);
+        editButton.render(gc, g);
         quitButton.render(gc, g);
         
     }
@@ -58,18 +62,33 @@ public class MainMenuState extends BasicGameState{
     public void update(GameContainer gc, StateBasedGame sbg, int i) 
             throws SlickException {
         
-        if(selectedOption != Main.MAINMENUSTATE){
+        if(selectedOption != Main.MAINMENUSTATE){	    
             sbg.enterState(selectedOption);
         }
         
     }
 
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+	selectedOption = Main.MAINMENUSTATE;
+	super.enter(container, game);	
+    }
+
+    
     
     private ComponentListener playClicked = new ComponentListener() {
 
         @Override
         public void componentActivated(AbstractComponent ac) {
             selectedOption = Main.GAMESTATE;
+        }
+    }; 
+    
+    private ComponentListener editClicked = new ComponentListener() {
+
+        @Override
+        public void componentActivated(AbstractComponent ac) {
+            selectedOption = Main.EDITSTATE;
         }
     }; 
     

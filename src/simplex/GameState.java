@@ -27,6 +27,7 @@ public class GameState extends BasicGameState {
     private int width = 16;
     private int height = 16;
     private List<Node> factories = new LinkedList<>();
+    private List<Node> nodes = new LinkedList<>();
     private NodeFactory nodeFactory;
 
     public GameState(int stateId) {
@@ -84,7 +85,7 @@ public class GameState extends BasicGameState {
 	    }
 	}
 
-	for (Node node : factories) {
+	for (Node node : nodes) {
 	    node.render(g);
 	}
     }
