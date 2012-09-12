@@ -12,21 +12,20 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- *
+ * 
  * @author Emil
  */
 public class MainMenuState extends BasicGameState {
 
     private final int stateId;
-    private int selectedOption = Main.MAINMENUSTATE; //Do nothing
+    private int selectedOption = Main.MAINMENUSTATE; // Do nothing
+
     private MouseOverArea playButton;
     private MouseOverArea editButton;
     private MouseOverArea quitButton;
 
     public MainMenuState(int stateId) {
         this.stateId = stateId;
-
-
     }
 
     @Override
@@ -35,7 +34,8 @@ public class MainMenuState extends BasicGameState {
     }
 
     @Override
-    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+    public void init(GameContainer gc, StateBasedGame sbg)
+            throws SlickException {
 
         Image playImage = new Image("img/play.png");
         Image editImage = new Image("img/edit.png");
@@ -66,26 +66,31 @@ public class MainMenuState extends BasicGameState {
     }
 
     @Override
-    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+    public void enter(GameContainer container, StateBasedGame game)
+            throws SlickException {
         selectedOption = Main.MAINMENUSTATE;
         super.enter(container, game);
     }
+
     private ComponentListener playClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
             selectedOption = Main.GAMESTATE;
         }
     };
+
     private ComponentListener editClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
             selectedOption = Main.EDITSTATE;
         }
     };
+
     private ComponentListener quitClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
             System.exit(0);
         }
     };
+
 }
