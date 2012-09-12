@@ -13,9 +13,10 @@ public class Main extends StateBasedGame{
 
     public static final int MAINMENUSTATE = 0;
     public static final int GAMESTATE = 1;
-    public static final int HELPSTATE = 2;
-    public static final int LOADINGSTATE = 3;
-    public static final int HIGHSCORESTATE = 4;
+    public static final int EDITSTATE = 2;
+    public static final int HELPSTATE = 3;
+    public static final int LOADINGSTATE = 4;
+    public static final int HIGHSCORESTATE = 5;
  
     public Main()
     {
@@ -30,6 +31,7 @@ public class Main extends StateBasedGame{
 	ImageManager.init();
         addState(new MainMenuState(MAINMENUSTATE));
         addState(new GameState(GAMESTATE));
+        addState(new EditorState(EDITSTATE));
     }
 
     public static void main(String[] args) 
