@@ -36,7 +36,6 @@ public class EditorState extends BasicGameState {
     private NodeFactory nodeFactory;
 
     private enum Type {
-
         None, Factory, Dummy;
     }
 
@@ -98,8 +97,8 @@ public class EditorState extends BasicGameState {
         }
 
         if (!selectedType.equals(Type.None)) {
-            g.drawImage(selectedImage, gc.getInput().getAbsoluteMouseX(), gc
-                    .getInput().getAbsoluteMouseY());
+            g.drawImage(selectedImage, gc.getInput().getAbsoluteMouseX(), 
+                    gc.getInput().getAbsoluteMouseY());
         }
     }
 

@@ -4,6 +4,11 @@
  */
 package simplex.entity;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
@@ -20,16 +25,22 @@ public class Connection {
     private Vector2f endPos;
     private int rate = 1;
     private int resourceType;
-    private ResourceBall resourceBall;
+    private List<ResourceBall> resourceBalls = new LinkedList<>();
 
     public Connection(Node node) {
         this.node = node;
         endPos = node.getPosition();
-        resourceBall = new ResourceBall();
+        //while (resourceBalls.size() < rate) {
+        resourceBalls.add(new ResourceBall());
+        resourceBalls.add(new ResourceBall());
+        //}
+        System.out.println("balls: " + resourceBalls.size());
     }
 
     public void render(Graphics g) {
-	resourceBall.render(g);
+        for (ResourceBall resourceBall : resourceBalls) { 
+            resourceBall.render(g);
+        }
     }
 
     void setResourceType(int resourceType) {
@@ -45,28 +56,44 @@ public class Connection {
     }
 
     void update(int delta) {
-        // TODO: Move the resource balls.
 
+        Queue<ResourceBall> movingResources = new LinkedList<>();
+        Queue<ResourceBall> waitingResources = new LinkedList<>();
+        
+        waitingResources.addAll(resourceBalls);
+        
         float k = 0.05f;
-
-        Vector2f dir = endPos.copy().sub(startPos).normalise().scale(rate * k);
-        resourceBall.position.add(dir);
-
-        switch (resourceType) {
-        case 0:
-            resourceBall.img = ImageManager.red_resource;
-            break;
-        case 1:
-            resourceBall.img = ImageManager.green_resource;
-            break;
-        case 2:
-            resourceBall.img = ImageManager.blue_resource;
-            break;
+        Vector2f dir = endPos.copy().sub(startPos).normalise().scale(k);
+                
+        // Move another waiting resource to the movingResource queue 
+        // if there is waiting resources and if the first moving resource has moved far enough.
+        if (movingResources.isEmpty() || (!waitingResources.isEmpty() && (movingResources.size() < rate) &&
+                (movingResources.peek().position.distance(startPos) > startPos.distance(endPos)/rate))) {
+            movingResources.add(waitingResources.poll());
         }
-
-        float dist = resourceBall.position.distanceSquared(endPos);
-        if (dist < 1) {
-            resourceBall.position = startPos.copy();
+        
+        Iterator<ResourceBall> it = movingResources.iterator();
+        while (it.hasNext()) {
+            
+            ResourceBall resourceBall = it.next();
+            resourceBall.position.add(dir);
+    
+            switch (resourceType) {
+            case 0: resourceBall.img = ImageManager.red_resource;
+                break;
+            case 1: resourceBall.img = ImageManager.green_resource;
+                break;
+            case 2: resourceBall.img = ImageManager.blue_resource;
+                break;
+            }
+    
+            // Reset the moving resource when it has moved from start to end
+            float dist = resourceBall.position.distanceSquared(endPos);
+            if (dist < 1) {
+                resourceBall.position = startPos.copy();
+                waitingResources.add(resourceBall);
+                it.remove();
+            }
         }
 
         node.update(delta);
@@ -80,7 +107,10 @@ public class Connection {
      */
     public void setStartPosition(Vector2f startPosition) {
         this.startPos = startPosition;
-        resourceBall.position.set(startPosition.copy());
+
+        for (ResourceBall resourceBall : resourceBalls) { 
+            resourceBall.position.set(startPosition.copy());
+        }
     }
 
 }
