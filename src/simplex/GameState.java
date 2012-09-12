@@ -67,6 +67,12 @@ public class GameState extends BasicGameState {
 	n2.addConnection(c4);
 
 	factories.add(n1);
+        
+        nodes.add(n1);
+        nodes.add(n2);
+        nodes.add(n3);
+        nodes.add(n4);
+        
     }
 
     @Override
