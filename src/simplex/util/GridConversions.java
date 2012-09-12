@@ -12,10 +12,24 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class GridConversions {
  
-    public static Vector2f gridToScreenCoord(int x, int y, Vector2f gameSize, 
-	    Vector2f screenSize){
-	float fx = x * (screenSize.x / gameSize.x);
-	float fy = y * (screenSize.y / gameSize.y);
+    private static int gameWidth = 0;
+    private static int gameHeight = 0;
+    private static int screenWidth = 0;
+    private static int screenHeight = 0;
+    
+    public static void setScreenSize(int width, int height){
+	screenWidth = width;
+	screenHeight = height;
+    }
+    public static void setGameSize(int width, int height){
+	gameWidth = width;
+	gameHeight = height;
+    }
+    
+    
+    public static Vector2f gridToScreenCoord(int x, int y){
+	float fx = x * (screenWidth / gameWidth);
+	float fy = y * (screenHeight / gameHeight);
 	return new Vector2f(fx, fy);
     }
 }
