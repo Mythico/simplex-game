@@ -19,7 +19,8 @@ import simplex.util.GridConversions;
 
 /**
  * 
- * @author Emil, Samuel
+ * @author Emil
+ * @author Samuel
  */
 public class GameState extends BasicGameState {
 
