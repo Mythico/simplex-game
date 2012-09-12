@@ -17,7 +17,6 @@ public class Main extends StateBasedGame {
 
     public Main() {
         super("Simplex");
-
     }
 
     @Override
@@ -28,11 +27,9 @@ public class Main extends StateBasedGame {
         addState(new EditorState(EDITSTATE));
     }
 
-    public static void main(String[] args)
-            throws SlickException {
+    public static void main(String[] args) throws SlickException {
 
-        AppGameContainer app =
-                new AppGameContainer(new Main());
+        AppGameContainer app = new AppGameContainer(new Main());
 
         app.setDisplayMode(800, 600, false);
         app.start();

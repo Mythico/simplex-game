@@ -4,7 +4,6 @@
  */
 package simplex;
 
-import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 import org.newdawn.slick.Color;
@@ -24,7 +23,7 @@ import simplex.util.GridConversions;
 import simplex.util.ImageManager;
 
 /**
- *
+ * 
  * @author Emil
  */
 public class EditorState extends BasicGameState {
@@ -38,130 +37,127 @@ public class EditorState extends BasicGameState {
 
     private enum Type {
 
-	None, Factory, Dummy;
+        None, Factory, Dummy;
     }
+
     private Type selectedType = Type.None;
     private Image selectedImage = null;
     private MouseOverArea placeFactory;
     private MouseOverArea placeDummy;
 
     public EditorState(int stateId) {
-	this.stateId = stateId;
+        this.stateId = stateId;
     }
 
     @Override
     public int getID() {
-	return stateId;
+        return stateId;
     }
 
     @Override
-    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+    public void init(GameContainer gc, StateBasedGame sbg)
+            throws SlickException {
 
+        GridConversions.setGameSize(width, height);
+        GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
+        nodeFactory = new NodeFactory();
 
-	GridConversions.setGameSize(width, height);
-	GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
-	nodeFactory = new NodeFactory();
+        placeFactory = new MouseOverArea(gc, ImageManager.factory_node.copy(),
+                gc.getWidth() - 32, 0, placeFactoryListener);
 
-
-	placeFactory = new MouseOverArea(gc, ImageManager.factory_node.copy(),
-		gc.getWidth() - 32, 0,
-		placeFactoryListener);
-
-	placeDummy = new MouseOverArea(gc, ImageManager.dummy_node.copy(),
-		gc.getWidth() - 32, 32,
-		placeDummyListener);
+        placeDummy = new MouseOverArea(gc, ImageManager.dummy_node.copy(),
+                gc.getWidth() - 32, 32, placeDummyListener);
 
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-	    throws SlickException {
+            throws SlickException {
 
-	final int gwidth = gc.getWidth() / width;
-	final int gheight = gc.getHeight() / height;
+        final int gwidth = gc.getWidth() / width;
+        final int gheight = gc.getHeight() / height;
 
-	//Draw grid
-	for (int i = 0; i < width; i++) {
-	    for (int j = 0; j < height; j++) {
-		//Toggle colour
-		g.setColor(((i + j) % 2 == 0) ? Color.darkGray : Color.gray);
-		g.fillRect(j * gwidth, i * gheight, gwidth, gheight);
-	    }
-	}
+        // Draw grid
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                // Toggle colour
+                g.setColor(((i + j) % 2 == 0) ? Color.darkGray : Color.gray);
+                g.fillRect(j * gwidth, i * gheight, gwidth, gheight);
+            }
+        }
 
-	g.setColor(Color.white);
-	g.fillRect(gc.getWidth() - 35, 0, 35, gc.getHeight());
-	g.setColor(Color.black);
-	g.drawRect(gc.getWidth() - 35, 0, 35, gc.getHeight());
-	placeFactory.render(gc, g);
-	placeDummy.render(gc, g);
+        g.setColor(Color.white);
+        g.fillRect(gc.getWidth() - 35, 0, 35, gc.getHeight());
+        g.setColor(Color.black);
+        g.drawRect(gc.getWidth() - 35, 0, 35, gc.getHeight());
+        placeFactory.render(gc, g);
+        placeDummy.render(gc, g);
 
-	for (Node node : nodes) {
-	    node.render(g);
-	}
+        for (Node node : nodes) {
+            node.render(g);
+        }
 
-	if (!selectedType.equals(Type.None)) {
-	    g.drawImage(selectedImage, gc.getInput().getAbsoluteMouseX(),
-		    gc.getInput().getAbsoluteMouseY());
-	}
+        if (!selectedType.equals(Type.None)) {
+            g.drawImage(selectedImage, gc.getInput().getAbsoluteMouseX(), gc
+                    .getInput().getAbsoluteMouseY());
+        }
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
-	    throws SlickException {
+            throws SlickException {
 
-	for (Node node : factories) {
-	    node.update(delta);
-	}
+        for (Node node : factories) {
+            node.update(delta);
+        }
 
-	if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
-	    if (selectedType.equals(Type.None)) {
-		sbg.enterState(Main.MAINMENUSTATE);
-	    } else {
-		selectedType = Type.None;
-		selectedImage = null;
-	    }
-	}
+        if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
+            if (selectedType.equals(Type.None)) {
+                sbg.enterState(Main.MAINMENUSTATE);
+            } else {
+                selectedType = Type.None;
+                selectedImage = null;
+            }
+        }
     }
 
     @Override
     public void mouseReleased(int button, int x, int y) {
-	int[] coords = GridConversions.screenToGridCoord(x, y);
-	
-	if(selectedType.equals(Type.Dummy)){
-	    Node node = nodeFactory.createDummyNode(coords[0], coords[1]);
-	    nodes.add(node);
-	} else if(selectedType.equals(Type.Factory)){
-	    Node factory = nodeFactory.createFactory(coords[0], coords[1], 0, 1);
-	    factories.add(factory);
-	    nodes.add(factory);
-	}
+        int[] coords = GridConversions.screenToGridCoord(x, y);
+
+        if (selectedType.equals(Type.Dummy)) {
+            Node node = nodeFactory.createDummyNode(coords[0], coords[1]);
+            nodes.add(node);
+        } else if (selectedType.equals(Type.Factory)) {
+            Node factory = nodeFactory
+                    .createFactory(coords[0], coords[1], 0, 1);
+            factories.add(factory);
+            nodes.add(factory);
+        }
     }
-    
-    
-    
+
     private ComponentListener placeFactoryListener = new ComponentListener() {
-	@Override
-	public void componentActivated(AbstractComponent source) {
-	    if (selectedType.equals(Type.None)) {
-		selectedType = Type.Factory;
-		selectedImage = ImageManager.factory_node;
-	    } else {
-		selectedType = Type.None;
-		selectedImage = null;
-	    }
-	}
+        @Override
+        public void componentActivated(AbstractComponent source) {
+            if (selectedType.equals(Type.None)) {
+                selectedType = Type.Factory;
+                selectedImage = ImageManager.factory_node;
+            } else {
+                selectedType = Type.None;
+                selectedImage = null;
+            }
+        }
     };
     private ComponentListener placeDummyListener = new ComponentListener() {
-	@Override
-	public void componentActivated(AbstractComponent source) {
-	    if (selectedType.equals(Type.None)) {
-		selectedType = Type.Dummy;
-		selectedImage = ImageManager.dummy_node;
-	    } else {
-		selectedType = Type.None;
-		selectedImage = null;
-	    }
-	}
+        @Override
+        public void componentActivated(AbstractComponent source) {
+            if (selectedType.equals(Type.None)) {
+                selectedType = Type.Dummy;
+                selectedImage = ImageManager.dummy_node;
+            } else {
+                selectedType = Type.None;
+                selectedImage = null;
+            }
+        }
     };
 }
