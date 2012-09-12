@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
 /**
@@ -21,6 +22,7 @@ public class Node {
     
     private int resourceType;
     private int rate = 1;
+    private Image img;
 
     public Node(Vector2f pos) {
 	position = pos;
@@ -28,7 +30,7 @@ public class Node {
 
     public void render(Graphics g) {
 	g.setColor(Color.red);
-	g.fillOval(position.x, position.y, 20, 20);
+	g.drawImage(img, position.x, position.y);
 	for(Connection conn : connections){
 	    conn.render(g);
 	}
@@ -62,5 +64,9 @@ public class Node {
 
     void setResourceType(int resourceType) {
 	this.resourceType = resourceType;
+    }
+
+    void setImage(Image img) {
+	this.img = img;
     }
 }

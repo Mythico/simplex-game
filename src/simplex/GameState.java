@@ -6,7 +6,6 @@ package simplex;
 
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.text.Position;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,6 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import simplex.entity.Connection;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
+import simplex.util.GridConversions;
 
 /**
  *
@@ -27,6 +27,7 @@ public class GameState extends BasicGameState {
     private int width = 16;
     private int height = 16;
     private List<Node> factories = new LinkedList<>();
+    private NodeFactory nodeFactory;
 
     public GameState(int stateId) {
 	this.stateId = stateId;
@@ -40,7 +41,12 @@ public class GameState extends BasicGameState {
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
-	NodeFactory f = new NodeFactory(gc, width, height);
+
+	 
+	GridConversions.setGameSize(width, height);
+	GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
+	
+	NodeFactory f = new NodeFactory();
 
 	Node n1 = f.createFactory(1, 2, 0, 1);
 	Node n2 = f.createDummyNode(3, 2);
@@ -68,12 +74,12 @@ public class GameState extends BasicGameState {
 
 	final int gwidth = gc.getWidth() / width;
 	final int gheight = gc.getHeight() / height;
-	
+
 	//Draw grid
 	for (int i = 0; i < width; i++) {
 	    for (int j = 0; j < height; j++) {
 		//Toggle colour
-		g.setColor(((i+j)%2==0) ? Color.darkGray : Color.gray);
+		g.setColor(((i + j) % 2 == 0) ? Color.darkGray : Color.gray);
 		g.fillRect(j * gwidth, i * gheight, gwidth, gheight);
 	    }
 	}
