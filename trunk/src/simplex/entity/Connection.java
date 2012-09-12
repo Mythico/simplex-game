@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Vector2f;
 import simplex.util.ImageManager;
 
 /**
- *
+ * 
  * @author Emil
  * @author Samuel
  */
@@ -44,6 +44,9 @@ public class Connection {
 
     void setResourceRate(int rate) {
         this.rate = rate;
+        while (waitingResources.size() + movingResources.size() < rate) {
+            waitingResources.add(new ResourceBall(startPos.copy()));
+        }
     }
 
     int getResourceType() {
@@ -55,12 +58,12 @@ public class Connection {
         float k = 0.05f;
         Vector2f dir = endPos.copy().sub(startPos).normalise().scale(k);
 
-        // Move another waiting resource to the movingResource queue 
-        // if there is waiting resources and if the first moving resource has moved far enough.
-        if (movingResources.isEmpty() || (!waitingResources.isEmpty() && (movingResources.size() < rate)
-                && (movingResources.peek().position.distance(startPos) > startPos.distance(endPos) / rate))) {
+        // Move another waiting resource to the movingResource queue
+        // if there is waiting resources and if the first moving resource has
+        // moved far enough.
+        if (movingResources.isEmpty() || isTimeForNextBall()) {
             movingResources.add(waitingResources.poll());
-        } //TODO: make the above readable.
+        }
 
         Iterator<ResourceBall> it = movingResources.iterator();
         while (it.hasNext()) {
@@ -71,7 +74,7 @@ public class Connection {
             resourceBall.setResource(resourceType);
 
             // Reset the moving resource when it has moved from start to end
-            if (hasReachEnd(resourceBall)) {
+            if (hasReachedEnd(resourceBall)) {
                 resourceBall.position = startPos.copy();
                 waitingResources.add(resourceBall);
                 it.remove();
@@ -81,23 +84,41 @@ public class Connection {
         node.update(delta);
     }
 
-    private boolean hasReachEnd(ResourceBall ball) {
+    private boolean hasReachedEnd(ResourceBall ball) {
         final float nearConstant = 1;
         float dist = ball.position.distanceSquared(endPos);
         return dist < nearConstant;
     }
 
+    private boolean isTimeForNextBall() {
+        boolean hasReachedBallLimit = movingResources.size() >= rate;
+
+        // Find the distance of the ball which have traveled shortest
+        float previousBallDist = startPos.distance(endPos);
+        for (ResourceBall resourceBall : movingResources) {
+            float ballDist = resourceBall.position.distance(startPos);
+            if (ballDist < previousBallDist) {
+                previousBallDist = ballDist;
+            }
+        }
+
+        float nextBallThreshold = startPos.distance(endPos) / rate;
+
+        return !waitingResources.isEmpty() && !hasReachedBallLimit
+                && previousBallDist > nextBallThreshold;
+    }
+
     /**
      * Set the position where the connection starts.
-     *
-     * @param startPosition the startPosition to set
+     * 
+     * @param startPosition
+     *            the startPosition to set
      */
     public void setStartPosition(Vector2f startPosition) {
         this.startPos = startPosition;
 
-
-        for (int i = 0; i < rate; i++) {
-            waitingResources.add(new ResourceBall(startPosition.copy()));
+        waitingResources.clear();
+        while (waitingResources.size() + movingResources.size() < rate) {
             waitingResources.add(new ResourceBall(startPosition.copy()));
         }
     }
@@ -118,15 +139,15 @@ class ResourceBall {
 
     void setResource(int resourceType) {
         switch (resourceType) {
-            case 0:
-                img = ImageManager.red_resource;
-                break;
-            case 1:
-                img = ImageManager.green_resource;
-                break;
-            case 2:
-                img = ImageManager.blue_resource;
-                break;
+        case 0:
+            img = ImageManager.red_resource;
+            break;
+        case 1:
+            img = ImageManager.green_resource;
+            break;
+        case 2:
+            img = ImageManager.blue_resource;
+            break;
         }
     }
 }

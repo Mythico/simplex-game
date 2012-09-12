@@ -47,7 +47,7 @@ public class GameState extends BasicGameState {
         GridConversions.setGameSize(width, height);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
 
-        Node n1 = nodeFactory.createFactory(1, 2, 1, 2);
+        Node n1 = nodeFactory.createFactory(1, 2, 1, 6);
         Node n2 = nodeFactory.createDummyNode(3, 2);
         Node n3 = nodeFactory.createDummyNode(2, 5);
         Node n4 = nodeFactory.createDummyNode(5, 5);
