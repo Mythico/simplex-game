@@ -1,9 +1,11 @@
 package simplex;
 
+import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import simplex.util.ImageManager;
 
 
  
@@ -20,9 +22,12 @@ public class Main extends StateBasedGame{
         super("Simplex");
         
     }
+    
+    
 
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
+	ImageManager.init();
         addState(new MainMenuState(MAINMENUSTATE));
         addState(new GameState(GAMESTATE));
     }
@@ -30,7 +35,8 @@ public class Main extends StateBasedGame{
     public static void main(String[] args) 
 			throws SlickException
     {
-         AppGameContainer app = 
+	
+	AppGameContainer app = 
 			new AppGameContainer(new Main());
  
          app.setDisplayMode(800, 600, false);
