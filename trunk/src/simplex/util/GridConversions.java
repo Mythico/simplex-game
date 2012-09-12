@@ -32,4 +32,10 @@ public class GridConversions {
 	float fy = y * (screenHeight / gameHeight);
 	return new Vector2f(fx, fy);
     }
+
+    public static int[] screenToGridCoord(int x, int y) {	
+	int x2 = x / (screenWidth / gameWidth);
+	int y2 = y / (screenHeight / gameHeight);	
+	return new int[]{x2,y2};
+    }
 }
