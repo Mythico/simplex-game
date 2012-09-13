@@ -12,13 +12,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import simplex.util.ImageManager;
 
-
 /**
- *
+ * 
  * @author Emil
  * @author Samuel
  */
-public class Connection implements Entity{
+public class Connection implements Entity {
 
     private Vector2f startPos;
     private Vector2f endPos;
@@ -27,7 +26,6 @@ public class Connection implements Entity{
     private Queue<ResourceBall> movingResources = new LinkedList<>();
     private Queue<ResourceBall> waitingResources = new LinkedList<>();
 
-
     public void setStartPos(Vector2f startPos) {
         this.startPos = startPos;
     }
@@ -35,7 +33,7 @@ public class Connection implements Entity{
     public void setEndPos(Vector2f endPos) {
         this.endPos = endPos;
     }
-    
+
     @Override
     public void render(Graphics g) {
         for (ResourceBall resourceBall : movingResources) {
@@ -49,7 +47,6 @@ public class Connection implements Entity{
 
     void setResourceRate(int rate) {
         this.rate = rate;
-        waitingResources.clear();
         while (waitingResources.size() + movingResources.size() < rate) {
             waitingResources.add(new ResourceBall(startPos.copy()));
         }
@@ -70,10 +67,8 @@ public class Connection implements Entity{
         Vector2f dir = endPos.copy().sub(startPos).normalise().scale(k);
 
         // Move another waiting resource to the movingResource queue
-        // if there is waiting resources and if the first moving resource has
-        // moved far enough.
-        if (!waitingResources.isEmpty()
-                && (movingResources.isEmpty() || isTimeForNextBall())) {
+        // if the first moving resource has moved far enough.
+        if (movingResources.isEmpty() || isTimeForNextBall()) {
             movingResources.add(waitingResources.poll());
         }
 
@@ -118,6 +113,7 @@ public class Connection implements Entity{
                 && previousBallDist > nextBallThreshold;
     }
 }
+
 class ResourceBall {
 
     Vector2f position;
@@ -133,15 +129,15 @@ class ResourceBall {
 
     void setResource(int resourceType) {
         switch (resourceType) {
-            case 0:
-                img = ImageManager.red_resource;
-                break;
-            case 1:
-                img = ImageManager.green_resource;
-                break;
-            case 2:
-                img = ImageManager.blue_resource;
-                break;
+        case 0:
+            img = ImageManager.red_resource;
+            break;
+        case 1:
+            img = ImageManager.green_resource;
+            break;
+        case 2:
+            img = ImageManager.blue_resource;
+            break;
         }
     }
 }
