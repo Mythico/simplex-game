@@ -1,6 +1,5 @@
 package simplex.entity;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import org.newdawn.slick.Image;
@@ -61,7 +60,6 @@ public class SplitterSpecification implements NodeSpecification {
             conn.setResourceRate(rate / outConn.size());
             conn.setResourceType(type);
         }
-
 
     }
 }
