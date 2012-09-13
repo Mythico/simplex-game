@@ -13,13 +13,12 @@ import org.newdawn.slick.geom.Vector2f;
 import simplex.util.ImageManager;
 
 /**
- * 
+ *
  * @author Emil
  * @author Samuel
  */
-public class Connection {
+public class Connection implements Entity{
 
-    private Node node;
     private Vector2f startPos;
     private Vector2f endPos;
     private int rate = 1;
@@ -27,11 +26,13 @@ public class Connection {
     private Queue<ResourceBall> movingResources = new LinkedList<>();
     private Queue<ResourceBall> waitingResources = new LinkedList<>();
 
-    public Connection(Node node) {
-        this.node = node;
-        endPos = node.getPosition();
+    public Connection(Vector2f startPos, Vector2f endPos) {
+        this.endPos = endPos;
+        this.startPos = startPos;
     }
 
+    
+    @Override
     public void render(Graphics g) {
         for (ResourceBall resourceBall : movingResources) {
             resourceBall.render(g);
@@ -44,16 +45,22 @@ public class Connection {
 
     void setResourceRate(int rate) {
         this.rate = rate;
+        waitingResources.clear();
         while (waitingResources.size() + movingResources.size() < rate) {
             waitingResources.add(new ResourceBall(startPos.copy()));
         }
     }
 
-    int getResourceType() {
+    public int getResourceType() {
         return resourceType;
     }
 
-    void update(int delta) {
+    public int getResourceRate() {
+        return rate;
+    }
+
+    @Override
+    public void update(int delta) {
 
         float k = 0.05f;
         Vector2f dir = endPos.copy().sub(startPos).normalise().scale(k);
@@ -80,8 +87,6 @@ public class Connection {
                 it.remove();
             }
         }
-
-        node.update(delta);
     }
 
     private boolean hasReachedEnd(ResourceBall ball) {
@@ -107,21 +112,6 @@ public class Connection {
         return !waitingResources.isEmpty() && !hasReachedBallLimit
                 && previousBallDist > nextBallThreshold;
     }
-
-    /**
-     * Set the position where the connection starts.
-     * 
-     * @param startPosition
-     *            the startPosition to set
-     */
-    public void setStartPosition(Vector2f startPosition) {
-        this.startPos = startPosition;
-
-        waitingResources.clear();
-        while (waitingResources.size() + movingResources.size() < rate) {
-            waitingResources.add(new ResourceBall(startPosition.copy()));
-        }
-    }
 }
 
 class ResourceBall {
@@ -139,15 +129,15 @@ class ResourceBall {
 
     void setResource(int resourceType) {
         switch (resourceType) {
-        case 0:
-            img = ImageManager.red_resource;
-            break;
-        case 1:
-            img = ImageManager.green_resource;
-            break;
-        case 2:
-            img = ImageManager.blue_resource;
-            break;
+            case 0:
+                img = ImageManager.red_resource;
+                break;
+            case 1:
+                img = ImageManager.green_resource;
+                break;
+            case 2:
+                img = ImageManager.blue_resource;
+                break;
         }
     }
 }
