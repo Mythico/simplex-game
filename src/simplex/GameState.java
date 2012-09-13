@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import simplex.entity.Connection;
+import simplex.entity.Entity;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.util.GridConversions;
@@ -27,8 +28,7 @@ public class GameState extends BasicGameState {
     private final int stateId;
     private int width = 16;
     private int height = 16;
-    private List<Node> factories = new LinkedList<>();
-    private List<Node> nodes = new LinkedList<>();
+    private List<Entity> entities = new LinkedList<>();
     private NodeFactory nodeFactory = new NodeFactory();
 
     public GameState(int stateId) {
@@ -49,25 +49,25 @@ public class GameState extends BasicGameState {
 
         Node n1 = nodeFactory.createFactory(1, 2, 1, 6);
         Node n2 = nodeFactory.createDummyNode(3, 2);
-        Node n3 = nodeFactory.createDummyNode(2, 5);
-        Node n4 = nodeFactory.createDummyNode(5, 5);
+        Node n3 = nodeFactory.createEaterNode(2, 5, 2);
+        Node n4 = nodeFactory.createConsumerNode(5, 5, 1, 3);
 
-        Connection c1 = new Connection(n2);
-        Connection c2 = new Connection(n3);
-        Connection c3 = new Connection(n4);
-        Connection c4 = new Connection(n4);
+        Connection c1 = new Connection(n1.getPosition(),n2.getPosition());
+        Connection c2 = new Connection(n2.getPosition(),n3.getPosition());
+        Connection c3 = new Connection(n3.getPosition(),n4.getPosition());
 
-        n1.addConnection(c1);
-        n2.addConnection(c2);
-        n3.addConnection(c3);
-        n2.addConnection(c4);
+        nodeFactory.bind(n1, n2, c1);
+        nodeFactory.bind(n2, n3, c2);
+        nodeFactory.bind(n3, n4, c3);
 
-        factories.add(n1);
+        entities.add(n1);
+        entities.add(n2);
+        entities.add(n3);
+        entities.add(n4);
+        entities.add(c1);
+        entities.add(c2);
+        entities.add(c3);
 
-        nodes.add(n1);
-        nodes.add(n2);
-        nodes.add(n3);
-        nodes.add(n4);
 
     }
 
@@ -87,8 +87,8 @@ public class GameState extends BasicGameState {
             }
         }
 
-        for (Node node : nodes) {
-            node.render(g);
+        for (Entity entity : entities) {
+            entity.render(g);
         }
     }
 
@@ -96,8 +96,8 @@ public class GameState extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
 
-        for (Node node : factories) {
-            node.update(delta);
+        for (Entity entity : entities) {
+            entity.update(delta);
         }
     }
 }

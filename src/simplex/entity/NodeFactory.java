@@ -5,25 +5,46 @@
 package simplex.entity;
 
 import simplex.util.GridConversions;
-import simplex.util.ImageManager;
 
 /**
- * 
+ *
  * @author Emil
  */
 public class NodeFactory {
 
-    public Node createFactory(int x, int y, int resourceType, int resourceRate) {
-        Node node = new Node(GridConversions.gridToScreenCoord(x, y));
-        node.setResourceRate(resourceRate);
-        node.setResourceType(resourceType);
-        node.setImage(ImageManager.factory_node);
-        return node;
+    private Node createNode(int x, int y, NodeSpecification spec) {
+        return new Node(GridConversions.gridToScreenCoord(x, y), spec);
+    }
+
+    public Node createFactory(int x, int y, int type, int rate) {
+        NodeSpecification spec = new FactorySpecification(type, rate);
+        return createNode(x, y, spec);
     }
 
     public Node createDummyNode(int x, int y) {
-        Node node = new Node(GridConversions.gridToScreenCoord(x, y));
-        node.setImage(ImageManager.dummy_node);
-        return node;
+        NodeSpecification spec = new DummySpecification();
+        return createNode(x, y, spec);
+    }
+
+    public Node createConsumerNode(int x, int y, int type, int rate) {
+        NodeSpecification spec = new ConsumerSpecification(type, rate);
+        return createNode(x, y, spec);
+    }
+
+    public Node createEaterNode(int x, int y, int fraction) {
+        NodeSpecification spec = new EaterSpecification(fraction);
+        return createNode(x, y, spec);
+    }
+
+    /**
+     * Binds n1 and n2 with conn.
+     *
+     * @param n1 Start node
+     * @param n2 End node
+     * @param conn The connection
+     */
+    public void bind(Node n1, Node n2, Connection conn) {
+        n1.getNodeSpecification().addOutgoingConnection(conn);
+        n2.getNodeSpecification().addIncomingConnection(conn);
     }
 }
