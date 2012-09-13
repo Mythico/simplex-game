@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import simplex.util.ImageManager;
 
+
 /**
  *
  * @author Emil
@@ -26,11 +27,14 @@ public class Connection implements Entity{
     private Queue<ResourceBall> movingResources = new LinkedList<>();
     private Queue<ResourceBall> waitingResources = new LinkedList<>();
 
-    public Connection(Vector2f startPos, Vector2f endPos) {
-        this.endPos = endPos;
+
+    public void setStartPos(Vector2f startPos) {
         this.startPos = startPos;
     }
 
+    public void setEndPos(Vector2f endPos) {
+        this.endPos = endPos;
+    }
     
     @Override
     public void render(Graphics g) {
@@ -68,7 +72,8 @@ public class Connection implements Entity{
         // Move another waiting resource to the movingResource queue
         // if there is waiting resources and if the first moving resource has
         // moved far enough.
-        if (movingResources.isEmpty() || isTimeForNextBall()) {
+        if (!waitingResources.isEmpty()
+                && (movingResources.isEmpty() || isTimeForNextBall())) {
             movingResources.add(waitingResources.poll());
         }
 
@@ -113,7 +118,6 @@ public class Connection implements Entity{
                 && previousBallDist > nextBallThreshold;
     }
 }
-
 class ResourceBall {
 
     Vector2f position;

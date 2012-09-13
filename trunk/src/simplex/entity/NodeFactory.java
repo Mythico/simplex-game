@@ -35,6 +35,11 @@ public class NodeFactory {
         NodeSpecification spec = new EaterSpecification(fraction);
         return createNode(x, y, spec);
     }
+    
+    public Node createSplitterNode(int x, int y) {
+        NodeSpecification spec = new SplitterSpecification();
+        return createNode(x, y, spec);
+    }
 
     /**
      * Binds n1 and n2 with conn.
@@ -44,6 +49,8 @@ public class NodeFactory {
      * @param conn The connection
      */
     public void bind(Node n1, Node n2, Connection conn) {
+        conn.setStartPos(n1.getPosition());
+        conn.setEndPos(n2.getPosition());
         n1.getNodeSpecification().addOutgoingConnection(conn);
         n2.getNodeSpecification().addIncomingConnection(conn);
     }

@@ -47,18 +47,20 @@ public class GameState extends BasicGameState {
         GridConversions.setGameSize(width, height);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
 
-        Node n1 = nodeFactory.createFactory(1, 2, 1, 6);
-        Node n2 = nodeFactory.createDummyNode(3, 2);
+        Node n1 = nodeFactory.createFactory(1, 2, 1, 4);
+        Node n2 = nodeFactory.createSplitterNode(3, 2);
         Node n3 = nodeFactory.createEaterNode(2, 5, 2);
-        Node n4 = nodeFactory.createConsumerNode(5, 5, 1, 7);
+        Node n4 = nodeFactory.createConsumerNode(5, 5, 1, 2);
 
-        Connection c1 = new Connection(n1.getPosition(),n2.getPosition());
-        Connection c2 = new Connection(n2.getPosition(),n3.getPosition());
-        Connection c3 = new Connection(n3.getPosition(),n4.getPosition());
+        Connection c1 = new Connection();
+        Connection c2 = new Connection();
+        Connection c3 = new Connection();
+        Connection c4 = new Connection();
 
         nodeFactory.bind(n1, n2, c1);
         nodeFactory.bind(n2, n3, c2);
         nodeFactory.bind(n3, n4, c3);
+        nodeFactory.bind(n2, n4, c4);
 
         entities.add(n1);
         entities.add(n2);
@@ -67,6 +69,7 @@ public class GameState extends BasicGameState {
         entities.add(c1);
         entities.add(c2);
         entities.add(c3);
+        entities.add(c4);
 
 
     }
