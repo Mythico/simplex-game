@@ -7,6 +7,8 @@ package simplex.entity;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
@@ -36,6 +38,9 @@ public class Connection implements Entity {
 
     @Override
     public void render(Graphics g) {
+        g.setColor(Color.cyan);
+        g.drawLine(startPos.x + 17, startPos.y + 17, endPos.x + 17,
+                endPos.y + 17);
         for (ResourceBall resourceBall : movingResources) {
             resourceBall.render(g);
         }
@@ -67,8 +72,10 @@ public class Connection implements Entity {
         Vector2f dir = endPos.copy().sub(startPos).normalise().scale(k);
 
         // Move another waiting resource to the movingResource queue
-        // if the first moving resource has moved far enough.
-        if (movingResources.isEmpty() || isTimeForNextBall()) {
+        // if there is waiting resources and if the first moving resource has
+        // moved far enough.
+        if (!waitingResources.isEmpty()
+                && (movingResources.isEmpty() || isTimeForNextBall())) {
             movingResources.add(waitingResources.poll());
         }
 
@@ -109,8 +116,7 @@ public class Connection implements Entity {
 
         float nextBallThreshold = startPos.distance(endPos) / rate;
 
-        return !waitingResources.isEmpty() && !hasReachedBallLimit
-                && previousBallDist > nextBallThreshold;
+        return !hasReachedBallLimit && previousBallDist > nextBallThreshold;
     }
 }
 
