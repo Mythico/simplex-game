@@ -50,7 +50,7 @@ public class GameState extends BasicGameState {
         Node n1 = nodeFactory.createFactory(1, 2, 1, 6);
         Node n2 = nodeFactory.createDummyNode(3, 2);
         Node n3 = nodeFactory.createEaterNode(2, 5, 2);
-        Node n4 = nodeFactory.createConsumerNode(5, 5, 1, 3);
+        Node n4 = nodeFactory.createConsumerNode(5, 5, 1, 7);
 
         Connection c1 = new Connection(n1.getPosition(),n2.getPosition());
         Connection c2 = new Connection(n2.getPosition(),n3.getPosition());

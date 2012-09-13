@@ -51,10 +51,10 @@ public class ConsumerSpecification implements NodeSpecification {
 
     @Override
     public Image getImage() {
-        if(happy){//TODO: Add consumer images.
-            return ImageManager.factory_node;
+        if(happy){
+            return ImageManager.happy_consumer_node;
         } else {
-            return ImageManager.dummy_node;            
+            return ImageManager.consumer_node;            
         }
     }
 
