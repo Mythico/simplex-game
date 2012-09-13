@@ -1,27 +1,23 @@
 package simplex.entity;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import org.newdawn.slick.Image;
 import simplex.util.ImageManager;
 
 /**
- * The Factory Specification describes the inner workings of a factory.
+ * The eater specification is a simple node specification that allows a single
+ * incoming and a single outgoing connection. It eats a fraction of the
+ * resources that pass through it.
  *
  * @author Emil
  * @author Samuel
  */
-public class ConsumerSpecification implements NodeSpecification {
+public class SplitterSpecification implements NodeSpecification {
 
     private List<Connection> inConn = new LinkedList<>();
-    private int expected_type;
-    private int expected_rate;
-    private boolean happy = false;
-
-    public ConsumerSpecification(int type, int rate) {
-        this.expected_type = type;
-        this.expected_rate = rate;
-    }
+    private List<Connection> outConn = new LinkedList<>();
 
     @Override
     public boolean addIncomingConnection(Connection conn) {
@@ -31,7 +27,8 @@ public class ConsumerSpecification implements NodeSpecification {
 
     @Override
     public boolean addOutgoingConnection(Connection conn) {
-        return false;
+        outConn.add(conn);
+        return true;
     }
 
     @Override
@@ -42,30 +39,29 @@ public class ConsumerSpecification implements NodeSpecification {
 
     @Override
     public boolean removeOutgoingConnection(Connection conn) {
-        return false;
+        outConn.remove(conn);
+        return true;
     }
 
     @Override
     public Image getImage() {
-        if(happy){
-            return ImageManager.happy_consumer_node;
-        } else {
-            return ImageManager.consumer_node;            
-        }
+        return ImageManager.dummy_node;
     }
 
     @Override
     public void update(int delta) {
-        
         int rate = 0;
         int type = 0;
-        for(Connection conn : inConn){
+
+        for (Connection conn : inConn) {
             rate += conn.getResourceRate();
             type = conn.getResourceType();
         }
-        
-        
-        happy = type == expected_type && rate >= expected_rate;
+        for (Connection conn : outConn) {
+            conn.setResourceRate(rate / outConn.size());
+            conn.setResourceType(type);
+        }
+
 
     }
 }
