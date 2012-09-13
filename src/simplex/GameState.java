@@ -62,14 +62,14 @@ public class GameState extends BasicGameState {
         nodeFactory.bind(n3, n4, c3);
         nodeFactory.bind(n2, n4, c4);
 
-        entities.add(n1);
-        entities.add(n2);
-        entities.add(n3);
-        entities.add(n4);
         entities.add(c1);
         entities.add(c2);
         entities.add(c3);
         entities.add(c4);
+        entities.add(n1);
+        entities.add(n2);
+        entities.add(n3);
+        entities.add(n4);
 
 
     }

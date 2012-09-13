@@ -55,8 +55,9 @@ public class FactorySpecification implements NodeSpecification {
     
     @Override
     public void update(int delta) {
-        outConn.setResourceType(type);
-        outConn.setResourceRate(rate);
-
+        if (outConn != null) {
+            outConn.setResourceType(type);
+            outConn.setResourceRate(rate);
+        }
     }
 }
