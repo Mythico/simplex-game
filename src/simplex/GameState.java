@@ -32,6 +32,7 @@ public class GameState extends BasicGameState {
     private int height = 16;
     private List<Entity> entities = new LinkedList<>();
     private NodeFactory nodeFactory = new NodeFactory();
+    private GameContainer gc;
 
     public GameState(int stateId) {
         this.stateId = stateId;
@@ -46,6 +47,8 @@ public class GameState extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
 
+        this.gc = gc;
+        
         GridConversions.setGameSize(width, height);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
 
@@ -100,6 +103,10 @@ public class GameState extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
 
+        if(delta == 0){
+            return;
+        }
+        
         for (Entity entity : entities) {
             entity.update(delta);
         }
@@ -107,10 +114,15 @@ public class GameState extends BasicGameState {
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
             sbg.enterState(Main.MAINMENUSTATE);
         }
+    }
 
-        if (gc.getInput().isKeyPressed(Input.KEY_P)
-                || gc.getInput().isKeyPressed(Input.KEY_PAUSE)) {
-            gc.setPaused(!gc.isPaused());
+    @Override
+    public void keyReleased(int key, char c) {
+        if(Input.KEY_P == key || Input.KEY_PAUSE == key){
+            
+            gc.setPaused(!gc.isPaused());            
         }
     }
+    
+    
 }
