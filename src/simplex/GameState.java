@@ -9,9 +9,11 @@ import java.util.List;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
 import simplex.entity.Connection;
 import simplex.entity.Entity;
 import simplex.entity.Node;
@@ -71,7 +73,6 @@ public class GameState extends BasicGameState {
         entities.add(n3);
         entities.add(n4);
 
-
     }
 
     @Override
@@ -101,6 +102,15 @@ public class GameState extends BasicGameState {
 
         for (Entity entity : entities) {
             entity.update(delta);
+        }
+
+        if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
+            sbg.enterState(Main.MAINMENUSTATE);
+        }
+
+        if (gc.getInput().isKeyPressed(Input.KEY_P)
+                || gc.getInput().isKeyPressed(Input.KEY_PAUSE)) {
+            gc.setPaused(!gc.isPaused());
         }
     }
 }
