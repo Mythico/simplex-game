@@ -7,7 +7,7 @@ import simplex.util.ImageManager;
  * The dummy specification is a simple node specification that allows a single
  * incoming and a single outgoing connection. It's is used in development for
  * creating simple nodes.
- *
+ * 
  * @author Emil
  * @author Samuel
  */
@@ -51,7 +51,7 @@ public class DummySpecification implements NodeSpecification {
         outConn = null;
         return true;
     }
-    
+
     @Override
     public Image getImage() {
         return ImageManager.dummy_node;
@@ -59,12 +59,15 @@ public class DummySpecification implements NodeSpecification {
 
     @Override
     public void update(int delta) {
-        int type = inConn.getResourceType();
-        int rate = inConn.getResourceRate();
-        
-        outConn.setResourceType(type);
-        outConn.setResourceRate(rate);
-        
+        if (inConn != null) {
+            int type = inConn.getResourceType();
+            int rate = inConn.getResourceRate();
+
+            if (outConn != null) {
+                outConn.setResourceType(type);
+                outConn.setResourceRate(rate);
+            }
+        }
     }
 
 }

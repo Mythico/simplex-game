@@ -5,9 +5,9 @@ import simplex.util.ImageManager;
 
 /**
  * The eater specification is a simple node specification that allows a single
- * incoming and a single outgoing connection. It eats a fraction of the 
+ * incoming and a single outgoing connection. It eats a fraction of the
  * resources that pass through it.
- *
+ * 
  * @author Emil
  * @author Samuel
  */
@@ -20,8 +20,6 @@ public class EaterSpecification implements NodeSpecification {
     public EaterSpecification(int fraction) {
         this.fraction = fraction;
     }
-    
-    
 
     @Override
     public boolean addIncomingConnection(Connection conn) {
@@ -58,7 +56,7 @@ public class EaterSpecification implements NodeSpecification {
         outConn = null;
         return true;
     }
-    
+
     @Override
     public Image getImage() {
         return ImageManager.dummy_node;
@@ -66,12 +64,15 @@ public class EaterSpecification implements NodeSpecification {
 
     @Override
     public void update(int delta) {
-        int type = inConn.getResourceType();
-        int rate = inConn.getResourceRate() / fraction;
-        
-        outConn.setResourceType(type);
-        outConn.setResourceRate(rate);
-        
+        if (inConn != null) {
+            int type = inConn.getResourceType();
+            int rate = inConn.getResourceRate() / fraction;
+
+            if (outConn != null) {
+                outConn.setResourceType(type);
+                outConn.setResourceRate(rate);
+            }
+        }
     }
 
 }

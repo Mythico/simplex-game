@@ -7,7 +7,7 @@ import simplex.util.ImageManager;
 
 /**
  * The Factory Specification describes the inner workings of a factory.
- *
+ * 
  * @author Emil
  * @author Samuel
  */
@@ -47,24 +47,25 @@ public class ConsumerSpecification implements NodeSpecification {
 
     @Override
     public Image getImage() {
-        if(happy){
+        if (happy) {
             return ImageManager.happy_consumer_node;
         } else {
-            return ImageManager.consumer_node;            
+            return ImageManager.consumer_node;
         }
     }
 
     @Override
     public void update(int delta) {
-        
+
         int rate = 0;
         int type = 0;
-        for(Connection conn : inConn){
-            rate += conn.getResourceRate();
-            type = conn.getResourceType();
+        if (inConn != null) {
+            for (Connection conn : inConn) {
+                rate += conn.getResourceRate();
+                type = conn.getResourceType();
+            }
         }
-        
-        
+
         happy = type == expected_type && rate >= expected_rate;
 
     }
