@@ -27,6 +27,8 @@ public class ImageManager {
     public static Image blue_resource;
     
     public static Image sidebar;
+    public static Image bottombar;
+    public static Image bottombarMouseOver;
 
     public static void init() throws SlickException {
         dummy_node = new Image("img/dummy_node.png", Color.white);
@@ -42,6 +44,9 @@ public class ImageManager {
         blue_resource = new Image("img/blue_resource.png");
         
         sidebar = new Image("img/sidebar.png");
+        bottombar = new Image("img/bottombar.png");
+        bottombarMouseOver = new Image("img/bottombar.png");
+        bottombarMouseOver.setAlpha(0.5f);
     }
 
 }

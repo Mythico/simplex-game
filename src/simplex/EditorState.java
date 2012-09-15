@@ -4,8 +4,13 @@
  */
 package simplex;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -29,13 +34,13 @@ import simplex.util.ImageManager;
 /**
  * 
  * @author Emil
+ * @author Samuel
  */
 public class EditorState extends BasicGameState {
 
     private final int stateId;
     private int width = 16;
     private int height = 16;
-    private List<Entity> entities = new LinkedList<>();
     private NodeFactory nodeFactory;
     private Node selectedStartNode;
     private Node selectedEndNode;
@@ -44,12 +49,19 @@ public class EditorState extends BasicGameState {
         None, Factory, Dummy, Connection;
     }
 
+    // map between the area and whether it is click-through or not
+    private Map<MouseOverArea, Boolean> bars = new HashMap<MouseOverArea, Boolean>();
+
+    private List<Entity> entities = new LinkedList<>();
+    private List<MouseOverArea> placers = new LinkedList<>();
+
     private Type selectedType = Type.None;
     private Image selectedImage = null;
     private MouseOverArea placeFactory;
     private MouseOverArea placeDummy;
     private MouseOverArea placeConnection;
     private MouseOverArea sideBar;
+    private MouseOverArea bottomBar;
 
     public EditorState(int stateId) {
         this.stateId = stateId;
@@ -71,7 +83,16 @@ public class EditorState extends BasicGameState {
 
         sideBar = new MouseOverArea(gc, ImageManager.sidebar,
                 gc.getWidth() - 46, gc.getHeight() / 2
-                        - ImageManager.sidebar.getHeight() / 2, sideBarListener);
+                        - ImageManager.sidebar.getHeight() / 2, barListener);
+
+        bottomBar = new MouseOverArea(gc, ImageManager.bottombar, gc.getWidth()
+                / 2 - ImageManager.bottombar.getWidth() / 2, gc.getHeight()
+                - ImageManager.bottombar.getHeight(), barListener);
+
+        bottomBar.setMouseOverImage(ImageManager.bottombarMouseOver);
+
+        bars.put(sideBar, false);
+        bars.put(bottomBar, true);
 
         placeFactory = new MouseOverArea(gc, ImageManager.factory_node.copy(),
                 gc.getWidth() - 32, sideBar.getY() + 3, placeFactoryListener);
@@ -85,6 +106,10 @@ public class EditorState extends BasicGameState {
                 gc.getWidth() - 32, placeDummy.getY() + 3
                         + ImageManager.dummy_node.getHeight(),
                 placeConnectionListener);
+
+        placers.add(placeFactory);
+        placers.add(placeDummy);
+        placers.add(placeConnection);
 
     }
 
@@ -104,14 +129,14 @@ public class EditorState extends BasicGameState {
             }
         }
 
-        sideBar.render(gc, g);
-        placeFactory.render(gc, g);
-        placeDummy.render(gc, g);
-        placeConnection.render(gc, g);
-
-        for (Entity entity : entities) {
+        for (Entity entity : entities)
             entity.render(g);
-        }
+        
+        for (MouseOverArea bar : bars.keySet())
+            bar.render(gc, g);
+
+        for (MouseOverArea placer : placers)
+            placer.render(gc, g);
 
         if (!selectedType.equals(Type.None)) {
             g.drawImage(selectedImage, gc.getInput().getAbsoluteMouseX(), gc
@@ -122,10 +147,23 @@ public class EditorState extends BasicGameState {
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
+        
+        Set<Entry<MouseOverArea, Boolean>> barSet = bars.entrySet();
+        Iterator<Entry<MouseOverArea, Boolean>> it = barSet.iterator();
 
-        for (Entity entity : entities) {
-            entity.update(delta);
+        while (it.hasNext()) {
+            Map.Entry<MouseOverArea, Boolean> bar = it.next();
+            MouseOverArea barArea = bar.getKey();
+
+            boolean clickThrough = bar.getValue();
+            if (clickThrough)
+                barArea.removeListener(barListener);
+            else
+                barArea.addListener(barListener);
         }
+        
+        for (Entity entity : entities)
+            entity.update(delta);
 
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
             if (selectedType.equals(Type.None)) {
@@ -140,35 +178,62 @@ public class EditorState extends BasicGameState {
     @Override
     public void mouseReleased(int button, int x, int y) {
 
-        // TODO: change this ugly? solution for checking if mouse is released in
-        // the sidebar
-        if ((x > sideBar.getX()) && (y > sideBar.getY())
-                && (y < sideBar.getY() + sideBar.getHeight())) {
+        if (coordInBar(x, y))
             return;
-        }
 
         int[] coords = GridConversions.screenToGridCoord(x, y);
 
         if (selectedType.equals(Type.Dummy)) {
             Node node = nodeFactory.createDummyNode(coords[0], coords[1]);
             entities.add(node);
-            
+
         } else if (selectedType.equals(Type.Factory)) {
             Node factory = nodeFactory
                     .createFactory(coords[0], coords[1], 0, 1);
             entities.add(factory);
-            
+
         } else if (selectedType.equals(Type.Connection)) {
             if (selectedStartNode == null) {
                 selectedStartNode = getNode(coords);
             } else if (selectedEndNode == null) {
                 selectedEndNode = getNode(coords);
-                Connection c = new Connection();
-                nodeFactory.bind(selectedStartNode, selectedEndNode, c);
-                entities.add(c);
-                selectedEndNode = selectedStartNode = null;
+                if (selectedEndNode == selectedStartNode)
+                    selectedEndNode = selectedStartNode = null;
+                else if (selectedEndNode != null) {
+                    Connection c = new Connection();
+                    nodeFactory.bind(selectedStartNode, selectedEndNode, c);
+                    entities.add(c);
+                    selectedEndNode = selectedStartNode = null;
+                }
             }
         }
+    }
+
+    /**
+     * Check if coordinates is in any of the bars
+     * @param x coordinates in grid format, horizontal
+     * @param y coordinates in grid format, vertical
+     * @return whether the coordinates are in any of the bars or not
+     */
+    private boolean coordInBar(int x, int y) {
+        // TODO: change this ugly? solution
+        boolean inBar = false;
+        Set<Entry<MouseOverArea, Boolean>> b = bars.entrySet();
+        Iterator<Entry<MouseOverArea, Boolean>> it = b.iterator();
+
+        while (it.hasNext()) {
+            Map.Entry<MouseOverArea, Boolean> m = it.next();
+            MouseOverArea bar = m.getKey();
+
+            boolean clickThrough = m.getValue();
+            if (clickThrough)
+                continue;
+
+            if ((x > bar.getX()) && (x < bar.getX() + bar.getWidth())
+                    && (y < bar.getY() + bar.getHeight()) && (y > bar.getY()))
+                inBar = true;
+        }
+        return inBar;
     }
 
     /**
@@ -183,15 +248,14 @@ public class EditorState extends BasicGameState {
                 int[] nodeCoords = GridConversions.screenToGridCoord(
                         (int) ((Node) entity).getPosition().x,
                         (int) ((Node) entity).getPosition().y);
-                if (nodeCoords[0] == coords[0] && nodeCoords[1] == coords[1]) {
+                if (nodeCoords[0] == coords[0] && nodeCoords[1] == coords[1])
                     n = (Node) entity;
-                }
             }
         }
         return n;
     }
 
-    private ComponentListener sideBarListener = new ComponentListener() {
+    private ComponentListener barListener = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent source) {
             selectedType = Type.None;
