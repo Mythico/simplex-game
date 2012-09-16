@@ -127,8 +127,8 @@ public class EditorState extends BasicGameState {
         for (Node node : nodes.values()) {
             node.render(g);
         }
-        for (Entity connection : connections) {
-            connection.render(g);
+        for (Entity conn : connections) {
+            conn.render(g);
         }
 
         for (MouseOverArea bar : bars.keySet()) {
