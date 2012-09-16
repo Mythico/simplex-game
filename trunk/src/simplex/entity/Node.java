@@ -1,13 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex.entity;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import simplex.util.GridConversions;
+import simplex.util.GridCoord;
 
 /**
  * 
@@ -16,18 +14,28 @@ import simplex.util.GridConversions;
  */
 public class Node implements Entity{
 
-    private Vector2f position;
+    private float x, y;;
     private NodeSpecification nodeSpecification;
+    private boolean selected;
 
     public Node(Vector2f pos, NodeSpecification specification) {
-        position = pos;
+        x = pos.x;
+        y = pos.y;
         nodeSpecification = specification;
+    }
+
+    Node(NodeSpecification spec) {
+        nodeSpecification = spec;        
     }
 
     @Override
     public void render(Graphics g) {
         Image img = nodeSpecification.getImage();
-        g.drawImage(img, position.x, position.y);
+        g.drawImage(img, x, y);
+        if(selected){
+            g.setColor(Color.green);
+            g.drawRect(x, y, GridConversions.getGridWidth(), GridConversions.getGridWidth());
+        }
     }
 
     @Override
@@ -44,6 +52,23 @@ public class Node implements Entity{
     }    
 
     public Vector2f getPosition() {
-        return position;
+        return new Vector2f(x,y);
     }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+        
+    }
+
+    public void setPosition(Vector2f pos) {
+        x = pos.x;
+        y = pos.y;
+    }
+
+    public void setSelected(boolean b) {
+        selected = b;
+    }
+
+    
 }

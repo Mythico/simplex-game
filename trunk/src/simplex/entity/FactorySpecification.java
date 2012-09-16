@@ -15,11 +15,6 @@ public class FactorySpecification implements NodeSpecification {
     private int type;
     private int rate;
 
-    public FactorySpecification(int type, int rate) {
-        this.type = type;
-        this.rate = rate;
-    }
-
     @Override
     public boolean addIncomingConnection(Connection conn) {
         return false;
@@ -60,4 +55,12 @@ public class FactorySpecification implements NodeSpecification {
             outConn.setResourceRate(rate);
         }
     }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }    
 }

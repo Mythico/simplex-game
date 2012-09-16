@@ -38,7 +38,7 @@ public interface NodeSpecification {
      * @return Returns true if successful, otherwise false;
      */
     public boolean removeOutgoingConnection(Connection conn);
-
+  
     /**
      * Returns the graphical representation of the specification.
      * @return An image that represent the specification.

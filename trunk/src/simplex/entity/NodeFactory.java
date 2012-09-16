@@ -4,8 +4,6 @@
  */
 package simplex.entity;
 
-import java.util.Collection;
-import java.util.Hashtable;
 import org.newdawn.slick.geom.Vector2f;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
@@ -17,11 +15,8 @@ import simplex.util.GridCoord;
 public class NodeFactory {
 
     private static NodeFactory nodeFactory;
-    private Hashtable<GridCoord, Node> nodes;
 
-    private NodeFactory() {
-        nodes = new Hashtable<>();
-    }
+    private NodeFactory() {}
 
     public static NodeFactory instance() {
         if (nodeFactory == null) {
@@ -30,67 +25,38 @@ public class NodeFactory {
         return nodeFactory;
     }
 
-    private void createNode(GridCoord coord, NodeSpecification spec) {
-        Vector2f pos = GridConversions.gridToScreenCoord(coord);
-        Node n = new Node(pos, spec);
-        nodes.put(coord, n);
+    public Node createFactoryNode() {
+        return new Node(new FactorySpecification());
     }
 
-    public void createFactory(GridCoord coord, int type, int rate) {
-        NodeSpecification spec = new FactorySpecification(type, rate);
-        createNode(coord, spec);
+    public Node createDummyNode() {
+        return new Node(new DummySpecification());
     }
 
-    public void createDummyNode(GridCoord coord) {
-        NodeSpecification spec = new DummySpecification();
-        createNode(coord, spec);
+    public Node createConsumerNode() {
+        return new Node(new ConsumerSpecification());
     }
 
-    public void createConsumerNode(GridCoord coord, int type, int rate) {
-        NodeSpecification spec = new ConsumerSpecification(type, rate);
-        createNode(coord, spec);
+    public Node createEaterNode() {
+        return new Node(new EaterSpecification());
     }
 
-    public void createEaterNode(GridCoord coord, int fraction) {
-        NodeSpecification spec = new EaterSpecification(fraction);
-        createNode(coord, spec);
-    }
-
-    public void createSplitterNode(GridCoord coord) {
-        NodeSpecification spec = new SplitterSpecification();
-        createNode(coord, spec);
+    public Node createSplitterNode() {
+        return new Node(new SplitterSpecification());
     }
 
     /**
      * Finds a node between to positions and bind a connection between them.
      *
-     * @param startPos Start startPosition
-     * @param endPos End position
+     * @param n1 Start startPosition
+     * @param n2 End position
      * @param conn The connection
      */
-    public void bind(GridCoord startPos, GridCoord endPos, Connection conn) {
-        Node n1 = nodes.get(startPos);
-        Node n2 = nodes.get(endPos);
-        
-        if(n1 == null || n2 == null){
-            return; //Couldn't finde nodes.
-        }
-        
+    public void bind(Node n1, Node n2, Connection conn) {
         conn.setStartPos(n1.getPosition());
         conn.setEndPos(n2.getPosition());
         n1.getNodeSpecification().addOutgoingConnection(conn);
         n2.getNodeSpecification().addIncomingConnection(conn);
     }
 
-    public Collection<Node> getNodeList() {
-        return nodes.values();
-    }
-    
-    public Node getNode(GridCoord coord){
-        return nodes.get(coord);
-    }
-    
-    public boolean hasNode(GridCoord coord){
-        return nodes.containsKey(coord);
-    }
 }
