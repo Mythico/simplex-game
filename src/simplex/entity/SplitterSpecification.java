@@ -9,7 +9,7 @@ import simplex.util.ImageManager;
  * The eater specification is a simple node specification that allows a single
  * incoming and a single outgoing connection. It eats a fraction of the
  * resources that pass through it.
- * 
+ *
  * @author Emil
  * @author Samuel
  */

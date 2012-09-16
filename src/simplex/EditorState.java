@@ -20,7 +20,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import simplex.entity.Connection;
 import simplex.entity.Entity;
+import simplex.entity.Node;
 import simplex.entity.NodeFactory;
+import simplex.entity.NodeSpecification;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 import simplex.util.ImageManager;
@@ -36,9 +38,11 @@ public class EditorState extends BasicGameState {
     private int width = 16;
     private int height = 16;
     private NodeFactory nodeFactory;
-    private GridCoord selectedStartPos;
-    private GridCoord selectedEndPos;
-    private List<Entity> entities = new LinkedList<>();
+    private List<Connection> connections = new LinkedList<>();
+    private Node pickedNode;
+    private Node selectedNode;
+    private Connection connection;
+    private HashMap<GridCoord, Node> nodes = new HashMap<>();
 
     private enum Type {
 
@@ -47,8 +51,6 @@ public class EditorState extends BasicGameState {
     // map between the area and whether it is click-through or not
     private Map<MouseOverArea, Boolean> bars = new HashMap<>();
     private List<MouseOverArea> placers = new LinkedList<>();
-    private Type selectedType = Type.None;
-    private Image selectedImage = null;
     private MouseOverArea placeFactory;
     private MouseOverArea placeDummy;
     private MouseOverArea placeConnection;
@@ -57,6 +59,7 @@ public class EditorState extends BasicGameState {
 
     public EditorState(int stateId) {
         this.stateId = stateId;
+
     }
 
     @Override
@@ -121,11 +124,11 @@ public class EditorState extends BasicGameState {
             }
         }
 
-        for (Entity entity : nodeFactory.getNodeList()) {
-            entity.render(g);
+        for (Node node : nodes.values()) {
+            node.render(g);
         }
-        for (Entity entity : entities) {
-            entity.render(g);
+        for (Entity connection : connections) {
+            connection.render(g);
         }
 
         for (MouseOverArea bar : bars.keySet()) {
@@ -136,9 +139,16 @@ public class EditorState extends BasicGameState {
             placer.render(gc, g);
         }
 
-        if (!selectedType.equals(Type.None)) {
-            g.drawImage(selectedImage, gc.getInput().getAbsoluteMouseX(), gc
-                    .getInput().getAbsoluteMouseY());
+        GridCoord coord = GridConversions.mouseToGridCoord(
+                gc.getInput().getAbsoluteMouseX(),
+                gc.getInput().getAbsoluteMouseY());
+        if (pickedNode != null) {
+            pickedNode.setPosition(GridConversions.gridToScreenCoord(coord));
+            pickedNode.render(g);
+        } else if (connection != null && selectedNode != null) {
+            connection.setStartPos(selectedNode.getPosition());
+            connection.setEndPos(GridConversions.gridToScreenCoord(coord));
+            connection.render(g);
         }
     }
 
@@ -161,19 +171,22 @@ public class EditorState extends BasicGameState {
             }
         }
 
-        for (Entity entity : nodeFactory.getNodeList()) {
-            entity.update(delta);
+        for (Node node : nodes.values()) {
+            node.update(delta);
         }
-        for (Entity entity : entities) {
-            entity.update(delta);
+        for (Entity connection : connections) {
+            connection.update(delta);
         }
 
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
-            if (selectedType.equals(Type.None)) {
-                sbg.enterState(Main.MAINMENUSTATE);
+            if (pickedNode != null) {
+                pickedNode = null;
+            } else if (connection != null) {
+                connection = null;
+            } else if (selectedNode != null) {
+                unselect();
             } else {
-                selectedType = Type.None;
-                selectedImage = null;
+                sbg.enterState(Main.MAINMENUSTATE);
             }
         }
     }
@@ -185,28 +198,40 @@ public class EditorState extends BasicGameState {
             return;
         }
 
-        GridCoord coords = GridConversions.screenToGridCoord(x, y);
+        GridCoord coords = GridConversions.mouseToGridCoord(x, y);
 
-        if (selectedType.equals(Type.Dummy)) {
-            nodeFactory.createDummyNode(coords);
-
-        } else if (selectedType.equals(Type.Factory)) {
-            nodeFactory.createFactory(coords, 0, 1);
-
-        } else if (selectedType.equals(Type.Connection)) {
-            if (selectedStartPos == null && nodeFactory.hasNode(coords)) {
-                selectedStartPos = coords;
-            } else if (selectedEndPos == null && nodeFactory.hasNode(coords)) {
-                selectedEndPos = coords;
-                if (selectedEndPos == selectedStartPos) {
-                    selectedEndPos = selectedStartPos = null;
-                } else {
-                    Connection c = new Connection();
-                    nodeFactory.bind(selectedStartPos, selectedEndPos, c);
-                    entities.add(c);
-                    selectedEndPos = selectedStartPos = null;
+        if (Input.MOUSE_LEFT_BUTTON == button) {
+            if (pickedNode != null) {
+                nodes.put(coords, pickedNode);
+                pickedNode = null;
+            } else if (connection != null && selectedNode != null) {
+                Node node = nodes.get(coords);
+                if (node != null) {
+                    nodeFactory.bind(selectedNode, node, connection);
+                    connections.add(connection);
+                    connection = null;
+                    unselect();
                 }
+            } else {
+                selectNode(nodes.get(coords));
             }
+        } else if (Input.MOUSE_RIGHT_BUTTON == button) {
+            selectedNode = pickedNode = nodes.remove(coords);
+        }
+    }
+
+    private void selectNode(Node n) {
+        unselect();
+        selectedNode = n;
+        if (selectedNode != null) {
+            selectedNode.setSelected(true);
+        }
+    }
+
+    private void unselect() {
+        if (selectedNode != null) {
+            selectedNode.setSelected(false);
+            selectedNode = null;
         }
     }
 
@@ -242,44 +267,24 @@ public class EditorState extends BasicGameState {
     private ComponentListener barListener = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent source) {
-            selectedType = Type.None;
-            selectedImage = null;
         }
     };
     private ComponentListener placeFactoryListener = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent source) {
-            if (selectedType.equals(Type.None)) {
-                selectedType = Type.Factory;
-                selectedImage = ImageManager.factory_node;
-            } else {
-                selectedType = Type.None;
-                selectedImage = null;
-            }
+            pickedNode = nodeFactory.createFactoryNode();
         }
     };
     private ComponentListener placeDummyListener = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent source) {
-            if (selectedType.equals(Type.None)) {
-                selectedType = Type.Dummy;
-                selectedImage = ImageManager.dummy_node;
-            } else {
-                selectedType = Type.None;
-                selectedImage = null;
-            }
+            pickedNode = nodeFactory.createDummyNode();
         }
     };
     private ComponentListener placeConnectionListener = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent source) {
-            if (selectedType.equals(Type.None)) {
-                selectedType = Type.Connection;
-                selectedImage = ImageManager.connection_icon;
-            } else {
-                selectedType = Type.None;
-                selectedImage = null;
-            }
+            connection = new Connection();
         }
     };
 }

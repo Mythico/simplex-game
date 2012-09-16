@@ -14,14 +14,10 @@ import simplex.util.ImageManager;
 public class ConsumerSpecification implements NodeSpecification {
 
     private List<Connection> inConn = new LinkedList<>();
-    private int expected_type;
-    private int expected_rate;
+    private int expectedType;
+    private int expectedRate;
     private boolean happy = false;
 
-    public ConsumerSpecification(int type, int rate) {
-        this.expected_type = type;
-        this.expected_rate = rate;
-    }
 
     @Override
     public boolean addIncomingConnection(Connection conn) {
@@ -66,7 +62,15 @@ public class ConsumerSpecification implements NodeSpecification {
             }
         }
 
-        happy = type == expected_type && rate >= expected_rate;
+        happy = type == expectedType && rate >= expectedRate;
 
     }
+
+    public void setExpectedType(int expectedType) {
+        this.expectedType = expectedType;
+    }
+
+    public void setExpectedRate(int expectedRate) {
+        this.expectedRate = expectedRate;
+    }    
 }

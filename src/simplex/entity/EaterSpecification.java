@@ -17,10 +17,6 @@ public class EaterSpecification implements NodeSpecification {
     private Connection outConn = null;
     private int fraction = 1;
 
-    public EaterSpecification(int fraction) {
-        this.fraction = fraction;
-    }
-
     @Override
     public boolean addIncomingConnection(Connection conn) {
         if (inConn == null) {
@@ -75,4 +71,7 @@ public class EaterSpecification implements NodeSpecification {
         }
     }
 
+    public void setFraction(int fraction) {
+        this.fraction = fraction;
+    }        
 }
