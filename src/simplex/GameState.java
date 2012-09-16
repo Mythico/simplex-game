@@ -19,9 +19,10 @@ import simplex.entity.Entity;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.util.GridConversions;
+import simplex.util.GridCoord;
 
 /**
- * 
+ *
  * @author Emil
  * @author Samuel
  */
@@ -31,8 +32,8 @@ public class GameState extends BasicGameState {
     private int width = 16;
     private int height = 16;
     private List<Entity> entities = new LinkedList<>();
-    private NodeFactory nodeFactory = new NodeFactory();
     private GameContainer gc;
+    private int nextState = Main.GAMESTATE;
 
     public GameState(int stateId) {
         this.stateId = stateId;
@@ -43,38 +44,39 @@ public class GameState extends BasicGameState {
         return stateId;
     }
 
+    
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
 
         this.gc = gc;
-        
+
         GridConversions.setGameSize(width, height);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
-
-        Node n1 = nodeFactory.createFactory(1, 2, 1, 4);
-        Node n2 = nodeFactory.createSplitterNode(3, 2);
-        Node n3 = nodeFactory.createEaterNode(2, 5, 2);
-        Node n4 = nodeFactory.createConsumerNode(5, 5, 1, 2);
+        GridCoord p1 = new GridCoord(1, 2);
+        GridCoord p2 = new GridCoord(5, 2);
+        GridCoord p3 = new GridCoord(1, 5);
+        GridCoord p4 = new GridCoord(5, 5);
+        NodeFactory nodeFactory = NodeFactory.instance();
+        nodeFactory.createFactory(p1, 1, 4);
+        nodeFactory.createSplitterNode(p2);
+        nodeFactory.createEaterNode(p3, 2);
+        nodeFactory.createConsumerNode(p4, 1, 2);
 
         Connection c1 = new Connection();
         Connection c2 = new Connection();
         Connection c3 = new Connection();
         Connection c4 = new Connection();
 
-        nodeFactory.bind(n1, n2, c1);
-        nodeFactory.bind(n2, n3, c2);
-        nodeFactory.bind(n3, n4, c3);
-        nodeFactory.bind(n2, n4, c4);
+        nodeFactory.bind(p1, p2, c1);
+        nodeFactory.bind(p2, p3, c2);
+        nodeFactory.bind(p3, p4, c3);
+        nodeFactory.bind(p2, p4, c4);
 
         entities.add(c1);
         entities.add(c2);
         entities.add(c3);
         entities.add(c4);
-        entities.add(n1);
-        entities.add(n2);
-        entities.add(n3);
-        entities.add(n4);
 
     }
 
@@ -93,7 +95,10 @@ public class GameState extends BasicGameState {
                 g.fillRect(j * gwidth, i * gheight, gwidth, gheight);
             }
         }
-
+        NodeFactory nodeFactory = NodeFactory.instance();
+        for (Entity entity : nodeFactory.getNodeList()) {
+            entity.render(g);
+        }
         for (Entity entity : entities) {
             entity.render(g);
         }
@@ -103,26 +108,32 @@ public class GameState extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
 
-        if(delta == 0){
+        if (delta == 0) {
             return;
         }
-        
+        NodeFactory nodeFactory = NodeFactory.instance();
+        for (Entity entity : nodeFactory.getNodeList()) {
+            entity.update(delta);
+        }
         for (Entity entity : entities) {
             entity.update(delta);
         }
 
-        if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
-            sbg.enterState(Main.MAINMENUSTATE);
+        if (nextState != Main.GAMESTATE) {
+            int state = nextState;
+            nextState = Main.GAMESTATE;
+            sbg.enterState(state);
         }
     }
 
     @Override
     public void keyReleased(int key, char c) {
-        if(Input.KEY_P == key || Input.KEY_PAUSE == key){
-            
-            gc.setPaused(!gc.isPaused());            
+        if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
+
+            gc.setPaused(!gc.isPaused());
+        }
+        if(Input.KEY_ESCAPE == key){
+            nextState = Main.MAINMENUSTATE;
         }
     }
-    
-    
 }

@@ -27,15 +27,25 @@ public class GridConversions {
         gameHeight = height;
     }
 
-    public static Vector2f gridToScreenCoord(int x, int y) {
-        float fx = x * (screenWidth / gameWidth);
-        float fy = y * (screenHeight / gameHeight);
+    public static Vector2f gridToScreenCoord(GridCoord coord) {
+        float fx = coord.x * (screenWidth / (float)gameWidth);
+        float fy = coord.y * (screenHeight / (float)gameHeight);
         return new Vector2f(fx, fy);
     }
 
-    public static int[] screenToGridCoord(int x, int y) {
-        int x2 = x / (screenWidth / gameWidth);
-        int y2 = y / (screenHeight / gameHeight);
-        return new int[] { x2, y2 };
+    public static GridCoord screenToGridCoord(int x, int y) {
+        int x2 = (int)(x / (screenWidth / (float)gameWidth));
+        int y2 = (int)(y / (screenHeight / (float)gameHeight));
+        return new GridCoord(x2, y2);
     }
+    
+    public static int getGridWidth(){
+        return screenWidth / gameWidth;
+    }
+    
+    public static int getGridHeight(){
+        return screenHeight / gameHeight;
+    }
+    
+    
 }

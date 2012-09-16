@@ -7,6 +7,7 @@ package simplex.entity;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
+import simplex.util.GridConversions;
 
 /**
  * 

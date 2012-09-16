@@ -4,7 +4,11 @@
  */
 package simplex.entity;
 
+import java.util.Collection;
+import java.util.Hashtable;
+import org.newdawn.slick.geom.Vector2f;
 import simplex.util.GridConversions;
+import simplex.util.GridCoord;
 
 /**
  *
@@ -12,46 +16,81 @@ import simplex.util.GridConversions;
  */
 public class NodeFactory {
 
-    private Node createNode(int x, int y, NodeSpecification spec) {
-        return new Node(GridConversions.gridToScreenCoord(x, y), spec);
+    private static NodeFactory nodeFactory;
+    private Hashtable<GridCoord, Node> nodes;
+
+    private NodeFactory() {
+        nodes = new Hashtable<>();
     }
 
-    public Node createFactory(int x, int y, int type, int rate) {
+    public static NodeFactory instance() {
+        if (nodeFactory == null) {
+            nodeFactory = new NodeFactory();
+        }
+        return nodeFactory;
+    }
+
+    private void createNode(GridCoord coord, NodeSpecification spec) {
+        Vector2f pos = GridConversions.gridToScreenCoord(coord);
+        Node n = new Node(pos, spec);
+        nodes.put(coord, n);
+    }
+
+    public void createFactory(GridCoord coord, int type, int rate) {
         NodeSpecification spec = new FactorySpecification(type, rate);
-        return createNode(x, y, spec);
+        createNode(coord, spec);
     }
 
-    public Node createDummyNode(int x, int y) {
+    public void createDummyNode(GridCoord coord) {
         NodeSpecification spec = new DummySpecification();
-        return createNode(x, y, spec);
+        createNode(coord, spec);
     }
 
-    public Node createConsumerNode(int x, int y, int type, int rate) {
+    public void createConsumerNode(GridCoord coord, int type, int rate) {
         NodeSpecification spec = new ConsumerSpecification(type, rate);
-        return createNode(x, y, spec);
+        createNode(coord, spec);
     }
 
-    public Node createEaterNode(int x, int y, int fraction) {
+    public void createEaterNode(GridCoord coord, int fraction) {
         NodeSpecification spec = new EaterSpecification(fraction);
-        return createNode(x, y, spec);
+        createNode(coord, spec);
     }
-    
-    public Node createSplitterNode(int x, int y) {
+
+    public void createSplitterNode(GridCoord coord) {
         NodeSpecification spec = new SplitterSpecification();
-        return createNode(x, y, spec);
+        createNode(coord, spec);
     }
 
     /**
-     * Binds n1 and n2 with conn.
+     * Finds a node between to positions and bind a connection between them.
      *
-     * @param n1 Start node
-     * @param n2 End node
+     * @param startPos Start startPosition
+     * @param endPos End position
      * @param conn The connection
      */
-    public void bind(Node n1, Node n2, Connection conn) {
+    public void bind(GridCoord startPos, GridCoord endPos, Connection conn) {
+        Node n1 = nodes.get(startPos);
+        Node n2 = nodes.get(endPos);
+        
+        if(n1 == null || n2 == null){
+            return; //Couldn't finde nodes.
+        }
+        
         conn.setStartPos(n1.getPosition());
         conn.setEndPos(n2.getPosition());
         n1.getNodeSpecification().addOutgoingConnection(conn);
         n2.getNodeSpecification().addIncomingConnection(conn);
+    }
+
+    public Collection<Node> getNodeList() {
+        return nodes.values();
+    }
+    
+    public Node getNode(GridCoord coord){
+        return nodes.get(coord);
+    }
+    
+    public boolean hasNode(GridCoord coord){
+        return nodes.containsKey(coord);
     }
 }
