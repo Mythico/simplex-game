@@ -18,7 +18,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import simplex.entity.Connection;
 import simplex.entity.ConsumerSpecification;
 import simplex.entity.EaterSpecification;
-import simplex.entity.Entity;
 import simplex.entity.FactorySpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;

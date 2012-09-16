@@ -10,7 +10,6 @@ import java.util.Set;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.AbstractComponent;
@@ -22,7 +21,6 @@ import simplex.entity.Connection;
 import simplex.entity.Entity;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
-import simplex.entity.NodeSpecification;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 import simplex.util.ImageManager;
@@ -44,10 +42,6 @@ public class EditorState extends BasicGameState {
     private Connection connection;
     private HashMap<GridCoord, Node> nodes = new HashMap<>();
 
-    private enum Type {
-
-        None, Factory, Dummy, Connection;
-    }
     // map between the area and whether it is click-through or not
     private Map<MouseOverArea, Boolean> bars = new HashMap<>();
     private List<MouseOverArea> placers = new LinkedList<>();
