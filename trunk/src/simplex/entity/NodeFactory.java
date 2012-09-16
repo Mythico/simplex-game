@@ -4,10 +4,6 @@
  */
 package simplex.entity;
 
-import org.newdawn.slick.geom.Vector2f;
-import simplex.util.GridConversions;
-import simplex.util.GridCoord;
-
 /**
  *
  * @author Emil
