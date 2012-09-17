@@ -143,16 +143,16 @@ public class GameState extends BasicGameState {
             nextState = Main.GAMESTATE;
             sbg.enterState(state);
         }
+
+        if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
+            sbg.enterState(Main.MAINMENUSTATE);
+        }
     }
 
     @Override
     public void keyReleased(int key, char c) {
         if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
-
             gc.setPaused(!gc.isPaused());
-        }
-        if(Input.KEY_ESCAPE == key){
-            nextState = Main.MAINMENUSTATE;
         }
     }
 }
