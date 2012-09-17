@@ -46,6 +46,7 @@ public class EditorState extends BasicGameState {
     private Map<MouseOverArea, Boolean> bars = new HashMap<>();
     private List<MouseOverArea> placers = new LinkedList<>();
     private MouseOverArea placeFactory;
+    private MouseOverArea placeConsumer;
     private MouseOverArea placeDummy;
     private MouseOverArea placeConnection;
     private MouseOverArea sideBar;
@@ -85,10 +86,15 @@ public class EditorState extends BasicGameState {
 
         placeFactory = new MouseOverArea(gc, ImageManager.factory_node.copy(),
                 gc.getWidth() - 32, sideBar.getY() + 3, placeFactoryListener);
-
-        placeDummy = new MouseOverArea(gc, ImageManager.dummy_node.copy(),
+        
+        placeConsumer = new MouseOverArea(gc, ImageManager.consumer_node.copy(),
                 gc.getWidth() - 32, placeFactory.getY() + 3
                 + ImageManager.factory_node.getHeight(),
+                placeConsumerListener);
+
+        placeDummy = new MouseOverArea(gc, ImageManager.dummy_node.copy(),
+                gc.getWidth() - 32, placeConsumer.getY() + 3
+                + ImageManager.consumer_node.getHeight(),
                 placeDummyListener);
 
         placeConnection = new MouseOverArea(gc, ImageManager.connection_icon,
@@ -97,6 +103,7 @@ public class EditorState extends BasicGameState {
                 placeConnectionListener);
 
         placers.add(placeFactory);
+        placers.add(placeConsumer);
         placers.add(placeDummy);
         placers.add(placeConnection);
 
@@ -267,6 +274,12 @@ public class EditorState extends BasicGameState {
         @Override
         public void componentActivated(AbstractComponent source) {
             pickedNode = nodeFactory.createFactoryNode();
+        }
+    };
+    private ComponentListener placeConsumerListener = new ComponentListener() {
+        @Override
+        public void componentActivated(AbstractComponent source) {
+            pickedNode = nodeFactory.createConsumerNode();
         }
     };
     private ComponentListener placeDummyListener = new ComponentListener() {
