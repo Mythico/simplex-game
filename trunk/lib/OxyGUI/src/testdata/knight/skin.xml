@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<skin title="KnightTimes Skin" sheet="gui" font="myFont">
+    <image name="gui" ref="testdata/knight/ui.png" />
+    <image name="titleBackground" ref="testdata/knight/bg2.jpg" />
+    <image name="titleImage" type="SubImage" parent="gui" rect="0, 0, 350, 70" />
+    <font name="myFont" fnt="testdata/knight/font.fnt" img="testdata/knight/font.png" />
+    
+    <desktop name="titlePage">
+        <state sheet="titleBackground" type="default" area="0 0 511 383" />
+    </desktop>
+    
+    <button>
+        <defaults minWidth="209.0" foreground="#ffffff" 
+                  insideOffsets="6f, 7f, 5f, 3f" left="13" 
+                  stayDownOutside="true"
+                  textOffset="2" minHeight="38.0" textAlign="ALIGN_LEFT" />
+        <state type="hover" area="0 71 209 109" />
+        <state type="default" area="0 110 209 148" />
+        <state type="pressed" area="0 149 208 186" />
+    </button>
+</skin>

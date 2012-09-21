@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : loadingScreen.xml
+    Created on : March 30, 2008, 3:42 PM
+    Author     : Matt
+    Description:
+        Purpose of the document follows.
+-->
+
+<desktop>
+    <dialog name="loadBox" centeringEnabled="true" location="50%, 50%"
+            closeButtonVisible="false" visible="false" draggable="false"
+            size="250px, 100px" title="Loading...">
+        <hSlider name="pbar" theme="progressBar" width="90%" value="0.0"
+                location="50%, 32%" centeringEnabled="true" />
+        <button name="okButton" text="OK" enabled="false" 
+                centeringEnabled="true" location="50%, 75%"
+                action="doOK()" />
+    </dialog>
+</desktop>

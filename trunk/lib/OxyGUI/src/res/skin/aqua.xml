@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : aquaSkin.xml.xml
+    Created on : March 24, 2008, 12:08 AM
+    Author     : Matt
+    Description:
+        Purpose of the document follows.
+-->
+
+
+<skin title="Aqua Skin" sheet="gui" font="verdana">
+    <image name="gui" ref="res/skin/aqua_ui.png" />
+    <font name="verdana" fnt="res/skin/verdana.fnt" img="res/skin/verdana.png" />
+        
+    <toolTip>
+        <defaults minWidth="28.0" left="4" right="9" alpha="0.85"
+                  textAlign="ALIGN_LEFT" minHeight="27.0"
+                  showOffsets="0.0, 16.0" />
+        <state type="default">
+            <subtexture align="left" area="109 73 117 100" />
+            <subtexture align="center" area="117 73 129 100" />
+            <subtexture align="right" area="129 73 137 100" />
+        </state>
+    </toolTip>
+    
+    <hSlider>
+        <controls>
+            <thumbButton>
+                <defaults stayDownOutside="true" 
+                        requestFocusEnabled="false"
+                        minWidth="11.0" minHeight="11.0" 
+                        maxWidth="11.0" maxHeight="11.0" />
+                <state type="default" area="209 81 220 92" />
+                <state type="pressed" area="222 81 233 92" />
+            </thumbButton>
+        </controls>
+        <defaults requestFocusEnabled="false" minWidth="11.0" minHeight="11.0" />
+        <state type="active">
+            <subtexture align="left" area="211 93 215 104" />
+            <subtexture align="center" area="215 93 217 104" />
+            <subtexture align="right" area="227 93 231 104" />
+        </state>
+    </hSlider>
+    
+    <hSlider name="progressBar">
+        <defaults thumbButtonVisible="false" 
+            requestFocusEnabled="false"
+            enabled="false"
+            top="2.0" left="2.0" bottom="2.0" right="2.0"
+            minWidth="11.0" minHeight="22.0" maxHeight="22.0" />
+        <state type="active">
+            <subtexture align="left" area="269 80 272 102" />
+            <subtexture align="center" area="272 80 277 102" />
+            <subtexture align="right" area="277 80 280 102" />
+        </state>
+        <state type="progress">
+            <subtexture align="left" area="282 82 284 100" />
+            <subtexture align="center" area="284 82 288 100" />
+            <subtexture align="right" area="288 82 290 100" />
+        </state>
+    </hSlider>
+    
+    <vSlider>
+        <controls>
+            <thumbButton>
+                <defaults stayDownOutside="true" 
+                        requestFocusEnabled="false"
+                        minWidth="11.0" minHeight="11.0" 
+                        maxWidth="11.0" maxHeight="11.0" />
+                <state type="default" area="239 79 250 90" />
+                <state type="pressed" area="239 92 250 103" />
+            </thumbButton>
+        </controls>
+        <defaults requestFocusEnabled="false" minWidth="11.0" minHeight="11.0" />
+        <state type="active">
+            <subtexture align="top" area="251 81 262 85" />
+            <subtexture align="center" area="251 85 262 87" />
+            <subtexture align="bottom" area="251 97 262 101" />
+        </state>
+    </vSlider>
+    
+    <hScroll>
+        <defaults minWidth="56.0" minHeight="16.5" />
+        <controls>
+            <trackSlider>
+                <defaults jumpSpace="0.3" minWidth="24.0" minHeight="16.0" />
+                <state type="active">
+                    <subtexture align="left" area="17 1 26 17" />
+                    <subtexture align="center" area="28 1 31 17" />
+                    <subtexture align="right" area="43 1 53 17" />
+                </state>
+                
+                <controls>
+                    <thumbButton>
+                        <defaults stayDownOutside="true" y="1px" maxHeight="14.0" 
+                                  minWidth="24.0" minHeight="14.0" />
+                        <state type="pressed">
+                            <subtexture align="left" area="1 50 13 64" />
+                            <subtexture align="center" area="13 50 15 64" />
+                            <subtexture align="right" area="23 50 33 64" />
+                        </state>
+                        <state type="default">
+                            <subtexture align="left" area="1 35 13 49" />
+                            <subtexture align="center" area="13 35 15 49" />
+                            <subtexture align="right" area="23 35 33 49" />
+                        </state>
+                    </thumbButton>
+                </controls>
+            </trackSlider>
+            
+            <decButton>
+                <defaults stayDownOutside="true"
+                        minWidth="16.3" minHeight="16.0" 
+                        maxWidth="16.4" maxHeight="16.0" />
+                <state type="pressed" area="1 1 17 17" />
+                <state type="default" area="1 18 17 34" />
+            </decButton>
+            <incButton>
+                <defaults stayDownOutside="true"
+                        minWidth="16.2" minHeight="16.0" 
+                        maxWidth="16.3" maxHeight="16.0" />
+                <state type="pressed" area="53 1 69 17" />
+                <state type="default" area="53 18 69 34" />
+            </incButton>
+        </controls>
+    </hScroll>
+            
+    <dialog>
+        <controls>
+            <closeButton>
+                <defaults toolTipText="Close"
+                        minWidth="16.0" minHeight="16.0" centeringEnabled="false" 
+                        location="90%, 5px" />
+                <state type="default" area="37 35 53 51" /> 
+                <state type="hover" area="54 36 68 50" />
+            </closeButton>
+            <titleLabel>
+                <defaults textAlign="ALIGN_LEFT" left="7" minHeight="17.0" maxHeight="17.0" />
+            </titleLabel>
+        </controls>
+        
+        <defaults insideOffsets="3.0, 2.0, 4.0, 3.0"
+                  contentOffsets="5.0, 22.0, 5.0, 4.0" 
+                  titleOffsets="6.0, 5.0, 6.0"
+                  minWidth="45.0" minHeight="36.0" />
+        <state type="inactive">
+            <subtexture align="top left" area="160 33 172 55" />
+            <subtexture align="top" area="172 33 178 55" />
+            <subtexture align="top right" area="194 33 205 55" />
+            
+            <subtexture align="left" area="160 55 172 61" />
+            <subtexture align="center" area="172 55 178 61" />
+            <subtexture align="right" area="194 55 205 61" />
+            
+            <subtexture align="bottom left" area="160 61 172 69" />
+            <subtexture align="bottom" area="172 61 194 69" />
+            <subtexture align="bottom right" area="194 61 205 69" />
+        </state>
+        <state type="active">
+            <subtexture align="top left" area="160 71 172 93" />
+            <subtexture align="top" area="172 71 178 93" />
+            <subtexture align="top right" area="194 71 205 93" />
+            
+            <subtexture align="left" area="160 93 172 99" />
+            <subtexture align="center" area="172 93 178 99" />
+            <subtexture align="right" area="194 93 205 99" />
+            
+            <subtexture align="bottom left" area="160 99 172 107" />
+            <subtexture align="bottom" area="172 99 194 107" />
+            <subtexture align="bottom right" area="194 99 205 107" />
+        </state>
+    </dialog>
+    
+    <textField>
+        <defaults minWidth="19.0" minHeight="27.0" maxHeight="27.0" />
+        <defaults insideOffsets="3.0, 3.0, 3.0, 3.0" 
+                  clipOffsets="4.0, 4.0, 4.0, 3.0"
+                  top="6" left="6" right="8" bottom="4" />
+        <state type="inactive">
+            <subtexture align="left" area="136 4 141 31" />
+            <subtexture align="center" area="142 4 145 31" />
+            <subtexture align="right" area="150 4 155 31" />
+        </state>
+        <state type="active">
+            <subtexture align="left" area="155 4 160 31" />
+            <subtexture align="center" area="161 4 164 31" />
+            <subtexture align="right" area="169 4 174 31" />
+        </state>
+    </textField>
+    
+    <spinner>
+        <controls>
+            <nextButton>
+                <defaults y="6.0px" minWidth="16.0" minHeight="8.0" />
+                <state type="default" area="106 35 122 43" />
+                <state type="pressed" area="124 54 140 62" />
+                <state type="disabled" area="141 35 157 43" />
+                <state type="hover" area="106 54 122 62" />
+            </nextButton>
+            <previousButton>
+                <defaults y="14.0px" minWidth="16.0" minHeight="9.0" />
+                <state type="default" area="106 62 122 71" />
+                <state type="pressed" area="124 43 140 52" />
+                <state type="disabled" area="141 43 157 52" />
+                <state type="hover" area="106 43 122 52" />
+            </previousButton>
+            <textField>
+                <defaults clipOffsets="4.0, 4.0, 22.0, 3.0"
+                          top="4" left="4" right="22" bottom="4" />
+            </textField>
+        </controls>
+        
+        <defaults right="6.0" minWidth="29.0" minHeight="28.0" maxHeight="28.0" />
+        <defaults insideOffsets="3.0, 3.0, 3.0, 3.0" />
+        <state type="inactive">
+            <subtexture align="left" area="136 4 141 31" />
+            <subtexture align="center" area="142 4 145 31" />
+            <subtexture align="right" area="150 4 155 31" />
+        </state>
+        <state type="active">
+            <subtexture align="left" area="155 4 160 31" />
+            <subtexture align="center" area="161 4 164 31" />
+            <subtexture align="right" area="169 4 174 31" />
+        </state>
+    </spinner>
+    
+    <button>
+        <defaults textOffset="auto" minHeight="23.0" minWidth="32.0" left="20" right="20" />
+        <state type="hover">
+            <subtexture align="left" area="207 31 221 54" />
+            <subtexture align="center" area="221 31 225 54" />
+            <subtexture align="right" area="225 31 239 54" />
+        </state>
+        <state type="pressed">
+            <subtexture align="left" area="207 54 221 77" />
+            <subtexture align="center" area="221 54 225 77" />
+            <subtexture align="right" area="225 54 239 77" />
+        </state>
+        <state type="disabled">
+            <subtexture align="left" area="239 54 253 76" />
+            <subtexture align="center" area="253 54 257 76" />
+            <subtexture align="right" area="257 54 271 76" />
+        </state>
+        <state type="default">
+            <subtexture align="left" area="239 31 253 54" />
+            <subtexture align="center" area="253 31 257 54" />
+            <subtexture align="right" area="257 31 271 54" />
+        </state>
+        <state type="focusOverlay">
+            <subtexture align="left" area="272 31 286 54" />
+            <subtexture align="center" area="286 31 288 54" />
+            <subtexture align="right" area="288 31 302 54" />
+        </state>
+        <state type="selectedHover" ref="pressed" />
+    </button>
+    
+    <button name="checkBox">
+        <defaults sticky="true" textOffset="1.0f" textAlign="ALIGN_LEFT" left="16" right="2" />
+        <defaults minWidth="14.0" maxHeight="15.0" minHeight="15.0" />
+        <state type="disabled">
+            <subtexture align="left" area="1 74 15 89" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="default">
+            <subtexture align="left" area="16 74 30 89" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="selectedDefault">
+            <subtexture align="left" area="31 74 45 89" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="pressed">
+            <subtexture align="left" area="46 74 60 89" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="selectedPressed">
+            <subtexture align="left" area="61 74 75 89" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="focusOverlay">
+            <subtexture align="left" area="91 74 105 89" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+    </button>
+    
+    <button name="radio">
+        <defaults sticky="true" textOffset="2.0f" textAlign="ALIGN_LEFT" left="14" right="2" />
+        <defaults minWidth="13.0" maxHeight="14.0" minHeight="14.0" />
+        <state type="disabled">
+            <subtexture align="left" area="1 91 14 105" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="default">
+            <subtexture align="left" area="16 91 29 105" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="selectedDefault">
+            <subtexture align="left" area="31 91 44 105" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="pressed">
+            <subtexture align="left" area="46 91 59 105" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="selectedPressed">
+            <subtexture align="left" area="61 91 74 105" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+        <state type="focusOverlay">
+            <subtexture align="left" area="91 91 104 105" />
+            <subtexture align="center" useImage="false" area="76 74 77 89" />
+            <subtexture align="right" useImage="false" area="76 74 77 89" /> 
+        </state>
+    </button>
+</skin>

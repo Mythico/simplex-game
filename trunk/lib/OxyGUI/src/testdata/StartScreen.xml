@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : StartState.xml
+    Created on : March 30, 2008, 4:31 PM
+    Author     : Matt
+    Description:
+        Purpose of the document follows.
+-->
+
+<desktop modalWindow="lightBox">
+    <dialog title="Done Loading" closeButtonVisible="false"
+            centeringEnabled="true" location="50%, 50%"
+            size="250px, 140px">
+        <button text="Sound #1" location="50%, 20%" centeringEnabled="true" action="handleAction(1)" />
+        <button text="Sound #2" location="50%, 45%" centeringEnabled="true" action="handleAction(2)" />
+        <button text="Image #1" location="50%, 70%" centeringEnabled="true" action="handleAction(3)" />
+    </dialog>
+    <custom name="lightBox" class="mdes.oxy.test.LightBox" />
+</desktop>
