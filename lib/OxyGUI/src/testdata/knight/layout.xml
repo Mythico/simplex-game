@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : knight.xml
+    Created on : April 5, 2008, 2:02 PM
+    Author     : Matt
+    Description:
+        Purpose of the document follows.
+-->
+
+<desktop theme="titlePage">
+    <label name="title" alpha="0.0" image="titleImage" centeringX="true" location="50%, 25%" />
+    
+    <button text="MULTIPLAYER" centeringX="true" location="50%, 40%" />
+    <button text="ABOUT" centeringX="true" location="50%, 47%" />
+</desktop>

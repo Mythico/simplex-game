@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Calculator.xml
+    Created on : April 4, 2008, 10:11 PM
+    Author     : Matt
+    Description:
+        Purpose of the document follows.
+-->
+
+<desktop>
+    <label text="A Simple Calculator:" location="25%, 22%" />
+    
+    <!-- a panel with a background color -->
+    <panel opaque="true" location="25%, 25%" size="325px, 64px" background="#f0f0f0">
+        <spinner name="left" cols="5" min="-10000" max="10000" focused="true"
+                 centeringEnabled="false, true" location="3%, 50%"
+                 next_left="btn" next_right="right" />
+        
+        <label text="+" centeringEnabled="false, true" location="30%, 50%" />
+               
+        <spinner name="right" cols="5" min="-10000" max="10000"
+                 centeringEnabled="false, true" location="35%, 50%" 
+                 next_left="left" next_right="btn" />
+        
+        <button text="=" name="btn" left="0" right="0"
+                centeringEnabled="false, true" location="62%, 50%" 
+                action="calculate(left.value, right.value, result)"
+                next_left="right" next_right="left" />
+                 
+        <textField name="result" cols="6" editable="false" 
+                 centeringEnabled="false, true" location="73%, 50%" />
+    </panel>
+</desktop>

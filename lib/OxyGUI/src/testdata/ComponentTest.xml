@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : testLayout.xml
+    Created on : March 24, 2008, 12:18 AM
+    Author     : Matt
+    Description:
+        Purpose of the document follows.
+-->
+
+<desktop modalWindow="messageBox" modalAction="modalListener(nameField.text)">    
+    <label text="Button Grouping:" location="25%, 22%" />
+    <panel opaque="true" location="25%, 25%" size="195px, 100px" background="#f0f0f0">
+        <button name="one" focused="true"
+                theme="radio" group="myGrp" 
+                text="Button One" location="10px, 10%"
+                next_up="left" next_down="two" />
+        <button name="two"
+                theme="radio" group="myGrp" 
+                text="Button Two" location="10px, 40%"
+                next_up="one" next_down="three" />
+        <button name="three" selected="true" alpha="0.5f"
+                theme="radio" group="myGrp" 
+                text="Alpha: 50%" location="10px, 70%"
+                next_up="two" next_down="left" />
+    </panel>
+      
+    <label text="Action Listeners:" location="25%, 52%" />
+    <panel opaque="true" location="25%, 55%" size="250px, 75px" background="#f0f0f0">
+        <button name="left" toolTipText="This is a tool tip" sticky="true" selected="true"
+                centeringEnabled="true" location="25%, 50%"
+                text="Toggle"
+                next_left="right" next_right="right"
+                next_up="three" next_down="one"
+                action="toggleEnabled(this, right)" />
+        <button name="right" text="Disabled" enabled="false"
+                centeringEnabled="true" location="70%, 50%"
+                next_right="left" next_left="left"
+                next_up="three" next_down="one"
+                action="toggleModal(true)" />
+    </panel>
+    
+    <label name="modalLabel" text="Modal Action!" location="25%, 80%" visible="false" />
+    
+    <dialog size="250px, 100px" location="50%, 20%" title="Dialog 1" />
+    <dialog size="250px, 100px" location="55%, 30%" title="Extras" closeButtonVisible="false">
+        <hSlider theme="progressBar" width="30%" value="0.47"
+                location="40%, 30%" centeringEnabled="true" />
+        <vSlider height="60%" value="1.0" centeringEnabled="true" location="10%, 50%" />
+        <hScroll width="50%" location="50%, 75%" centeringEnabled="true" />
+        <spinner cols="2" min="0" max="100" value="0" step="1" centeringEnabled="true" location="75%, 30%" />
+    </dialog>
+    
+    <dialog name="messageBox" size="250px, 100px" title="Username:"
+                 location="50%, 50%" centeringEnabled="true">
+        <button name="okButton" text="OK" enabled="false" centeringEnabled="true" location="50%, 75%"
+                action="toggleModal(false)"
+                next_up="nameField" next_down="nameField" />
+        <textField name="nameField" text="Your Name" 
+                next_up="okButton" next_down="okButton"
+                centeringEnabled="true" location="50%, 32%"
+                textChangeAction="checkName(this.text)"
+                firstClickDelete="true" cols="8" action="toggleModal(false)" />
+        <button name="hideBox" theme="checkBox" text="Hide" action="toggleMask(this.selected)"
+                requestFocusEnabled="false"
+                centeringEnabled="true" location="200px, 32%" />
+    </dialog>
+</desktop>
