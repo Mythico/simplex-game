@@ -1,5 +1,6 @@
 package simplex.entity;
 
+import java.util.HashMap;
 import org.newdawn.slick.Image;
 import simplex.util.ImageManager;
 
@@ -13,44 +14,8 @@ import simplex.util.ImageManager;
  */
 public class DummySpecification implements NodeSpecification {
 
-    private Connection inConn = null;
-    private Connection outConn = null;
-
-    @Override
-    public boolean addIncomingConnection(Connection conn) {
-        if (inConn == null) {
-            inConn = conn;
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean addOutgoingConnection(Connection conn) {
-        if (outConn == null) {
-            outConn = conn;
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeIncommingConnection(Connection conn) {
-        if (inConn == null) {
-            return false;
-        }
-        inConn = null;
-        return true;
-    }
-
-    @Override
-    public boolean removeOutgoingConnection(Connection conn) {
-        if (outConn == null) {
-            return false;
-        }
-        outConn = null;
-        return true;
-    }
+    private HashMap<Connection, Resource> resourceMap = new HashMap<>();
+    
 
     @Override
     public Image getImage() {
@@ -58,16 +23,19 @@ public class DummySpecification implements NodeSpecification {
     }
 
     @Override
-    public void update(int delta) {
-        if (inConn != null) {
-            int type = inConn.getResourceType();
-            int rate = inConn.getResourceRate();
-
-            if (outConn != null) {
-                outConn.setResourceType(type);
-                outConn.setResourceRate(rate);
-            }
-        }
+    public void setResource(Resource resource, Connection conn) {
+        resourceMap.put(conn, resource);
     }
+
+    @Override
+    public Resource getResource() {
+        Resource resource = new Resource();
+        for(Resource r : resourceMap.values()){
+            resource.add(r);
+        }
+        return resource;
+    }
+
+    
     
 }

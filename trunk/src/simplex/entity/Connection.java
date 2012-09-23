@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex.entity;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -15,29 +10,31 @@ import org.newdawn.slick.geom.Vector2f;
 import simplex.util.ImageManager;
 
 /**
- * 
+ *
  * @author Emil
  * @author Samuel
  */
 public class Connection implements Entity {
 
-    private Vector2f startPos;
-    private Vector2f endPos;
-    private int rate = 1;
-    private int resourceType;
     private Queue<ResourceBall> movingResources = new LinkedList<>();
     private Queue<ResourceBall> waitingResources = new LinkedList<>();
+    private Node endNode;
+    private Node startNode;
+    private Resource resource;
 
-    public void setStartPos(Vector2f startPos) {
-        this.startPos = startPos;
+    public void setStartNode(Node startNode) {
+        this.startNode = startNode;
     }
 
-    public void setEndPos(Vector2f endPos) {
-        this.endPos = endPos;
+    public void setEndNode(Node endNode) {
+        this.endNode = endNode;
     }
 
     @Override
     public void render(Graphics g) {
+        Vector2f startPos = startNode.getPosition();
+        Vector2f endPos = endNode.getPosition();
+
         g.setColor(Color.cyan);
         g.drawLine(startPos.x + 17, startPos.y + 17, endPos.x + 17,
                 endPos.y + 17);
@@ -46,27 +43,19 @@ public class Connection implements Entity {
         }
     }
 
-    void setResourceType(int resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    void setResourceRate(int rate) {
-        this.rate = rate;
-        while (waitingResources.size() + movingResources.size() < rate) {
-            waitingResources.add(new ResourceBall(startPos.copy()));
-        }
-    }
-
-    public int getResourceType() {
-        return resourceType;
-    }
-
-    public int getResourceRate() {
-        return rate;
-    }
-
     @Override
     public void update(int delta) {
+        Vector2f startPos = startNode.getPosition();
+        Vector2f endPos = endNode.getPosition();
+
+        final Resource r = startNode.getNodeSpecification().getResource();
+        if (r != null && !r.equals(resource)) {
+            this.resource = r;
+            float speed = ((startPos.distanceSquared(endPos)) / r.getRate());
+            while (waitingResources.size() + movingResources.size() < r.getRate()) {
+                waitingResources.add(new ResourceBall(startPos.copy(), speed));
+            }
+        }
 
         float k = 0.05f;
         Vector2f dir = endPos.copy().sub(startPos).normalise().scale(k);
@@ -85,10 +74,11 @@ public class Connection implements Entity {
             ResourceBall resourceBall = it.next();
             resourceBall.position.add(dir);
 
-            resourceBall.setResource(resourceType);
+            resourceBall.setResource(resource.getType());
 
             // Reset the moving resource when it has moved from start to end
             if (hasReachedEnd(resourceBall)) {
+                endNode.getNodeSpecification().setResource(resource, this);
                 resourceBall.position = startPos.copy();
                 waitingResources.add(resourceBall);
                 it.remove();
@@ -97,13 +87,17 @@ public class Connection implements Entity {
     }
 
     private boolean hasReachedEnd(ResourceBall ball) {
+        Vector2f endPos = endNode.getPosition();
         final float nearConstant = 1;
         float dist = ball.position.distanceSquared(endPos);
         return dist < nearConstant;
     }
 
     private boolean isTimeForNextBall() {
-        boolean hasReachedBallLimit = movingResources.size() >= rate;
+        boolean hasReachedBallLimit = movingResources.size() >= resource.getRate();
+
+        Vector2f startPos = startNode.getPosition();
+        Vector2f endPos = endNode.getPosition();
 
         // Find the distance of the ball which have traveled shortest
         float previousBallDist = startPos.distance(endPos);
@@ -114,7 +108,7 @@ public class Connection implements Entity {
             }
         }
 
-        float nextBallThreshold = startPos.distance(endPos) / rate;
+        float nextBallThreshold = startPos.distance(endPos) / resource.getRate();
 
         return !hasReachedBallLimit && previousBallDist > nextBallThreshold;
     }
@@ -124,26 +118,25 @@ class ResourceBall {
 
     Vector2f position;
     Image img = ImageManager.white_resource;
+    float speed;
 
-    public ResourceBall(Vector2f position) {
+    public ResourceBall(Vector2f position, float speed) {
         this.position = position;
+        this.speed = speed;
     }
 
     void render(Graphics g) {
         g.drawImage(img, position.x, position.y);
     }
 
-    void setResource(int resourceType) {
-        switch (resourceType) {
-        case 0:
+    void setResource(Color resourceType) {
+        if (resourceType.equals(Color.red)) {
             img = ImageManager.red_resource;
-            break;
-        case 1:
+        } else if (resourceType.equals(Color.green)) {
             img = ImageManager.green_resource;
-            break;
-        case 2:
+        } else if (resourceType.equals(Color.blue)) {
             img = ImageManager.blue_resource;
-            break;
         }
     }
 }
+

@@ -1,7 +1,8 @@
 package simplex.entity;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import org.newdawn.slick.Image;
 import simplex.util.ImageManager;
 
@@ -15,32 +16,8 @@ import simplex.util.ImageManager;
  */
 public class SplitterSpecification implements NodeSpecification {
 
-    private List<Connection> inConn = new LinkedList<>();
-    private List<Connection> outConn = new LinkedList<>();
-
-    @Override
-    public boolean addIncomingConnection(Connection conn) {
-        inConn.add(conn);
-        return true;
-    }
-
-    @Override
-    public boolean addOutgoingConnection(Connection conn) {
-        outConn.add(conn);
-        return true;
-    }
-
-    @Override
-    public boolean removeIncommingConnection(Connection conn) {
-        inConn.remove(conn);
-        return true;
-    }
-
-    @Override
-    public boolean removeOutgoingConnection(Connection conn) {
-        outConn.remove(conn);
-        return true;
-    }
+    private HashMap<Connection, Resource> resourceMap = new HashMap<>();
+    private int iterator = 0;
 
     @Override
     public Image getImage() {
@@ -48,22 +25,20 @@ public class SplitterSpecification implements NodeSpecification {
     }
 
     @Override
-    public void update(int delta) {
-        int rate = 0;
-        int type = 0;
+    public void setResource(Resource resource, Connection conn) {
+        resourceMap.put(conn, resource);
+    }
 
-        if (inConn != null) {
-            for (Connection conn : inConn) {
-                rate += conn.getResourceRate();
-                type = conn.getResourceType();
-            }
-            if (outConn != null) {
-                for (Connection conn : outConn) {
-                    conn.setResourceRate(rate / outConn.size());
-                    conn.setResourceType(type);
-                }
-            }
+    @Override
+    public Resource getResource() {
+        ArrayList<Resource> values = new ArrayList<>(resourceMap.values());
+        if(values.isEmpty()){
+            return null;
         }
-
+        iterator++;
+        if(iterator >= values.size()){
+            iterator = 0;
+        }            
+        return values.get(iterator);
     }
 }

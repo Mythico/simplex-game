@@ -39,7 +39,6 @@ public class Node implements Entity{
 
     @Override
     public void update(int delta) {
-        nodeSpecification.update(delta);
     }
 
     public NodeSpecification getNodeSpecification() {
