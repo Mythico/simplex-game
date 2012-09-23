@@ -21,6 +21,7 @@ import simplex.entity.EaterSpecification;
 import simplex.entity.FactorySpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
+import simplex.entity.Resource;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 
@@ -64,8 +65,7 @@ public class GameState extends BasicGameState {
         NodeFactory nodeFactory = NodeFactory.instance();
         Node n1 = nodeFactory.createFactoryNode();
         n1.setPosition(GridConversions.gridToScreenCoord(p1));
-        ((FactorySpecification)n1.getNodeSpecification()).setType(1);
-        ((FactorySpecification)n1.getNodeSpecification()).setRate(4);
+        ((FactorySpecification)n1.getNodeSpecification()).setResource(new Resource(Color.red, 4), null);
         Node n2 = nodeFactory.createSplitterNode();
         n2.setPosition(GridConversions.gridToScreenCoord(p2));
         Node n3 = nodeFactory.createEaterNode();
@@ -73,8 +73,7 @@ public class GameState extends BasicGameState {
         ((EaterSpecification)n3.getNodeSpecification()).setFraction(2);
         Node n4 = nodeFactory.createConsumerNode();
         n4.setPosition(GridConversions.gridToScreenCoord(p4));
-        ((ConsumerSpecification)n4.getNodeSpecification()).setExpectedRate(1);
-        ((ConsumerSpecification)n4.getNodeSpecification()).setExpectedType(2);
+        ((ConsumerSpecification)n4.getNodeSpecification()).setExpectedResource(new Resource(Color.red, 2));
                 
         
         Connection c1 = new Connection();

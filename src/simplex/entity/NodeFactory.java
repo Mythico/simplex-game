@@ -44,15 +44,13 @@ public class NodeFactory {
     /**
      * Finds a node between to positions and bind a connection between them.
      *
-     * @param n1 Start startPosition
-     * @param n2 End position
+     * @param startNode Start node
+     * @param endNode End node
      * @param conn The connection
      */
-    public void bind(Node n1, Node n2, Connection conn) {
-        conn.setStartPos(n1.getPosition());
-        conn.setEndPos(n2.getPosition());
-        n1.getNodeSpecification().addOutgoingConnection(conn);
-        n2.getNodeSpecification().addIncomingConnection(conn);
+    public void bind(Node startNode, Node endNode, Connection conn) {
+        conn.setStartNode(startNode);
+        conn.setEndNode(endNode);
     }
 
 }

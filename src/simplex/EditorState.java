@@ -30,6 +30,7 @@ import simplex.entity.FactorySpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.NodeSpecification;
+import simplex.entity.Resource;
 import simplex.entity.SplitterSpecification;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
@@ -111,9 +112,9 @@ public class EditorState extends BasicGameState {
             pickedNode.setPosition(GridConversions.gridToScreenCoord(coord));
             pickedNode.render(g);
         } else if (connection != null && selectedNode != null) {
-            connection.setStartPos(selectedNode.getPosition());
-            connection.setEndPos(GridConversions.gridToScreenCoord(coord));
-            connection.render(g);
+            //Node node = nodes.get(coord);
+            //connection.render(g);
+            //TODO: add a proxy connection?
         }
 
         desktop.render(g);
@@ -208,13 +209,16 @@ public class EditorState extends BasicGameState {
     }
 
     public void setNodeData(int data1, int data2) {
+        if(selectedNode == null){
+            return;
+        }
         final NodeSpecification spec = selectedNode.getNodeSpecification();
         if (spec instanceof FactorySpecification) {
-            ((FactorySpecification) spec).setRate(data1);
-            ((FactorySpecification) spec).setType(data2);
+            Resource r = Resource.parse(data2, data1);
+            ((FactorySpecification) spec).setResource(r, null);
         } else if (spec instanceof ConsumerSpecification) {
-            ((ConsumerSpecification) spec).setExpectedRate(data1);
-            ((ConsumerSpecification) spec).setExpectedType(data2);
+            Resource r = Resource.parse(data2, data1);
+            ((ConsumerSpecification) spec).setExpectedResource(r);
         } else if (spec instanceof EaterSpecification) {
             ((EaterSpecification) spec).setFraction(data1);
         }

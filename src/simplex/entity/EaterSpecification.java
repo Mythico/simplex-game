@@ -1,5 +1,6 @@
 package simplex.entity;
 
+import java.util.HashMap;
 import org.newdawn.slick.Image;
 import simplex.util.ImageManager;
 
@@ -13,65 +14,34 @@ import simplex.util.ImageManager;
  */
 public class EaterSpecification implements NodeSpecification {
 
-    private Connection inConn = null;
-    private Connection outConn = null;
+    private HashMap<Connection, Resource> resourceMap = new HashMap<>();
     private int fraction = 1;
 
-    @Override
-    public boolean addIncomingConnection(Connection conn) {
-        if (inConn == null) {
-            inConn = conn;
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean addOutgoingConnection(Connection conn) {
-        if (outConn == null) {
-            outConn = conn;
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeIncommingConnection(Connection conn) {
-        if (inConn == null) {
-            return false;
-        }
-        inConn = null;
-        return true;
-    }
-
-    @Override
-    public boolean removeOutgoingConnection(Connection conn) {
-        if (outConn == null) {
-            return false;
-        }
-        outConn = null;
-        return true;
-    }
+    
 
     @Override
     public Image getImage() {
         return ImageManager.dummy_node;
     }
 
-    @Override
-    public void update(int delta) {
-        if (inConn != null) {
-            int type = inConn.getResourceType();
-            int rate = inConn.getResourceRate() / fraction;
-
-            if (outConn != null) {
-                outConn.setResourceType(type);
-                outConn.setResourceRate(rate);
-            }
-        }
-    }
+    
 
     public void setFraction(int fraction) {
         this.fraction = fraction;
     }        
+
+    @Override
+    public void setResource(Resource resource, Connection conn) {
+        resourceMap.put(conn, resource);
+    }
+
+    @Override
+    public Resource getResource() {
+        Resource resource = new Resource();
+        for(Resource r : resourceMap.values()){
+            resource.add(r);
+        }
+        resource.setRate(resource.getRate() / fraction);
+        return resource;
+    }
 }

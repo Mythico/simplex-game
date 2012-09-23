@@ -1,7 +1,6 @@
 package simplex.entity;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
 import org.newdawn.slick.Image;
 import simplex.util.ImageManager;
 
@@ -13,33 +12,10 @@ import simplex.util.ImageManager;
  */
 public class ConsumerSpecification implements NodeSpecification {
 
-    private List<Connection> inConn = new LinkedList<>();
-    private int expectedType;
-    private int expectedRate;
+    private HashMap<Connection, Resource> resourceMap = new HashMap<>();
+    private Resource expectedResource;
     private boolean happy = false;
 
-
-    @Override
-    public boolean addIncomingConnection(Connection conn) {
-        inConn.add(conn);
-        return true;
-    }
-
-    @Override
-    public boolean addOutgoingConnection(Connection conn) {
-        return false;
-    }
-
-    @Override
-    public boolean removeIncommingConnection(Connection conn) {
-        inConn.remove(conn);
-        return true;
-    }
-
-    @Override
-    public boolean removeOutgoingConnection(Connection conn) {
-        return false;
-    }
 
     @Override
     public Image getImage() {
@@ -50,27 +26,24 @@ public class ConsumerSpecification implements NodeSpecification {
         }
     }
 
+    public void setExpectedResource(Resource expectedResource) {
+        this.expectedResource = expectedResource;
+    }
+
+  
+
     @Override
-    public void update(int delta) {
-
-        int rate = 0;
-        int type = 0;
-        if (inConn != null) {
-            for (Connection conn : inConn) {
-                rate += conn.getResourceRate();
-                type = conn.getResourceType();
-            }
+    public void setResource(Resource resource, Connection conn) {        
+        resourceMap.put(conn, resource);
+        Resource re = new Resource();
+        for(Resource r : resourceMap.values()){
+            re.add(r);
         }
-
-        happy = type == expectedType && rate >= expectedRate;
-
+        happy = expectedResource.equals(re);
     }
 
-    public void setExpectedType(int expectedType) {
-        this.expectedType = expectedType;
+    @Override
+    public Resource getResource() {
+        throw new UnsupportedOperationException("Consumers doesn't support outgoing connections.");
     }
-
-    public void setExpectedRate(int expectedRate) {
-        this.expectedRate = expectedRate;
-    }    
 }
