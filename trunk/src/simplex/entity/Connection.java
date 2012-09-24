@@ -21,9 +21,19 @@ public class Connection implements Entity {
     private Node endNode;
     private Node startNode;
     private Resource resource;
+    
+    public Connection() {}
 
+    public Node getStartNode() {
+        return startNode;
+    }
+    
     public void setStartNode(Node startNode) {
         this.startNode = startNode;
+    }
+
+    public Node getEndNode() {
+        return endNode;
     }
 
     public void setEndNode(Node endNode) {
