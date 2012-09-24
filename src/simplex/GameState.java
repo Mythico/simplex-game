@@ -4,9 +4,12 @@
  */
 package simplex;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -22,11 +25,12 @@ import simplex.entity.FactorySpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.Resource;
+import simplex.util.FileHandler;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 
 /**
- *
+ * 
  * @author Emil
  * @author Samuel
  */
@@ -35,10 +39,11 @@ public class GameState extends BasicGameState {
     private final int stateId;
     private int width = 16;
     private int height = 16;
+    private Map<GridCoord, Node> nodes = new HashMap<>();
     private List<Connection> connections = new LinkedList<>();
-    private HashMap<GridCoord, Node> nodes = new HashMap<>();
     private GameContainer gc;
     private int nextState = Main.GAMESTATE;
+    private File levelFile = new File("level.yml");
 
     public GameState(int stateId) {
         this.stateId = stateId;
@@ -49,52 +54,70 @@ public class GameState extends BasicGameState {
         return stateId;
     }
 
-    
+    @SuppressWarnings("unchecked")
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
 
         this.gc = gc;
 
-        GridConversions.setGameSize(width, height);
-        GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
-        GridCoord p1 = new GridCoord(1, 2);
-        GridCoord p2 = new GridCoord(5, 2);
-        GridCoord p3 = new GridCoord(1, 5);
-        GridCoord p4 = new GridCoord(5, 5);
-        NodeFactory nodeFactory = NodeFactory.instance();
-        Node n1 = nodeFactory.createFactoryNode();
-        n1.setPosition(GridConversions.gridToScreenCoord(p1));
-        ((FactorySpecification)n1.getNodeSpecification()).setResource(new Resource(Color.red, 4), null);
-        Node n2 = nodeFactory.createSplitterNode();
-        n2.setPosition(GridConversions.gridToScreenCoord(p2));
-        Node n3 = nodeFactory.createEaterNode();
-        n3.setPosition(GridConversions.gridToScreenCoord(p3));
-        ((EaterSpecification)n3.getNodeSpecification()).setFraction(2);
-        Node n4 = nodeFactory.createConsumerNode();
-        n4.setPosition(GridConversions.gridToScreenCoord(p4));
-        ((ConsumerSpecification)n4.getNodeSpecification()).setExpectedResource(new Resource(Color.red, 2));
-                
-        
-        Connection c1 = new Connection();
-        Connection c2 = new Connection();
-        Connection c3 = new Connection();
-        Connection c4 = new Connection();
+        Iterable<Object> levelIter = FileHandler.loadFromFile(levelFile);
+        if (levelIter != null) {
+            for (Object o : levelIter) {
+                if (o != null) {
+                    if (nodes.isEmpty()) {
+                        nodes = (Map<GridCoord, Node>) o;
+                    } else {
+                        connections = (List<Connection>) o;
+                    }
+                }
+            }
+        } else {
+            
+            GridConversions.setGameSize(width, height);
+            GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
+            GridCoord p1 = new GridCoord(1, 2);
+            GridCoord p2 = new GridCoord(5, 2);
+            GridCoord p3 = new GridCoord(1, 5);
+            GridCoord p4 = new GridCoord(5, 5);
+            
+            NodeFactory nodeFactory = NodeFactory.instance();
+            Node n1 = nodeFactory.createFactoryNode();
+            n1.setPosition(GridConversions.gridToScreenCoord(p1));
+            ((FactorySpecification) n1.getNodeSpecification()).setResource(
+                    new Resource(Color.red, 4), null);
+            Node n2 = nodeFactory.createSplitterNode();
+            n2.setPosition(GridConversions.gridToScreenCoord(p2));
+            Node n3 = nodeFactory.createEaterNode();
+            n3.setPosition(GridConversions.gridToScreenCoord(p3));
+            ((EaterSpecification) n3.getNodeSpecification()).setFraction(2);
+            Node n4 = nodeFactory.createConsumerNode();
+            n4.setPosition(GridConversions.gridToScreenCoord(p4));
+            ((ConsumerSpecification) n4.getNodeSpecification())
+                    .setExpectedResource(new Resource(Color.red, 2));
 
-        nodeFactory.bind(n1, n2, c1);
-        nodeFactory.bind(n2, n3, c2);
-        nodeFactory.bind(n3, n4, c3);
-        nodeFactory.bind(n2, n4, c4);
+            Connection c1 = new Connection();
+            Connection c2 = new Connection();
+            Connection c3 = new Connection();
+            Connection c4 = new Connection();
 
-        connections.add(c1);
-        connections.add(c2);
-        connections.add(c3);
-        connections.add(c4);
+            nodeFactory.bind(n1, n2, c1);
+            nodeFactory.bind(n2, n3, c2);
+            nodeFactory.bind(n3, n4, c3);
+            nodeFactory.bind(n2, n4, c4);
+
+            connections.add(c1);
+            connections.add(c2);
+            connections.add(c3);
+            connections.add(c4);
+
+            nodes.put(p1, n1);
+            nodes.put(p2, n2);
+            nodes.put(p3, n3);
+            nodes.put(p4, n4);
+        }
         
-        nodes.put(p1, n1);
-        nodes.put(p2, n2);
-        nodes.put(p3, n3);
-        nodes.put(p4, n4);
+        System.out.println("resources: ");
 
     }
 
@@ -113,7 +136,7 @@ public class GameState extends BasicGameState {
                 g.fillRect(j * gwidth, i * gheight, gwidth, gheight);
             }
         }
-        
+
         for (Node node : nodes.values()) {
             node.render(g);
         }
@@ -129,7 +152,7 @@ public class GameState extends BasicGameState {
         if (delta == 0) {
             return;
         }
-        
+
         for (Node node : nodes.values()) {
             node.update(delta);
         }

@@ -14,8 +14,11 @@ import simplex.util.GridConversions;
 public class Node implements Entity{
 
     private float x, y;;
+
     private NodeSpecification nodeSpecification;
     private boolean selected;
+    
+    public Node() {}
 
     public Node(Vector2f pos, NodeSpecification specification) {
         x = pos.x;
@@ -56,17 +59,35 @@ public class Node implements Entity{
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
-        
     }
 
     public void setPosition(Vector2f pos) {
         x = pos.x;
         y = pos.y;
     }
+    
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
 
     public void setSelected(boolean b) {
         selected = b;
     }
-
     
 }

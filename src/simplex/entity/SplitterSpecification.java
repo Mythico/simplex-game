@@ -1,7 +1,6 @@
 package simplex.entity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import org.newdawn.slick.Image;
 import simplex.util.ImageManager;
