@@ -54,6 +54,7 @@ public class Resource {
     public void add(Resource other) {
         rate += other.rate;
         getType().add(other.getType());
+        getType().scale(0.5f);
 
     }
 
