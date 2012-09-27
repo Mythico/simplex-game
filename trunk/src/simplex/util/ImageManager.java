@@ -29,6 +29,7 @@ public class ImageManager {
     public static Image sidebar;
     public static Image bottombar;
     public static Image bottombarMouseOver;
+    public static Image connection_swap_icon;
 
     public static void init() throws SlickException {
         dummy_node = new Image("img/dummy_node.png", Color.white);
@@ -37,6 +38,7 @@ public class ImageManager {
         happy_consumer_node = new Image("img/happy_consumer_node.png", Color.white);
         
         connection_icon = new Image("img/connection.png", Color.white);
+        connection_swap_icon = new Image("img/connection_swap.png", Color.white);
         
         white_resource = new Image("img/white_resource.png");
         red_resource = new Image("img/red_resource.png");

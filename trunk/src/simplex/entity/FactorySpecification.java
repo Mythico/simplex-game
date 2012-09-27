@@ -20,9 +20,6 @@ public class FactorySpecification implements NodeSpecification {
 
     @Override
     public void setResource(Resource resource, Connection conn) {
-        if (conn != null) {
-            throw new UnsupportedOperationException("Factories dosn't support incomming connection.");
-        }
         this.resource = resource;
     }
 
