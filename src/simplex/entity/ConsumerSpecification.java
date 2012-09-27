@@ -39,7 +39,8 @@ public class ConsumerSpecification implements NodeSpecification {
         for(Resource r : resourceMap.values()){
             re.add(r);
         }
-        happy = expectedResource.equals(re);
+        happy = (expectedResource.getType().equals(re.getType()) 
+                && expectedResource.getRate() <= re.getRate());
     }
 
     @Override
