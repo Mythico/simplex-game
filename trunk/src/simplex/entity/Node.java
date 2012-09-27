@@ -20,12 +20,6 @@ public class Node implements Entity{
     
     public Node() {}
 
-    public Node(Vector2f pos, NodeSpecification specification) {
-        x = pos.x;
-        y = pos.y;
-        nodeSpecification = specification;
-    }
-
     Node(NodeSpecification spec) {
         nodeSpecification = spec;        
     }
@@ -50,7 +44,7 @@ public class Node implements Entity{
 
     public void setNodeSpecification(NodeSpecification nodeSpecification) {
         this.nodeSpecification = nodeSpecification;
-    }    
+    }     
 
     public Vector2f getPosition() {
         return new Vector2f(x,y);
