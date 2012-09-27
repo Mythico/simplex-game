@@ -11,9 +11,7 @@ public class Main extends StateBasedGame {
     public static final int MAINMENUSTATE = 0;
     public static final int GAMESTATE = 1;
     public static final int EDITSTATE = 2;
-    public static final int HELPSTATE = 3;
-    public static final int LOADINGSTATE = 4;
-    public static final int HIGHSCORESTATE = 5;
+    public static final int NEXT_GAME = 3;
 
     public Main() {
         super("Simplex");
@@ -25,6 +23,7 @@ public class Main extends StateBasedGame {
         addState(new MainMenuState(MAINMENUSTATE));
         addState(new GameState(GAMESTATE));
         addState(new EditorState(EDITSTATE));
+        addState(new NextGameState(NEXT_GAME));
     }
 
     public static void main(String[] args) throws SlickException {
