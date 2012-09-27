@@ -13,7 +13,7 @@ import simplex.util.ImageManager;
 public class ConsumerSpecification implements NodeSpecification {
 
     private HashMap<Connection, Resource> resourceMap = new HashMap<>();
-    private Resource expectedResource;
+    private Resource expectedResource = new Resource();
     private boolean happy = false;
 
 
