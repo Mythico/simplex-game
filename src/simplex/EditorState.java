@@ -31,7 +31,7 @@ import simplex.entity.NodeFactory;
 import simplex.entity.NodeSpecification;
 import simplex.entity.Resource;
 import simplex.entity.SplitterSpecification;
-import simplex.util.FileHandler;
+import simplex.util.LevelFileHandler;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 
@@ -62,8 +62,7 @@ public class EditorState extends BasicGameState {
     public int getID() {
         return stateId;
     }
-
-    @SuppressWarnings("unchecked")
+    
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
@@ -81,18 +80,10 @@ public class EditorState extends BasicGameState {
 
         nodeFactory = NodeFactory.instance();
 
-        Iterable<Object> levelIter = FileHandler.loadFromFile(levelFile);
-        if (levelIter != null) {
-            for (Object o : levelIter) {
-                if (o != null) {
-                    if (nodes.isEmpty()) {
-                        nodes = (Map<GridCoord, Node>) o;
-                    } else {
-                        connections = (List<Connection>) o;
-                    }
-                }
-            }
-        }
+        
+        nodes = LevelFileHandler.loadNodesFromFile("nodes.yml");
+        connections = LevelFileHandler.loadConnectionsFromFile("connections.yml");
+        
     }
 
     @Override
@@ -161,10 +152,8 @@ public class EditorState extends BasicGameState {
             } else if (selectedNode != null) {
                 unselect();
             } else {
-                List<Object> level = new LinkedList<Object>();
-                level.add(nodes);
-                level.add(connections);
-                FileHandler.saveToFile(level.iterator(), levelFile);
+                LevelFileHandler.saveNodesToFile(nodes, "nodes.yml", false);
+                LevelFileHandler.saveConnectionsToFile(connections, "connections.yml", false);
                 sbg.enterState(Main.MAINMENUSTATE);
             }
         }

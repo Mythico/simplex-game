@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.gui.MouseOverArea;
 import simplex.util.ImageManager;
 
 /**
@@ -21,6 +22,7 @@ public class Connection implements Entity {
     private Node endNode;
     private Node startNode;
     private Resource resource;
+    
     
     public Connection() {}
 
@@ -51,6 +53,7 @@ public class Connection implements Entity {
         for (ResourceBall resourceBall : movingResources) {
             resourceBall.render(g);
         }
+        
     }
 
     @Override
@@ -121,6 +124,12 @@ public class Connection implements Entity {
         float nextBallThreshold = startPos.distance(endPos) / resource.getRate();
 
         return !hasReachedBallLimit && previousBallDist > nextBallThreshold;
+    }
+    
+    public void swapDirection(){
+        Node temp = startNode;
+        startNode = endNode;
+        endNode = temp;                
     }
 }
 

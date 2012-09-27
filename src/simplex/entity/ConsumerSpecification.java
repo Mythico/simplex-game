@@ -44,6 +44,6 @@ public class ConsumerSpecification implements NodeSpecification {
 
     @Override
     public Resource getResource() {
-        throw new UnsupportedOperationException("Consumers doesn't support outgoing connections.");
+        return null;
     }
 }
