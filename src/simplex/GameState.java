@@ -89,7 +89,7 @@ public class GameState extends BasicGameState {
             Node n4 = nodeFactory.createConsumerNode();
             n4.setPosition(GridConversions.gridToScreenCoord(p4));
             ((ConsumerSpecification) n4.getNodeSpecification())
-                    .setExpectedResource(new Resource(Color.red, 2));
+                    .setExpectedResource(new Resource(Color.red, 1));
 
             Connection c1 = new Connection();
             Connection c2 = new Connection();
@@ -100,7 +100,7 @@ public class GameState extends BasicGameState {
             nodeFactory.bind(n1, n2, c1);
             nodeFactory.bind(n2, n3, c2);
             nodeFactory.bind(n3, n4, c3);
-            nodeFactory.bind(n2, n4, c4);            
+            nodeFactory.bind(n2, n4, c4);
 
             connections.add(c1);
             connections.add(c2);
@@ -118,6 +118,7 @@ public class GameState extends BasicGameState {
             tempConnSwap.add(new MouseOverArea(gc, 
                     ImageManager.connection_swap_icon, 
                     (int)middle.x, (int)middle.y));
+            conn.swapDirection();
         }
 
 
@@ -139,11 +140,13 @@ public class GameState extends BasicGameState {
             }
         }
 
-        for (Node node : nodes.values()) {
-            node.render(g);
-        }
+        
         for (Connection connection : connections) {
             connection.render(g);
+        }
+        
+        for (Node node : nodes.values()) {
+            node.render(g);
         }
         
         for(MouseOverArea moa : tempConnSwap){
