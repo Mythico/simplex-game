@@ -26,6 +26,7 @@ import simplex.entity.EaterSpecification;
 import simplex.entity.FactorySpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
+import simplex.entity.NodeSpecification;
 import simplex.entity.Resource;
 import simplex.util.LevelFileHandler;
 import simplex.util.GridConversions;
@@ -47,7 +48,6 @@ public class GameState extends BasicGameState {
     private List<MouseOverArea> tempConnSwap = new LinkedList<>();
     private GameContainer gc;
     private int nextState = Main.GAMESTATE;
-    private File levelFile = new File("level.yml");
 
     public GameState(int stateId) {
         this.stateId = stateId;
@@ -61,9 +61,11 @@ public class GameState extends BasicGameState {
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-
         this.gc = gc;
+    }
 
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         nodes = LevelFileHandler.loadNodesFromFile("nodes.yml");
         connections = LevelFileHandler.loadConnectionsFromFile("connections.yml");
         
@@ -94,8 +96,8 @@ public class GameState extends BasicGameState {
             Connection c1 = new Connection();
             Connection c2 = new Connection();
             Connection c3 = new Connection();
-            Connection c4 = new Connection();            
-            
+            Connection c4 = new Connection();
+
 
             nodeFactory.bind(n1, n2, c1);
             nodeFactory.bind(n2, n3, c2);
@@ -112,17 +114,18 @@ public class GameState extends BasicGameState {
             nodes.put(p3, n3);
             nodes.put(p4, n4);
         }
-        
-        for(Connection conn : connections){
+
+        tempConnSwap.clear();
+        for (Connection conn : connections) {
             Vector2f middle = conn.getStartNode().getPosition();
-            tempConnSwap.add(new MouseOverArea(gc, 
-                    ImageManager.connection_swap_icon, 
-                    (int)middle.x, (int)middle.y));
+            tempConnSwap.add(new MouseOverArea(gc,
+                    ImageManager.connection_swap_icon,
+                    (int) middle.x, (int) middle.y));
             conn.swapDirection();
         }
-
-
     }
+    
+    
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -140,16 +143,16 @@ public class GameState extends BasicGameState {
             }
         }
 
-        
+
         for (Connection connection : connections) {
             connection.render(g);
         }
-        
+
         for (Node node : nodes.values()) {
             node.render(g);
         }
-        
-        for(MouseOverArea moa : tempConnSwap){
+
+        for (MouseOverArea moa : tempConnSwap) {
             moa.render(gc, g);
         }
     }
@@ -157,6 +160,10 @@ public class GameState extends BasicGameState {
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
+
+        if (levelIsDone()) {
+            nextState = Main.NEXT_GAME;
+        }
 
         if (delta == 0) {
             return;
@@ -178,16 +185,16 @@ public class GameState extends BasicGameState {
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
             sbg.enterState(Main.MAINMENUSTATE);
         }
-        
-        
-        if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-            for(int i = 0; i < tempConnSwap.size(); i++){
-                if(tempConnSwap.get(i).isMouseOver()){
+
+
+        if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            for (int i = 0; i < tempConnSwap.size(); i++) {
+                if (tempConnSwap.get(i).isMouseOver()) {
                     connections.get(i).swapDirection();
                 }
             }
         }
-        
+
     }
 
     @Override
@@ -195,5 +202,16 @@ public class GameState extends BasicGameState {
         if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
             gc.setPaused(!gc.isPaused());
         }
+    }
+
+    private boolean levelIsDone() {
+        //TODO: do a better check.
+        for (Node node : nodes.values()) {
+            NodeSpecification spec = node.getNodeSpecification();
+            if (spec instanceof ConsumerSpecification && !((ConsumerSpecification) spec).isHappy()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

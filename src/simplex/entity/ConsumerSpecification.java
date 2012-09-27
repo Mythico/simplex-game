@@ -47,4 +47,8 @@ public class ConsumerSpecification implements NodeSpecification {
     public Resource getResource() {
         return null;
     }
+
+    public boolean isHappy() {
+        return happy;
+    }
 }
