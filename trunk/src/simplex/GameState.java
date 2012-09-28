@@ -4,11 +4,11 @@
  */
 package simplex;
 
-import java.io.File;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -22,14 +22,10 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import simplex.entity.Connection;
 import simplex.entity.ConsumerSpecification;
-import simplex.entity.EaterSpecification;
-import simplex.entity.FactorySpecification;
 import simplex.entity.Node;
-import simplex.entity.NodeFactory;
 import simplex.entity.NodeSpecification;
-import simplex.entity.Resource;
-import simplex.util.LevelFileHandler;
-import simplex.util.GridConversions;
+import simplex.level.Level;
+import simplex.level.LevelFileHandler;
 import simplex.util.GridCoord;
 import simplex.util.ImageManager;
 
@@ -43,8 +39,7 @@ public class GameState extends BasicGameState {
     private final int stateId;
     private int width = 16;
     private int height = 16;
-    private Map<GridCoord, Node> nodes = new HashMap<>();
-    private List<Connection> connections = new LinkedList<>();
+    private Level level = new Level();
     private List<MouseOverArea> tempConnSwap = new LinkedList<>();
     private GameContainer gc;
     private int nextState = Main.GAMESTATE;
@@ -66,55 +61,14 @@ public class GameState extends BasicGameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        nodes = LevelFileHandler.loadNodesFromFile("nodes.yml");
-        connections = LevelFileHandler.loadConnectionsFromFile("connections.yml");
-        
-        if (nodes.isEmpty()) {
-
-            GridConversions.setGameSize(width, height);
-            GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
-            GridCoord p1 = new GridCoord(1, 2);
-            GridCoord p2 = new GridCoord(5, 2);
-            GridCoord p3 = new GridCoord(1, 5);
-            GridCoord p4 = new GridCoord(5, 5);
-
-            NodeFactory nodeFactory = NodeFactory.instance();
-            Node n1 = nodeFactory.createFactoryNode();
-            n1.setPosition(GridConversions.gridToScreenCoord(p1));
-            ((FactorySpecification) n1.getNodeSpecification()).setResource(
-                    new Resource(Color.red, 4), null);
-            Node n2 = nodeFactory.createSplitterNode();
-            n2.setPosition(GridConversions.gridToScreenCoord(p2));
-            Node n3 = nodeFactory.createEaterNode();
-            n3.setPosition(GridConversions.gridToScreenCoord(p3));
-            ((EaterSpecification) n3.getNodeSpecification()).setFraction(2);
-            Node n4 = nodeFactory.createConsumerNode();
-            n4.setPosition(GridConversions.gridToScreenCoord(p4));
-            ((ConsumerSpecification) n4.getNodeSpecification())
-                    .setExpectedResource(new Resource(Color.red, 1));
-
-            Connection c1 = new Connection();
-            Connection c2 = new Connection();
-            Connection c3 = new Connection();
-            Connection c4 = new Connection();
-
-
-            nodeFactory.bind(n1, n2, c1);
-            nodeFactory.bind(n2, n3, c2);
-            nodeFactory.bind(n3, n4, c3);
-            nodeFactory.bind(n2, n4, c4);
-
-            connections.add(c1);
-            connections.add(c2);
-            connections.add(c3);
-            connections.add(c4);
-
-            nodes.put(p1, n1);
-            nodes.put(p2, n2);
-            nodes.put(p3, n3);
-            nodes.put(p4, n4);
+        try {
+            LevelFileHandler lfh = new LevelFileHandler("level.yml");
+            level = lfh.loadLevel();
+        } catch (IOException ex) {
+            Logger.getLogger(GameState.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
+        List<Connection> connections = level.getConnections();
         tempConnSwap.clear();
         for (Connection conn : connections) {
             Vector2f middle = conn.getStartNode().getPosition();
@@ -124,8 +78,6 @@ public class GameState extends BasicGameState {
             conn.swapDirection();
         }
     }
-    
-    
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -144,13 +96,7 @@ public class GameState extends BasicGameState {
         }
 
 
-        for (Connection connection : connections) {
-            connection.render(g);
-        }
-
-        for (Node node : nodes.values()) {
-            node.render(g);
-        }
+        level.render(g);
 
         for (MouseOverArea moa : tempConnSwap) {
             moa.render(gc, g);
@@ -169,12 +115,7 @@ public class GameState extends BasicGameState {
             return;
         }
 
-        for (Node node : nodes.values()) {
-            node.update(delta);
-        }
-        for (Connection connection : connections) {
-            connection.update(delta);
-        }
+        level.update(delta);
 
         if (nextState != Main.GAMESTATE) {
             int state = nextState;
@@ -187,6 +128,7 @@ public class GameState extends BasicGameState {
         }
 
 
+        List<Connection> connections = level.getConnections();
         if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             for (int i = 0; i < tempConnSwap.size(); i++) {
                 if (tempConnSwap.get(i).isMouseOver()) {
@@ -204,7 +146,8 @@ public class GameState extends BasicGameState {
         }
     }
 
-    private boolean levelIsDone() {
+    private boolean levelIsDone() {        
+        Map<GridCoord, Node> nodes = level.getNodes();
         //TODO: do a better check.
         for (Node node : nodes.values()) {
             NodeSpecification spec = node.getNodeSpecification();

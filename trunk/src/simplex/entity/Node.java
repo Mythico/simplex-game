@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import simplex.util.GridConversions;
+import simplex.util.GridCoord;
 
 /**
  * 
@@ -48,16 +49,12 @@ public class Node implements Entity{
 
     public Vector2f getPosition() {
         return new Vector2f(x,y);
-    }
-
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void setPosition(Vector2f pos) {
-        x = pos.x;
-        y = pos.y;
+    }    
+   
+    public void setGridPosition(GridCoord coord){
+        Vector2f pos = GridConversions.gridToScreenCoord(coord);
+        this.x = pos.x;
+        this.y = pos.y;
     }
     
     public float getX() {

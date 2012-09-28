@@ -7,7 +7,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.gui.MouseOverArea;
 import simplex.util.ImageManager;
 
 /**
@@ -87,7 +86,7 @@ public class Connection implements Entity {
             ResourceBall resourceBall = it.next();
             resourceBall.position.add(dir);
 
-            resourceBall.setResource(resource.getType());
+            resourceBall.setResource(resource.getColorType());
 
             // Reset the moving resource when it has moved from start to end
             if (hasReachedEnd(resourceBall)) {

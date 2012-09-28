@@ -11,35 +11,25 @@ import org.newdawn.slick.Color;
 public class Resource {
 
     public static Resource parse(int data1, int data2) {
-        int rate = data2;
-        switch (data1) {
-            case 1:
-                return new Resource(Color.red, rate);
-            case 2:
-                return new Resource(Color.green, rate);
-            case 3:
-                return new Resource(Color.blue, rate);
-        }
-        return new Resource(Color.white, rate);
-
+        return new Resource(data1, data2);
     }
-    private Color type;
+    private int type;
     private int rate;
 
     public Resource() {
-        this(Color.black, 0);
+        this(0, 0);
     }
 
-    public Resource(Color type, int rate) {
+    public Resource(int type, int rate) {
         this.type = type;
         this.rate = rate;
     }
 
-    public Color getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Color type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -53,9 +43,19 @@ public class Resource {
 
     public void add(Resource other) {
         rate += other.rate;
-        getType().add(other.getType());
-        getType().scale(0.5f);
+        //TODO: Add type addition.
 
     }
 
+    public Color getColorType() {        
+        switch (type) {
+            case 1:
+                return Color.red;
+            case 2:
+                return Color.green;
+            case 3:
+                return Color.blue;
+        }
+        return Color.white;
+    }
 }
