@@ -28,7 +28,11 @@ public class EaterSpecification implements NodeSpecification {
 
     public void setFraction(int fraction) {
         this.fraction = fraction;
-    }        
+    }      
+
+    public int getFraction() {
+        return fraction;
+    }   
 
     @Override
     public void setResource(Resource resource, Connection conn) {
