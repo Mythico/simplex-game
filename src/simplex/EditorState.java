@@ -1,18 +1,15 @@
 package simplex;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.LinkedList;
+import java.io.IOException;
 import java.util.List;
-
+import java.util.Map;
+import java.util.logging.Logger;
 import mdes.oxy.Component;
 import mdes.oxy.Desktop;
 import mdes.oxy.Label;
 import mdes.oxy.OxyDoc;
 import mdes.oxy.OxyException;
 import mdes.oxy.Spinner;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -20,23 +17,22 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
 import simplex.entity.Connection;
 import simplex.entity.ConsumerSpecification;
 import simplex.entity.EaterSpecification;
-import simplex.entity.Entity;
 import simplex.entity.FactorySpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.NodeSpecification;
 import simplex.entity.Resource;
 import simplex.entity.SplitterSpecification;
-import simplex.util.LevelFileHandler;
+import simplex.level.Level;
+import simplex.level.LevelFileHandler;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 
 /**
- * 
+ *
  * @author Emil
  * @author Samuel
  */
@@ -49,10 +45,8 @@ public class EditorState extends BasicGameState {
     private Node pickedNode;
     private Node selectedNode;
     private Connection connection;
-    private Map<GridCoord, Node> nodes = new HashMap<>();
-    private List<Connection> connections = new LinkedList<>();
+    private Level level = new Level();
     private Desktop desktop;
-    private File levelFile = new File("level.yml");
 
     public EditorState(int stateId) {
         this.stateId = stateId;
@@ -62,7 +56,7 @@ public class EditorState extends BasicGameState {
     public int getID() {
         return stateId;
     }
-    
+
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
@@ -80,10 +74,14 @@ public class EditorState extends BasicGameState {
 
         nodeFactory = NodeFactory.instance();
 
-        
-        nodes = LevelFileHandler.loadNodesFromFile("nodes.yml");
-        connections = LevelFileHandler.loadConnectionsFromFile("connections.yml");
-        
+        LevelFileHandler lfh;
+        try {
+            lfh = new LevelFileHandler("level.yml");
+            level = lfh.loadLevel();
+        } catch (IOException ex) {
+            Logger.getLogger(EditorState.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
     }
 
     @Override
@@ -102,21 +100,12 @@ public class EditorState extends BasicGameState {
             }
         }
 
-        if (nodes != null) {
-            for (Node node : nodes.values()) {
-                node.render(g);
-            }
-        }
-        if (connections != null) {
-            for (Entity conn : connections) {
-                conn.render(g);
-            }
-        }
+        level.render(g);
 
         GridCoord coord = GridConversions.mouseToGridCoord(gc.getInput()
                 .getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY());
         if (pickedNode != null) {
-            pickedNode.setPosition(GridConversions.gridToScreenCoord(coord));
+            pickedNode.setGridPosition(coord);
             pickedNode.render(g);
         } else if (connection != null && selectedNode != null) {
             // Node node = nodes.get(coord);
@@ -133,16 +122,7 @@ public class EditorState extends BasicGameState {
 
         desktop.update(delta);
 
-        if (nodes != null) {
-            for (Node node : nodes.values()) {
-                node.update(delta);
-            }
-        }
-        if (connections != null) {
-            for (Entity conn : connections) {
-                conn.update(delta);
-            }
-        }
+        level.update(delta);
 
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
             if (pickedNode != null) {
@@ -152,8 +132,12 @@ public class EditorState extends BasicGameState {
             } else if (selectedNode != null) {
                 unselect();
             } else {
-                LevelFileHandler.saveNodesToFile(nodes, "nodes.yml", false);
-                LevelFileHandler.saveConnectionsToFile(connections, "connections.yml", false);
+                try {
+                    LevelFileHandler lfh = new LevelFileHandler("level.yml");
+                    lfh.saveLevel(level);
+                } catch (IOException ex) {
+                    Logger.getLogger(EditorState.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
                 sbg.enterState(Main.MAINMENUSTATE);
             }
         }
@@ -163,7 +147,8 @@ public class EditorState extends BasicGameState {
     public void mouseReleased(int button, int x, int y) {
 
         GridCoord coords = GridConversions.mouseToGridCoord(x, y);
-
+        Map<GridCoord, Node> nodes = level.getNodes();
+        List<Connection> connections = level.getConnections();
         if (Input.MOUSE_LEFT_BUTTON == button) {
             if (pickedNode != null) {
                 nodes.put(coords, pickedNode);

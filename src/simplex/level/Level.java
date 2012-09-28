@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.newdawn.slick.Graphics;
 import simplex.entity.Connection;
+import simplex.entity.Entity;
 import simplex.entity.Node;
 import simplex.util.GridCoord;
 
@@ -32,6 +34,33 @@ public class Level {
 
     public void setConnections(List<Connection> connections) {
         this.connections = connections;
+    }
+
+    public void render(Graphics g) {        
+        if (nodes != null) {
+            for (Node node : nodes.values()) {
+                node.render(g);
+            }
+        }
+        
+        if (connections != null) {
+            for (Entity conn : connections) {
+                conn.render(g);
+            }
+        }
+    }
+
+    public void update(int delta) {
+        if (nodes != null) {
+            for (Node node : nodes.values()) {
+                node.update(delta);
+            }
+        }
+        if (connections != null) {
+            for (Entity conn : connections) {
+                conn.update(delta);
+            }
+        }
     }
 
     
