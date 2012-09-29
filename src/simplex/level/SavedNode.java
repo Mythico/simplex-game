@@ -1,6 +1,7 @@
 package simplex.level;
 
 import simplex.entity.Node;
+import simplex.util.GridCoord;
 
 /**
  *
@@ -10,16 +11,14 @@ import simplex.entity.Node;
 public abstract class SavedNode {
 
     private int id;
-    private int x;
-    private int y;
+    private GridCoord coord;
 
     public SavedNode() {
     }
 
-    SavedNode(int x, int y, int id) {
+    SavedNode(GridCoord coord, int id) {
         this.id = id;
-        this.x = x;
-        this.y = y;
+        this.coord = coord;
     }
     
     public int getId() {
@@ -30,21 +29,15 @@ public abstract class SavedNode {
         this.id = id;
     }
 
-    public int getX() {
-        return x;
+    public GridCoord getCoord() {
+        return coord;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setCoord(GridCoord coord) {
+        this.coord = coord;
     }
 
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
+    
 
     public abstract Node create();
     

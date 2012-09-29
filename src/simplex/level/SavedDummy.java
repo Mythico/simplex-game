@@ -18,14 +18,14 @@ public class SavedDummy extends SavedNode {
     private SavedDummy() {
     }
 
-    public SavedDummy(int x, int y, int id) {
-        super(x, y, id);
+    public SavedDummy(GridCoord coord, int id) {
+        super(coord, id);
     }
 
     @Override
     public Node create() {
         Node node = NodeFactory.instance().createDummyNode();
-        node.setGridPosition(new GridCoord(getX(), getY()));
+        node.setGridPosition(getCoord());
         return node;
     }
 }
