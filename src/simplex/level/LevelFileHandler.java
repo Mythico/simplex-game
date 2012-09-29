@@ -52,35 +52,30 @@ public class LevelFileHandler {
 
     public Level loadLevel() {
         Level level = new Level();
-        List<SavedNode> savedNodes = new LinkedList<>();
-        List<SavedConnection> savedConnections = new LinkedList<>();
+        List<SavedEntity> savedObjects = new LinkedList<>();
         try {
             FileReader fr = new FileReader(file);
             Yaml yaml = new Yaml();
             for (Object o : yaml.loadAll(fr)) {
-                if (o instanceof SavedConnection) {
-                    savedConnections.add((SavedConnection) o);
-                } else if (o instanceof SavedNode) {
-                    savedNodes.add((SavedNode) o);
-                }
+                savedObjects.add((SavedEntity) o);
             }
             fr.close();
         } catch (IOException ex) {
             Logger.getLogger(LevelFileHandler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-
-
         Map<GridCoord, Node> nodes = new HashMap<>();
         List<Connection> connections = new LinkedList<>();
-        for (SavedNode saved : savedNodes) {
-            Node node = saved.create();
-            SavedNodeFactory.instance().addNode(saved.getId(), node);
-            nodes.put(saved.getCoord(), node);
-        }
-
-        for (SavedConnection saved : savedConnections) {
-            connections.add(saved.create());
+        for (SavedEntity saved : savedObjects) {
+            if (saved instanceof SavedNode) {
+                SavedNode snode = (SavedNode)saved;
+                Node node = snode.create();
+                SavedNodeFactory.instance().addNode(saved.getId(), node);
+                nodes.put(snode.getCoord(), node);
+            } else if (saved instanceof SavedConnection) {
+                SavedConnection sconn = (SavedConnection)saved;
+                connections.add(sconn.create());
+            }
         }
 
         level.setNodes(nodes);

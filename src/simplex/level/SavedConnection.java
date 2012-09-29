@@ -9,9 +9,7 @@ import simplex.entity.NodeFactory;
  * @author Emil
  * @author Samuel
  */
-public class SavedConnection {
-
-    private int id;
+public class SavedConnection extends SavedEntity {
     private int startNodeId;
     private int endNodeId;
 
@@ -19,17 +17,9 @@ public class SavedConnection {
     }
 
     SavedConnection(int startNodeId, int endNodeId, int id) {
-        this.id = id;
+        super(id);
         this.startNodeId = startNodeId;
         this.endNodeId = endNodeId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getStartNodeId() {
@@ -48,8 +38,7 @@ public class SavedConnection {
         this.endNodeId = endNodeId;
     }
     
-    
-
+    @Override
     public Connection create(){
         Connection conn = new Connection();
         Node n1 = SavedNodeFactory.instance().getNode(startNodeId);
