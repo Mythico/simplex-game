@@ -30,4 +30,14 @@ public class SavedConsumer extends SavedNode {
         spec.setExpectedResource(resource);
         return node;
     }    
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+    
+    
 }
