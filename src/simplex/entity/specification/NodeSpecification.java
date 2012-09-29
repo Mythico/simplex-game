@@ -1,4 +1,6 @@
-package simplex.entity;
+package simplex.entity.specification;
+
+import simplex.entity.Resource;
 
 /**
  * An interface for node specification. The specification will describe

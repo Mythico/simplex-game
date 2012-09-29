@@ -1,6 +1,7 @@
-package simplex.entity;
+package simplex.entity.specification;
 
 import java.util.HashMap;
+import simplex.entity.Resource;
 
 /**
  * The dummy specification is a simple node specification that allows a single

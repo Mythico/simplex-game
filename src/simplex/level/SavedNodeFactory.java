@@ -2,13 +2,13 @@ package simplex.level;
 
 import java.util.HashMap;
 import java.util.Map;
-import simplex.entity.ConsumerSpecification;
-import simplex.entity.EaterSpecification;
-import simplex.entity.FactorySpecification;
+import simplex.entity.specification.ConsumerSpecification;
+import simplex.entity.specification.EaterSpecification;
+import simplex.entity.specification.FactorySpecification;
 import simplex.entity.Node;
-import simplex.entity.NodeSpecification;
+import simplex.entity.specification.NodeSpecification;
 import simplex.entity.Resource;
-import simplex.entity.SplitterSpecification;
+import simplex.entity.specification.SplitterSpecification;
 import simplex.util.GridCoord;
 
 /** 

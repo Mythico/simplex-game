@@ -1,5 +1,6 @@
 package simplex.entity;
 
+import simplex.entity.specification.NodeSpecification;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;

@@ -1,6 +1,6 @@
 package simplex.level;
 
-import simplex.entity.ConsumerSpecification;
+import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.Resource;
