@@ -12,12 +12,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import simplex.entity.ConsumerSpecification;
-import simplex.entity.EaterSpecification;
-import simplex.entity.FactorySpecification;
-import simplex.entity.NodeSpecification;
+import simplex.entity.specification.ConsumerSpecification;
+import simplex.entity.specification.EaterSpecification;
+import simplex.entity.specification.FactorySpecification;
+import simplex.entity.specification.NodeSpecification;
 import simplex.entity.Resource;
-import simplex.entity.SplitterSpecification;
+import simplex.entity.specification.SplitterSpecification;
 
 /**
  *

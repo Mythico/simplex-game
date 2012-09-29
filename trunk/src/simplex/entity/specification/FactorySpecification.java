@@ -1,4 +1,6 @@
-package simplex.entity;
+package simplex.entity.specification;
+
+import simplex.entity.Resource;
 
 /**
  * The Factory Specification describes the inner workings of a factory.

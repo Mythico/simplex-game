@@ -4,6 +4,12 @@
  */
 package simplex.entity;
 
+import simplex.entity.specification.DummySpecification;
+import simplex.entity.specification.ConsumerSpecification;
+import simplex.entity.specification.SplitterSpecification;
+import simplex.entity.specification.EaterSpecification;
+import simplex.entity.specification.FactorySpecification;
+
 /**
  *
  * @author Emil

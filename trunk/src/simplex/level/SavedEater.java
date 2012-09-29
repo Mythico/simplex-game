@@ -1,6 +1,6 @@
 package simplex.level;
 
-import simplex.entity.EaterSpecification;
+import simplex.entity.specification.EaterSpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.util.GridCoord;

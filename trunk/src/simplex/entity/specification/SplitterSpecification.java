@@ -1,6 +1,7 @@
-package simplex.entity;
+package simplex.entity.specification;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import simplex.entity.Resource;
 
 /**
  * The eater specification is a simple node specification that allows a single
@@ -10,27 +11,26 @@ import java.util.HashMap;
  * @author Emil
  * @author Samuel
  */
-public class EaterSpecification implements NodeSpecification {
+public class SplitterSpecification implements NodeSpecification {
 
     private Resource resource = Resource.NIL;
-    private int fraction = 1;
-
-    public void setFraction(int fraction) {
-        this.fraction = fraction;
-    }
-
-    public int getFraction() {
-        return fraction;
-    }
+    private int iterator = 0;
 
     @Override
     public void setResource(Resource other) {
         resource = Resource.combine(resource, other);
-        resource.setRate(resource.getRate()/fraction);
     }
 
     @Override
     public Resource getResource() {
-        return resource;
+        ArrayList<Resource> values = Resource.split(resource);
+        if (values.isEmpty()) {
+            return null;
+        }
+        iterator++;
+        if (iterator >= values.size()) {
+            iterator = 0;
+        }
+        return values.get(iterator);
     }
 }

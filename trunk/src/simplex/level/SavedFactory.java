@@ -1,6 +1,6 @@
 package simplex.level;
 
-import simplex.entity.FactorySpecification;
+import simplex.entity.specification.FactorySpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.Resource;
