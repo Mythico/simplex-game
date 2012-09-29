@@ -1,7 +1,6 @@
 package simplex.entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * The eater specification is a simple node specification that allows a single

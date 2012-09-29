@@ -16,8 +16,8 @@ public class SavedEater extends SavedNode {
     private SavedEater() {
     }
 
-    SavedEater(int fraction, int x, int y, int id) {
-        super(x, y, id);
+    SavedEater(int fraction, GridCoord coord, int id) {
+        super(coord, id);
         this.fraction = fraction;
     }
 
@@ -32,7 +32,7 @@ public class SavedEater extends SavedNode {
     @Override
     public Node create() {
         Node node = NodeFactory.instance().createEaterNode();
-        node.setGridPosition(new GridCoord(getX(), getY()));
+        node.setGridPosition(getCoord());
         EaterSpecification spec = (EaterSpecification) node.getNodeSpecification();
         spec.setFraction(fraction);
         return node;

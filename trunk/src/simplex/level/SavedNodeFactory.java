@@ -39,17 +39,17 @@ final class SavedNodeFactory {
         final NodeSpecification spec = node.getNodeSpecification();
         if (spec instanceof FactorySpecification) {
             final Resource res = spec.getResource();
-            return new SavedFactory(res, coord.getX(), coord.getY(), id);
+            return new SavedFactory(res, coord, id);
         } else if (spec instanceof ConsumerSpecification) {
             final Resource res = spec.getResource();
-            return new SavedConsumer(res, coord.getX(), coord.getY(), id);
+            return new SavedConsumer(res, coord, id);
         } else if (spec instanceof EaterSpecification) {
             final int fraction = ((EaterSpecification) spec).getFraction();
-            return new SavedEater(fraction, coord.getX(), coord.getY(), id);
+            return new SavedEater(fraction, coord, id);
         } else if (spec instanceof SplitterSpecification) {
-            return new SavedSplitter(coord.getX(), coord.getY(), id);
+            return new SavedSplitter(coord, id);
         } else {
-            return new SavedDummy(coord.getX(), coord.getY(), id);
+            return new SavedDummy(coord, id);
         }
     }
     

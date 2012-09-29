@@ -17,8 +17,8 @@ public class SavedFactory extends SavedNode {
     public SavedFactory() {
     }
 
-    SavedFactory(Resource resource, int x, int y, int id) {
-        super(x, y, id);
+    SavedFactory(Resource resource, GridCoord coord, int id) {
+        super(coord, id);
         this.resource = resource;
     }
 
@@ -33,7 +33,7 @@ public class SavedFactory extends SavedNode {
     @Override
     public Node create() {
         Node node = NodeFactory.instance().createFactoryNode();
-        node.setGridPosition(new GridCoord(getX(), getY()));
+        node.setGridPosition(getCoord());
         FactorySpecification spec = (FactorySpecification) node.getNodeSpecification();
         spec.setResource(resource);
         return node;

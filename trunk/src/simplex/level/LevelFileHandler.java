@@ -76,7 +76,7 @@ public class LevelFileHandler {
         for (SavedNode saved : savedNodes) {
             Node node = saved.create();
             SavedNodeFactory.instance().addNode(saved.getId(), node);
-            nodes.put(new GridCoord(saved.getX(), saved.getY()), node);
+            nodes.put(saved.getCoord(), node);
         }
 
         for (SavedConnection saved : savedConnections) {

@@ -17,15 +17,15 @@ public class SavedConsumer extends SavedNode {
     private SavedConsumer() {
     }
 
-    SavedConsumer(Resource resource, int x, int y, int id) {
-        super(x, y, id);
+    SavedConsumer(Resource resource, GridCoord coord, int id) {
+        super(coord, id);
         this.resource = resource;
     }
 
     @Override
     public Node create() {
         Node node = NodeFactory.instance().createConsumerNode();
-        node.setGridPosition(new GridCoord(getX(), getY()));
+        node.setGridPosition(getCoord());
         ConsumerSpecification spec = (ConsumerSpecification) node.getNodeSpecification();
         spec.setExpectedResource(resource);
         return node;

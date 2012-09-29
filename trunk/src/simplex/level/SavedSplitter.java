@@ -14,14 +14,14 @@ public class SavedSplitter extends SavedNode {
     private SavedSplitter() {
     }
 
-    public SavedSplitter(int x, int y, int id) {
-        super(x, y, id);
+    public SavedSplitter(GridCoord coord, int id) {
+        super(coord, id);
     }
 
     @Override
     public Node create() {
         Node node = NodeFactory.instance().createSplitterNode();
-        node.setGridPosition(new GridCoord(getX(), getY()));
+        node.setGridPosition(getCoord());
         return node;
     }    
 }
