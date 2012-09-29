@@ -35,7 +35,7 @@ public class SavedFactory extends SavedNode {
         Node node = NodeFactory.instance().createFactoryNode();
         node.setGridPosition(new GridCoord(getX(), getY()));
         FactorySpecification spec = (FactorySpecification) node.getNodeSpecification();
-        spec.setResource(resource, null);
+        spec.setResource(resource);
         return node;
     }    
 }

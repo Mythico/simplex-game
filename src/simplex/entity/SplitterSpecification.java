@@ -2,8 +2,6 @@ package simplex.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.newdawn.slick.Image;
-import simplex.util.ImageManager;
 
 /**
  * The eater specification is a simple node specification that allows a single
@@ -15,29 +13,24 @@ import simplex.util.ImageManager;
  */
 public class SplitterSpecification implements NodeSpecification {
 
-    private HashMap<Connection, Resource> resourceMap = new HashMap<>();
+    private Resource resource = Resource.NIL;
     private int iterator = 0;
 
     @Override
-    public Image getImage() {
-        return ImageManager.dummy_node;
-    }
-
-    @Override
-    public void setResource(Resource resource, Connection conn) {
-        resourceMap.put(conn, resource);
+    public void setResource(Resource other) {
+        resource = Resource.combine(resource, other);
     }
 
     @Override
     public Resource getResource() {
-        ArrayList<Resource> values = new ArrayList<>(resourceMap.values());
-        if(values.isEmpty()){
+        ArrayList<Resource> values = Resource.split(resource);
+        if (values.isEmpty()) {
             return null;
         }
         iterator++;
-        if(iterator >= values.size()){
+        if (iterator >= values.size()) {
             iterator = 0;
-        }            
+        }
         return values.get(iterator);
     }
 }

@@ -77,7 +77,7 @@ public class Connection implements Entity {
             // Reset the moving resource when it has moved from start to end
             if (resourceBall.hasReachedEnd()) {
                 final NodeSpecification spec = endNode.getNodeSpecification();
-                spec.setResource(resourceBall.getResource(), this);
+                spec.setResource(resourceBall.getResource());
                 it.remove();
             }
         }
