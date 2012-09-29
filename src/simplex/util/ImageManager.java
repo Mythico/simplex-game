@@ -7,6 +7,7 @@ package simplex.util;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import simplex.entity.Resource;
 
 /**
  * 
@@ -20,16 +21,13 @@ public class ImageManager {
     public static Image happy_consumer_node;
     
     public static Image connection_icon;
+    public static Image connection_swap_icon;
     
     public static Image white_resource;
     public static Image red_resource;
     public static Image green_resource;
     public static Image blue_resource;
     
-    public static Image sidebar;
-    public static Image bottombar;
-    public static Image bottombarMouseOver;
-    public static Image connection_swap_icon;
 
     public static void init() throws SlickException {
         dummy_node = new Image("img/dummy_node.png", Color.white);
@@ -45,10 +43,19 @@ public class ImageManager {
         green_resource = new Image("img/green_resource.png");
         blue_resource = new Image("img/blue_resource.png");
         
-        sidebar = new Image("img/sidebar.png");
-        bottombar = new Image("img/bottombar.png");
-        bottombarMouseOver = new Image("img/bottombar.png");
-        bottombarMouseOver.setAlpha(0.5f);
+    }
+
+    public static Image get(Resource resource) {
+        switch(resource.getType()){
+            case Resource.RED:
+                return red_resource;
+            case Resource.BLUE:
+                return blue_resource;
+            case Resource.GREEN:
+                return green_resource;
+            default:
+                return white_resource;
+        }
     }
 
 }
