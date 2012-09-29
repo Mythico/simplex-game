@@ -217,7 +217,7 @@ public class EditorState extends BasicGameState {
         final NodeSpecification spec = selectedNode.getNodeSpecification();
         if (spec instanceof FactorySpecification) {
             Resource r = Resource.parse(data2, data1);
-            ((FactorySpecification) spec).setResource(r, null);
+            ((FactorySpecification) spec).setResource(r);
         } else if (spec instanceof ConsumerSpecification) {
             Resource r = Resource.parse(data2, data1);
             ((ConsumerSpecification) spec).setExpectedResource(r);

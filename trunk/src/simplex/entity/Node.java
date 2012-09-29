@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
+import simplex.util.ImageManager;
 
 /**
  * 
@@ -27,7 +28,7 @@ public class Node implements Entity{
 
     @Override
     public void render(Graphics g) {
-        Image img = nodeSpecification.getImage();
+        Image img = ImageManager.get(nodeSpecification);
         g.drawImage(img, x, y);
         if(selected){
             g.setColor(Color.green);

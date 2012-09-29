@@ -1,7 +1,5 @@
 package simplex.entity;
 
-import org.newdawn.slick.Image;
-
 /**
  * An interface for node specification. The specification will describe
  * how the node will process resources.
@@ -11,18 +9,12 @@ import org.newdawn.slick.Image;
  */
 public interface NodeSpecification {
     
-    /**
-     * Returns the graphical representation of the specification.
-     * @return An image that represent the specification.
-     */
-    public Image getImage();
     
     /**
-     * Set an incomming resource and couple it with the incomming connection.
+     * Set the nodes resource.
      * @param resource An incomming resource
-     * @param conn The connection transporting the resource
      */
-    public void setResource(Resource resource, Connection conn);
+    public void setResource(Resource resource);
     
     /**
      * Returns the resource this node has.

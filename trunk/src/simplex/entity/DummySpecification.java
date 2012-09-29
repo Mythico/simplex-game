@@ -1,8 +1,6 @@
 package simplex.entity;
 
 import java.util.HashMap;
-import org.newdawn.slick.Image;
-import simplex.util.ImageManager;
 
 /**
  * The dummy specification is a simple node specification that allows a single
@@ -14,25 +12,15 @@ import simplex.util.ImageManager;
  */
 public class DummySpecification implements NodeSpecification {
 
-    private HashMap<Connection, Resource> resourceMap = new HashMap<>();
+    private Resource resource = Resource.NIL;
     
-
     @Override
-    public Image getImage() {
-        return ImageManager.dummy_node;
-    }
-
-    @Override
-    public void setResource(Resource resource, Connection conn) {
-        resourceMap.put(conn, resource);
+    public void setResource(Resource other) {
+        resource = Resource.combine(resource, other);
     }
 
     @Override
     public Resource getResource() {
-        Resource resource = new Resource();
-        for(Resource r : resourceMap.values()){
-            resource.add(r);
-        }
         return resource;
     }
 
