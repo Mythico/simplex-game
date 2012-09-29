@@ -115,7 +115,9 @@ public class GameState extends BasicGameState {
             return;
         }
 
-        level.update(delta);
+        if (level != null) {
+            level.update(delta);
+        }
 
         if (nextState != Main.GAMESTATE) {
             int state = nextState;
