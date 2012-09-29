@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.logging.Logger;
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import simplex.entity.Connection;
 import simplex.entity.Node;
@@ -85,13 +83,6 @@ public class LevelFileHandler {
             connections.add(saved.create());
         }
 
-
-        if (nodes == null) {
-            nodes = new HashMap<>();
-        }
-        if (connections == null) {
-            connections = new LinkedList<>();
-        }
         level.setNodes(nodes);
         level.setConnections(connections);
         return level;
