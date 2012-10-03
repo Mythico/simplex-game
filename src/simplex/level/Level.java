@@ -1,6 +1,7 @@
 package simplex.level;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.newdawn.slick.Graphics;
 import simplex.entity.Connection;
 import simplex.entity.Entity;
 import simplex.entity.Node;
+import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 
 /**
@@ -61,6 +63,25 @@ public class Level {
                 conn.update(delta);
             }
         }
+    }
+    
+    
+    /**
+     * Clears all dependencies for the node and then removes the node
+     * from the level.
+     * @param node The node to be removed.
+     */
+    public void removeNode(Node node) {
+        //Remove all the connection connected to the picked node.
+        Iterator<Connection> it = connections.iterator();
+        while (it.hasNext()) {
+            Connection conn = it.next();
+            if (conn.isConnectedTo(node)) {
+                it.remove();
+            }
+        }
+        GridCoord coord = GridConversions.screenToGrid(node.getPosition());
+        nodes.remove(coord);
     }
 
     
