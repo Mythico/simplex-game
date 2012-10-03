@@ -1,14 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import mdes.oxy.Desktop;
-import mdes.oxy.OxyException;
 import mdes.oxy.Panel;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -32,7 +26,6 @@ import simplex.util.ImageManager;
 public class GameState extends EngineState {
     private List<MouseOverArea> tempConnSwap = new LinkedList<>();
     private GameContainer gc;    
-    protected Desktop desktop;
 
     public GameState(int stateId) {
         super(stateId);
@@ -41,13 +34,10 @@ public class GameState extends EngineState {
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
+        super.init(gc, sbg);
         this.gc = gc;
-        try {
-            desktop = Desktop.parse(this, gc, "gui/GameGui.xml");
-        } catch (OxyException e) {
-            System.err.println(e);
-            throw new SlickException("Can't load gui");
-        }
+        loadGui(gc, "GameGui.xml");
+        
     }
 
     @Override
@@ -61,26 +51,24 @@ public class GameState extends EngineState {
             tempConnSwap.add(new MouseOverArea(gc, ImageManager.connection_swap_icon, (int) middle.x, (int) middle.y));
             conn.swapDirection();
         }
-        Panel panel = (Panel) desktop.getDoc().getElement("ScorePanel");
+        Panel panel = getGuiComponent("ScorePanel");
         panel.setVisible(false);
-    }
-    
-    
+    }    
     
     @Override
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-        super.render(gc, sbg, g);
+    protected void renderContent(GameContainer gc, StateBasedGame sbg,
+            Graphics g) {
+        super.renderContent(gc, sbg, g);        
         for (MouseOverArea moa : tempConnSwap) {
             moa.render(gc, g);
         }
-        desktop.render(g);
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
            
         if (levelIsDone()) {
-            Panel panel = (Panel) desktop.getDoc().getElement("ScorePanel");
+            Panel panel = getGuiComponent("ScorePanel");
             panel.setVisible(true);
         }
         super.update(gc, sbg, delta);
@@ -99,7 +87,6 @@ public class GameState extends EngineState {
                 }
             }
         }
-        desktop.update(delta);
     }
     
     

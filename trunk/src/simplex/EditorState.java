@@ -4,11 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import mdes.oxy.Component;
-import mdes.oxy.Desktop;
+import mdes.oxy.Button;
 import mdes.oxy.Label;
-import mdes.oxy.OxyDoc;
-import mdes.oxy.OxyException;
 import mdes.oxy.Spinner;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -35,12 +32,10 @@ import simplex.util.GridCoord;
  */
 public class EditorState extends EngineState {
 
-    private NodeFactory nodeFactory;
     private Node pickedNode;
     private Node selectedNode;
     private Connection connection;
-    protected Desktop desktop;
-    
+
     public EditorState(int stateId) {
         super(stateId);
     }
@@ -48,39 +43,26 @@ public class EditorState extends EngineState {
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-        
-        try {
-            desktop = Desktop.parse(this, gc, "gui/EditorGui.xml");
-        } catch (OxyException e) {
-            System.err.println(e);
-            throw new SlickException("Can't load gui");
-        }
+        super.init(gc, sbg);
+        loadGui(gc, "EditorGui.xml");
         setNodeGui(null); // Set no selected node
-
-        GridConversions.setGameSize(width, height);
-        GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
-
-        nodeFactory = NodeFactory.instance();
-
     }
 
     @Override
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-            throws SlickException {
-        super.render(gc, sbg, g);
+    public void renderContent(GameContainer gc, StateBasedGame sbg, Graphics g) {
+        super.renderContent(gc, sbg, g);
 
         if (pickedNode != null) {
             pickedNode.render(g);
         } else if (connection != null && selectedNode != null) {
             connection.render(g);
         }
-        desktop.render(g);
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
-        
+
         super.update(gc, sbg, delta);
 
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
@@ -109,7 +91,6 @@ public class EditorState extends EngineState {
         } else if (connection != null && selectedNode != null) {
             connection.getEndNode().setGridPosition(coord);
         }
-        desktop.update(delta);
     }
 
     @Override
@@ -125,7 +106,7 @@ public class EditorState extends EngineState {
             } else if (connection != null && selectedNode != null) {
                 Node node = nodes.get(coords);
                 if (node != null) {
-                    nodeFactory.bind(selectedNode, node, connection);
+                    NodeFactory.instance().bind(selectedNode, node, connection);
                     connections.add(connection);
                     connection = null;
                     unselect();
@@ -162,19 +143,19 @@ public class EditorState extends EngineState {
     }
 
     public void spawnFactory() {
-        pickedNode = nodeFactory.createFactoryNode();
+        pickedNode = NodeFactory.instance().createFactoryNode();
     }
 
     public void spawnConsumer() {
-        pickedNode = nodeFactory.createConsumerNode();
+        pickedNode = NodeFactory.instance().createConsumerNode();
     }
 
     public void spawnEater() {
-        pickedNode = nodeFactory.createEaterNode();
+        pickedNode = NodeFactory.instance().createEaterNode();
     }
 
     public void spawnSplitter() {
-        pickedNode = nodeFactory.createSplitterNode();
+        pickedNode = NodeFactory.instance().createSplitterNode();
     }
 
     public void spawnConnection() {
@@ -202,12 +183,13 @@ public class EditorState extends EngineState {
 
     private void setNodeGui(final NodeSpecification spec) {
 
-        final OxyDoc doc = desktop.getDoc();
-        Label label = (Label) doc.getElement("nodeLabel");
-        Label label1 = (Label) doc.getElement("label1");
-        Label label2 = (Label) doc.getElement("label2");
-        Spinner spinner1 = (Spinner) doc.getElement("spinner1");
-        Spinner spinner2 = (Spinner) doc.getElement("spinner2");
+        Label label = getGuiComponent("nodeLabel");
+        Label label1 = getGuiComponent("label1");
+        Label label2 = getGuiComponent("label2");
+        Spinner spinner1 = getGuiComponent("spinner1");
+        Spinner spinner2 = getGuiComponent("spinner2");
+        Button button = getGuiComponent("btn");
+
         if (spec instanceof FactorySpecification) {
             label.setText("Factory");
             label1.setText("Resource Rate");
@@ -216,6 +198,7 @@ public class EditorState extends EngineState {
             label2.setVisible(true);
             spinner1.setVisible(true);
             spinner2.setVisible(true);
+            button.setVisible(true);
         } else if (spec instanceof ConsumerSpecification) {
             label.setText("Consumer");
             label1.setText("Resource Rate");
@@ -224,6 +207,7 @@ public class EditorState extends EngineState {
             label2.setVisible(true);
             spinner1.setVisible(true);
             spinner2.setVisible(true);
+            button.setVisible(true);
         } else if (spec instanceof EaterSpecification) {
             label.setText("Eater");
             label1.setText("Fraction");
@@ -231,19 +215,21 @@ public class EditorState extends EngineState {
             label2.setVisible(false);
             spinner1.setVisible(true);
             spinner2.setVisible(false);
+            button.setVisible(true);
         } else if (spec instanceof SplitterSpecification) {
             label.setText("Splitter");
             label1.setVisible(false);
             label2.setVisible(false);
             spinner1.setVisible(false);
             spinner2.setVisible(false);
+            button.setVisible(true);
         } else {
             label.setText("Select a node");
             spinner1.setVisible(false);
             spinner2.setVisible(false);
             label1.setVisible(false);
             label2.setVisible(false);
+            button.setVisible(false);
         }
-        ((Component) doc.getElement("btn")).setVisible(true);
     }
 }
