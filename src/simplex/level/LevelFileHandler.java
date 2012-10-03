@@ -12,6 +12,11 @@ import java.util.logging.Logger;
 import org.yaml.snakeyaml.Yaml;
 import simplex.entity.Connection;
 import simplex.entity.Node;
+import simplex.level.saved.SavedConnection;
+import simplex.level.saved.SavedConnectionFactory;
+import simplex.level.saved.SavedEntity;
+import simplex.level.saved.SavedNode;
+import simplex.level.saved.SavedNodeFactory;
 import simplex.util.GridCoord;
 
 /**
