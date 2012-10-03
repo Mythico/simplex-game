@@ -1,7 +1,6 @@
 package simplex;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -11,23 +10,20 @@ import mdes.oxy.Label;
 import mdes.oxy.OxyDoc;
 import mdes.oxy.OxyException;
 import mdes.oxy.Spinner;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import simplex.entity.Connection;
+import simplex.entity.Node;
+import simplex.entity.NodeFactory;
+import simplex.entity.Resource;
 import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.EaterSpecification;
 import simplex.entity.specification.FactorySpecification;
-import simplex.entity.Node;
-import simplex.entity.NodeFactory;
 import simplex.entity.specification.NodeSpecification;
-import simplex.entity.Resource;
 import simplex.entity.specification.SplitterSpecification;
-import simplex.level.Level;
 import simplex.level.LevelFileHandler;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
@@ -37,36 +33,27 @@ import simplex.util.GridCoord;
  * @author Emil
  * @author Samuel
  */
-public class EditorState extends BasicGameState {
+public class EditorState extends EngineState {
 
-    private final int stateId;
-    private int width = 16;
-    private int height = 16;
     private NodeFactory nodeFactory;
     private Node pickedNode;
     private Node selectedNode;
     private Connection connection;
-    private Level level = new Level();
-    private Desktop desktop;
-
+    protected Desktop desktop;
+    
     public EditorState(int stateId) {
-        this.stateId = stateId;
-    }
-
-    @Override
-    public int getID() {
-        return stateId;
+        super(stateId);
     }
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-
+        
         try {
             desktop = Desktop.parse(this, gc, "gui/EditorGui.xml");
         } catch (OxyException e) {
             System.err.println(e);
-            throw new SlickException("Can't load Editor gui");
+            throw new SlickException("Can't load gui");
         }
         setNodeGui(null); // Set no selected node
 
@@ -75,50 +62,26 @@ public class EditorState extends BasicGameState {
 
         nodeFactory = NodeFactory.instance();
 
-        LevelFileHandler lfh;
-        try {
-            lfh = new LevelFileHandler();
-            level = lfh.loadLevel();
-        } catch (IOException ex) {
-            Logger.getLogger(EditorState.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
     }
 
     @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException {
+        super.render(gc, sbg, g);
 
-        final int gwidth = gc.getWidth() / width;
-        final int gheight = gc.getHeight() / height;
-
-        // Draw grid
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                // Toggle colour
-                g.setColor(((i + j) % 2 == 0) ? Color.darkGray : Color.gray);
-                g.fillRect(j * gwidth, i * gheight, gwidth, gheight);
-            }
-        }
-
-        level.render(g);
-        
         if (pickedNode != null) {
             pickedNode.render(g);
-        } else if (connection != null && selectedNode != null) {            
+        } else if (connection != null && selectedNode != null) {
             connection.render(g);
         }
-
         desktop.render(g);
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
-
-        desktop.update(delta);
-
-        level.update(delta);
+        
+        super.update(gc, sbg, delta);
 
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
             if (pickedNode != null) {
@@ -138,7 +101,7 @@ public class EditorState extends BasicGameState {
                 sbg.enterState(Main.MAINMENUSTATE);
             }
         }
-        
+
         GridCoord coord = GridConversions.mouseToGridCoord(gc.getInput()
                 .getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY());
         if (pickedNode != null) {
@@ -146,6 +109,7 @@ public class EditorState extends BasicGameState {
         } else if (connection != null && selectedNode != null) {
             connection.getEndNode().setGridPosition(coord);
         }
+        desktop.update(delta);
     }
 
     @Override
@@ -160,7 +124,7 @@ public class EditorState extends BasicGameState {
                 pickedNode = null;
             } else if (connection != null && selectedNode != null) {
                 Node node = nodes.get(coords);
-                if (node != null) {                    
+                if (node != null) {
                     nodeFactory.bind(selectedNode, node, connection);
                     connections.add(connection);
                     connection = null;
@@ -168,7 +132,7 @@ public class EditorState extends BasicGameState {
                 }
             } else if (nodes != null) {
                 selectNode(nodes.get(coords));
-                if(connection != null){
+                if (connection != null) {
                     connection.setStartNode(selectedNode);
                 }
             } else {

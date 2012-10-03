@@ -15,22 +15,14 @@ import org.newdawn.slick.state.StateBasedGame;
  * 
  * @author Emil
  */
-public class MainMenuState extends BasicGameState {
-
-    private final int stateId;
-    private int selectedOption = Main.MAINMENUSTATE; // Do nothing
+public class MainMenuState extends BaseState {
 
     private MouseOverArea playButton;
     private MouseOverArea editButton;
     private MouseOverArea quitButton;
 
     public MainMenuState(int stateId) {
-        this.stateId = stateId;
-    }
-
-    @Override
-    public int getID() {
-        return stateId;
+        super(stateId);
     }
 
     @Override
@@ -56,33 +48,22 @@ public class MainMenuState extends BasicGameState {
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int i)
-            throws SlickException {
-
-        if (selectedOption != Main.MAINMENUSTATE) {
-            sbg.enterState(selectedOption);
-        }
-
-    }
-
-    @Override
     public void enter(GameContainer container, StateBasedGame game)
             throws SlickException {
-        selectedOption = Main.MAINMENUSTATE;
-        super.enter(container, game);
+        nextState = Main.MAINMENUSTATE;
     }
 
     private ComponentListener playClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
-            selectedOption = Main.GAMESTATE;
+            nextState = Main.GAMESTATE;
         }
     };
 
     private ComponentListener editClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
-            selectedOption = Main.EDITSTATE;
+            nextState = Main.EDITSTATE;
         }
     };
 
