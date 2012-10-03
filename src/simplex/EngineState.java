@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import simplex.level.Level;
 import simplex.level.LevelFileHandler;
+import simplex.util.GridConversions;
 
 /**
  *
@@ -23,16 +24,20 @@ public abstract class EngineState extends BaseState {
 
     public EngineState(int stateId) {
         super(stateId);
+        
     }
 
     @Override
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-            throws SlickException {
-        renderGrid(gc, g);
-        level.render(g);
+    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        GridConversions.setGameSize(width, height);
+        GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
     }
+    
+    
 
-    private void renderGrid(GameContainer gc, Graphics g) {
+    @Override
+    protected void renderBackground(GameContainer gc, StateBasedGame sbg,
+            Graphics g) {
         final int gwidth = gc.getWidth() / width;
         final int gheight = gc.getHeight() / height;
         // Draw grid
@@ -43,6 +48,12 @@ public abstract class EngineState extends BaseState {
                 g.fillRect(j * gwidth, i * gheight, gwidth, gheight);
             }
         }
+    }
+
+    @Override
+    protected void renderContent(GameContainer gc, StateBasedGame sbg,
+            Graphics g) {
+        level.render(g);
     }
 
     @Override

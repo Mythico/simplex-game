@@ -31,13 +31,20 @@ public class NextGameState extends BaseState {
     }
 
     @Override
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-            throws SlickException {
-
-        doneButton.render(gc, g);
-
+    protected void renderBackground(GameContainer gc, StateBasedGame sbg,
+            Graphics g) {
     }
-    
+
+    @Override
+    protected void renderContent(GameContainer gc, StateBasedGame sbg,
+            Graphics g) {
+        doneButton.render(gc, g);
+    }
+
+    @Override
+    protected void renderForeground(GameContainer gc, StateBasedGame sgb,
+            Graphics g) {
+    }
     private ComponentListener doneClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {

@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 /**
  *
  * @author Emil
+ * @author Samuel
  */
 public class MainMenuState extends BaseState {
 
@@ -37,14 +38,23 @@ public class MainMenuState extends BaseState {
     }
 
     @Override
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-            throws SlickException {
+    protected void renderBackground(GameContainer gc, StateBasedGame sbg,
+            Graphics g) {
+    }
 
+    @Override
+    protected void renderContent(GameContainer gc, StateBasedGame sbg,
+            Graphics g) {
         playButton.render(gc, g);
         editButton.render(gc, g);
         quitButton.render(gc, g);
-
     }
+
+    @Override
+    protected void renderForeground(GameContainer gc, StateBasedGame sgb,
+            Graphics g) {
+    }
+
     private ComponentListener playClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
