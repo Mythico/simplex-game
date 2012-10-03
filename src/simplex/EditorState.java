@@ -1,6 +1,7 @@
 package simplex;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -101,16 +102,11 @@ public class EditorState extends BasicGameState {
         }
 
         level.render(g);
-
-        GridCoord coord = GridConversions.mouseToGridCoord(gc.getInput()
-                .getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY());
+        
         if (pickedNode != null) {
-            pickedNode.setGridPosition(coord);
             pickedNode.render(g);
-        } else if (connection != null && selectedNode != null) {
-            // Node node = nodes.get(coord);
-            // connection.render(g);
-            // TODO: add a proxy connection?
+        } else if (connection != null && selectedNode != null) {            
+            connection.render(g);
         }
 
         desktop.render(g);
@@ -126,6 +122,7 @@ public class EditorState extends BasicGameState {
 
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
             if (pickedNode != null) {
+                level.removeNode(pickedNode);
                 pickedNode = null;
             } else if (connection != null) {
                 connection = null;
@@ -141,6 +138,14 @@ public class EditorState extends BasicGameState {
                 sbg.enterState(Main.MAINMENUSTATE);
             }
         }
+        
+        GridCoord coord = GridConversions.mouseToGridCoord(gc.getInput()
+                .getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY());
+        if (pickedNode != null) {
+            pickedNode.setGridPosition(coord);
+        } else if (connection != null && selectedNode != null) {
+            connection.getEndNode().setGridPosition(coord);
+        }
     }
 
     @Override
@@ -155,7 +160,7 @@ public class EditorState extends BasicGameState {
                 pickedNode = null;
             } else if (connection != null && selectedNode != null) {
                 Node node = nodes.get(coords);
-                if (node != null) {
+                if (node != null) {                    
                     nodeFactory.bind(selectedNode, node, connection);
                     connections.add(connection);
                     connection = null;
@@ -163,6 +168,9 @@ public class EditorState extends BasicGameState {
                 }
             } else if (nodes != null) {
                 selectNode(nodes.get(coords));
+                if(connection != null){
+                    connection.setStartNode(selectedNode);
+                }
             } else {
                 selectNode(null);
             }
@@ -207,6 +215,7 @@ public class EditorState extends BasicGameState {
 
     public void spawnConnection() {
         connection = new Connection();
+        connection.setEndNode(NodeFactory.instance().createDummyNode());
     }
 
     public void setNodeData(int data1, int data2) {
