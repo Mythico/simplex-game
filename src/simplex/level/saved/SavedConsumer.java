@@ -1,9 +1,9 @@
 package simplex.level.saved;
 
-import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.Resource;
+import simplex.entity.specification.ConsumerSpecification;
 import simplex.util.GridCoord;
 
 /**
@@ -17,7 +17,7 @@ public class SavedConsumer extends SavedNode {
     private SavedConsumer() {
     }
 
-    SavedConsumer(Resource resource, GridCoord coord, int id) {
+    public SavedConsumer(Resource resource, GridCoord coord, int id) {
         super(coord, id);
         this.resource = resource;
     }
