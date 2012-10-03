@@ -77,7 +77,7 @@ public class EditorState extends BasicGameState {
 
         LevelFileHandler lfh;
         try {
-            lfh = new LevelFileHandler("level.yml");
+            lfh = new LevelFileHandler();
             level = lfh.loadLevel();
         } catch (IOException ex) {
             Logger.getLogger(EditorState.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -130,7 +130,7 @@ public class EditorState extends BasicGameState {
                 unselect();
             } else {
                 try {
-                    LevelFileHandler lfh = new LevelFileHandler("level.yml");
+                    LevelFileHandler lfh = new LevelFileHandler();
                     lfh.saveLevel(level);
                 } catch (IOException ex) {
                     Logger.getLogger(EditorState.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

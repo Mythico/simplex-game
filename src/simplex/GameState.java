@@ -71,7 +71,7 @@ public class GameState extends BasicGameState {
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         try {
-            LevelFileHandler lfh = new LevelFileHandler("level.yml");
+            LevelFileHandler lfh = new LevelFileHandler();
             level = lfh.loadLevel();
         } catch (IOException ex) {
             Logger.getLogger(GameState.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
