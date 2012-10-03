@@ -33,10 +33,10 @@ public class GridConversions {
         return new Vector2f(fx, fy);
     }
 
-    public static GridCoord mouseToGridCoord(int x, int y) {
-        int x2 = (x / (screenWidth / gameWidth));
-        int y2 = (y / (screenHeight / gameHeight));
-        return new GridCoord(x2, y2);
+    public static GridCoord mouseToGridCoord(int mx, int my) {
+        int x = (mx / (screenWidth / gameWidth));
+        int y = (my / (screenHeight / gameHeight));
+        return new GridCoord(x, y);
     }
     
     public static float getGridWidth(){
@@ -45,6 +45,12 @@ public class GridConversions {
     
     public static float getGridHeight(){
         return screenHeight / gameHeight;
+    }
+
+    public static GridCoord screenToGrid(Vector2f position) {
+        int x = (int) (position.x / (screenWidth / (float)gameWidth));
+        int y = (int) (position.y / (screenHeight / (float)gameHeight));
+        return new GridCoord(x, y);
     }
     
     
