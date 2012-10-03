@@ -60,7 +60,7 @@ public class Connection implements Entity {
         Vector2f endPos = endNode.getPosition();
 
         final Resource r = startNode.getNodeSpecification().getResource();
-        
+
 
         // Move another waiting resource to the movingResource queue
         // if there is waiting resources and if the first moving resource has
@@ -90,9 +90,9 @@ public class Connection implements Entity {
         Vector2f endPos = endNode.getPosition();
 
         float halfDistance = startPos.distanceSquared(endPos) / 2;
-        final Vector2f ballPos = movingResources.peekLast().getPosition();        
+        final Vector2f ballPos = movingResources.peekLast().getPosition();
         float ballDistance = startPos.distanceSquared(ballPos);
-        
+
         return halfDistance < ballDistance;
     }
 
@@ -100,6 +100,15 @@ public class Connection implements Entity {
         Node temp = startNode;
         startNode = endNode;
         endNode = temp;
+    }
+
+    /**
+     * Check if this connection is connected to the node.
+     * @param node The node to be checked against.
+     * @return True if this connection is connected, otherwise false.
+     */
+    public boolean isConnectedTo(Node node) {
+        return endNode.equals(node) || startNode.equals(node);
     }
 }
 
@@ -115,7 +124,7 @@ class ResourceBall {
         this.endPos = endPos;
         this.resource = r;
 
-        float k = 0.05f * (float)r.getRate();
+        float k = 0.05f * (float) r.getRate();
         dir = endPos.copy().sub(startPos).normalise().scale(k);
     }
 
@@ -131,12 +140,12 @@ class ResourceBall {
     Resource getResource() {
         return resource;
     }
-    
+
     boolean hasReachedEnd() {
         final float nearConstant = 1;
         float dist = position.distanceSquared(endPos);
         return dist < nearConstant;
-    }    
+    }
 
     Vector2f getPosition() {
         return position;
