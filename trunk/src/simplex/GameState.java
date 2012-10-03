@@ -86,7 +86,7 @@ public class GameState extends EngineState {
         super.update(gc, sbg, delta);
         
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
-            sbg.enterState(Main.MAINMENUSTATE);
+            setNextState(Main.MAINMENUSTATE);
         }
         
         List<Connection> connections = level.getConnections();
@@ -128,13 +128,13 @@ public class GameState extends EngineState {
      * Used by the GUI to switch to the next level.
      */
     public void goToNext(){
-        nextState = Main.NEXT_GAME;
+        setNextState(Main.NEXT_GAME);
     }
     
     /**
      * Used by the GUI to switch to main menu.
      */
     public void goToMain(){
-        nextState = Main.MAINMENUSTATE;
+        setNextState(Main.MAINMENUSTATE);
     }
 }

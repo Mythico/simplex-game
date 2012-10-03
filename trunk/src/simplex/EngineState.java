@@ -49,6 +49,10 @@ public abstract class EngineState extends BaseState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
         super.update(gc, sbg, delta);
+        
+        if (delta == 0) {
+            return;
+        }
         if (level != null) {
             level.update(delta);
         }

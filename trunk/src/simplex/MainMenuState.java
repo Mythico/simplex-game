@@ -8,11 +8,10 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * 
+ *
  * @author Emil
  */
 public class MainMenuState extends BaseState {
@@ -46,32 +45,22 @@ public class MainMenuState extends BaseState {
         quitButton.render(gc, g);
 
     }
-
-    @Override
-    public void enter(GameContainer container, StateBasedGame game)
-            throws SlickException {
-        nextState = Main.MAINMENUSTATE;
-    }
-
     private ComponentListener playClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
-            nextState = Main.GAMESTATE;
+            setNextState(Main.GAMESTATE);
         }
     };
-
     private ComponentListener editClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
-            nextState = Main.EDITSTATE;
+            setNextState(Main.EDITSTATE);
         }
     };
-
     private ComponentListener quitClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
             System.exit(0);
         }
     };
-
 }
