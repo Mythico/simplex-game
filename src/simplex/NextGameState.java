@@ -11,7 +11,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * 
+ *
  * @author Emil
  */
 public class NextGameState extends BaseState {
@@ -37,19 +37,11 @@ public class NextGameState extends BaseState {
         doneButton.render(gc, g);
 
     }
-
-    @Override
-    public void enter(GameContainer container, StateBasedGame game)
-            throws SlickException {
-        nextState = Main.NEXT_GAME;
-    }
-
+    
     private ComponentListener doneClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
-            nextState = Main.MAINMENUSTATE;
+            setNextState(Main.MAINMENUSTATE);
         }
     };
-
-
 }

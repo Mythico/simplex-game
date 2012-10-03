@@ -12,9 +12,9 @@ import org.newdawn.slick.state.StateBasedGame;
  * @author Samuel
  */
 public abstract class BaseState extends BasicGameState {
-    protected final int stateId;
-    protected int nextState;
-    
+
+    private final int stateId;
+    private int nextState;
 
     public BaseState(int stateId) {
         this.stateId = stateId;
@@ -27,14 +27,21 @@ public abstract class BaseState extends BasicGameState {
     }
 
     @Override
+    public void enter(GameContainer container, StateBasedGame game)
+            throws SlickException {
+        nextState = stateId;
+    }
+
+    @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
-        if (delta == 0) {
-            return;
-        }
+        
         if (nextState != stateId) {
             sbg.enterState(nextState);
         }
     }
     
+    protected void setNextState(int state){
+        nextState = state;
+    }
 }
