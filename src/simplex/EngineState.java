@@ -26,12 +26,6 @@ public abstract class EngineState extends BaseState {
     }
 
     @Override
-    public int getID() {
-        return stateId;
-    }
-
-
-    @Override
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
             throws SlickException {
         renderGrid(gc, g);
@@ -63,6 +57,7 @@ public abstract class EngineState extends BaseState {
     @Override
     public void enter(GameContainer container, StateBasedGame game)
             throws SlickException {
+        super.enter(container, game);
         try {
             LevelFileHandler lfh = new LevelFileHandler();
             level = lfh.loadLevel();
@@ -70,6 +65,5 @@ public abstract class EngineState extends BaseState {
             Logger.getLogger(GameState.class.getName())
                     .log(java.util.logging.Level.SEVERE, null, ex);
         }
-        nextState = stateId;
     }
 }
