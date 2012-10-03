@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import mdes.oxy.Desktop;
+import mdes.oxy.OxyException;
+import mdes.oxy.Panel;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -19,8 +22,8 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import simplex.entity.Connection;
-import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.Node;
+import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.NodeSpecification;
 import simplex.level.Level;
 import simplex.level.LevelFileHandler;
@@ -41,6 +44,7 @@ public class GameState extends BasicGameState {
     private List<MouseOverArea> tempConnSwap = new LinkedList<>();
     private GameContainer gc;
     private int nextState = Main.GAMESTATE;
+    private Desktop desktop;
 
     public GameState(int stateId) {
         this.stateId = stateId;
@@ -55,6 +59,13 @@ public class GameState extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
         this.gc = gc;
+
+        try {
+            desktop = Desktop.parse(this, gc, "gui/GameGui.xml");
+        } catch (OxyException e) {
+            System.err.println(e);
+            throw new SlickException("Can't load Editor gui");
+        }
     }
 
     @Override
@@ -75,6 +86,12 @@ public class GameState extends BasicGameState {
                     (int) middle.x, (int) middle.y));
             conn.swapDirection();
         }
+
+
+        Panel panel = (Panel) desktop.getDoc().getElement("ScorePanel");
+        panel.setVisible(false);
+        
+        nextState = Main.GAMESTATE;
     }
 
     @Override
@@ -99,14 +116,18 @@ public class GameState extends BasicGameState {
         for (MouseOverArea moa : tempConnSwap) {
             moa.render(gc, g);
         }
+        desktop.render(g);
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
 
+        desktop.update(delta);
+
         if (levelIsDone()) {
-            nextState = Main.NEXT_GAME;
+            Panel panel = (Panel) desktop.getDoc().getElement("ScorePanel");
+            panel.setVisible(true);
         }
 
         if (delta == 0) {
@@ -118,9 +139,7 @@ public class GameState extends BasicGameState {
         }
 
         if (nextState != Main.GAMESTATE) {
-            int state = nextState;
-            nextState = Main.GAMESTATE;
-            sbg.enterState(state);
+            sbg.enterState(nextState);
         }
 
         if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
@@ -146,7 +165,7 @@ public class GameState extends BasicGameState {
         }
     }
 
-    private boolean levelIsDone() {        
+    private boolean levelIsDone() {
         Map<GridCoord, Node> nodes = level.getNodes();
         //TODO: do a better check.
         for (Node node : nodes.values()) {
@@ -156,5 +175,19 @@ public class GameState extends BasicGameState {
             }
         }
         return true;
+    }
+    
+    /**
+     * Used by the GUI to switch to the next level.
+     */
+    public void goToNext(){
+        nextState = Main.NEXT_GAME;
+    }
+    
+    /**
+     * Used by the GUI to switch to main menu.
+     */
+    public void goToMain(){
+        nextState = Main.MAINMENUSTATE;
     }
 }

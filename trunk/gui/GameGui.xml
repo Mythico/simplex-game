@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<desktop>
+    
+	<panel name="ScorePanel" opaque="true" location="25%, 25%" size="50%, 50%" background="#f0f0f0">
+					
+		<label name="nodeLabel" text="Level Completed!" location="10px, 10px" />	
+		<label text="Time" location="10px, 25px"/>
+		<label text="Clicks" location="10px, 45px"/>
+		<label name="time" text="0" location="50px, 25px"/>
+		<label name="clicks" text="0" location="50px, 45px"/>
+						
+		 <button name="btn_next" text="Next Level" location="70%, 90%" 
+			 action="goToNext()"/>
+		 <button name="btn_main" text="Main Menu" location="40%, 90%" 
+			 action="goToMain()"/>
+	
+	</panel>
+</desktop>
