@@ -18,7 +18,7 @@ import simplex.util.GridCoord;
  * @author Samuel
  */
 public class Level {
-
+    
     private Map<GridCoord, Node> nodes = new HashMap<>();
     private List<Connection> connections = new LinkedList<>();
 

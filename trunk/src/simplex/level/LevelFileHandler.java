@@ -25,11 +25,22 @@ import simplex.util.GridCoord;
  * @author Samuel
  */
 public class LevelFileHandler {
+    
+    private static String level_name = "default_level.yml";
+
+    public static void setLevelName(String name){
+        level_name = name;
+    }
+    
+    public static String getLevelName() {
+        return level_name;
+    }
+    
 
     private final File file;
 
-    public LevelFileHandler(String filename) throws IOException {
-        file = new File(filename);
+    public LevelFileHandler() throws IOException {
+        file = new File("level/" + getLevelName());
     }
 
     public void saveLevel(Level level) {
@@ -42,43 +53,41 @@ public class LevelFileHandler {
         List<SavedNode> savedNodes = createSavedNodes(nodes);
         List<SavedConnection> savedConn = createSavedConnections(connections);
 
-        try {
-            FileWriter fw = new FileWriter(file);
+        try (FileWriter fw = new FileWriter(file)) {
             List list = new LinkedList();
             list.addAll(savedNodes);
             list.addAll(savedConn);
             Yaml yaml = new Yaml();
             yaml.dumpAll(list.iterator(), fw);
-            fw.close();
         } catch (IOException ex) {
             Logger.getLogger(LevelFileHandler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+
     }
 
     public Level loadLevel() {
         Level level = new Level();
         List<SavedEntity> savedObjects = new LinkedList<>();
-        try {
-            FileReader fr = new FileReader(file);
+        try (FileReader fr = new FileReader(file)) {
             Yaml yaml = new Yaml();
             for (Object o : yaml.loadAll(fr)) {
                 savedObjects.add((SavedEntity) o);
             }
-            fr.close();
         } catch (IOException ex) {
             Logger.getLogger(LevelFileHandler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+
 
         Map<GridCoord, Node> nodes = new HashMap<>();
         List<Connection> connections = new LinkedList<>();
         for (SavedEntity saved : savedObjects) {
             if (saved instanceof SavedNode) {
-                SavedNode snode = (SavedNode)saved;
+                SavedNode snode = (SavedNode) saved;
                 Node node = snode.create();
                 SavedNodeFactory.instance().addNode(saved.getId(), node);
                 nodes.put(snode.getCoord(), node);
             } else if (saved instanceof SavedConnection) {
-                SavedConnection sconn = (SavedConnection)saved;
+                SavedConnection sconn = (SavedConnection) saved;
                 connections.add(sconn.create());
             }
         }
