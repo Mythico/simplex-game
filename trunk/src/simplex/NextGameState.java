@@ -8,27 +8,18 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * 
  * @author Emil
  */
-public class NextGameState extends BasicGameState {
-
-    private final int stateId;
-    private int selectedOption = Main.NEXT_GAME; // Do nothing
+public class NextGameState extends BaseState {
 
     private MouseOverArea doneButton;
 
     public NextGameState(int stateId) {
-        this.stateId = stateId;
-    }
-
-    @Override
-    public int getID() {
-        return stateId;
+        super(stateId);
     }
 
     @Override
@@ -48,26 +39,15 @@ public class NextGameState extends BasicGameState {
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int i)
-            throws SlickException {
-
-        if (selectedOption != Main.NEXT_GAME) {
-            sbg.enterState(selectedOption);
-        }
-
-    }
-
-    @Override
     public void enter(GameContainer container, StateBasedGame game)
             throws SlickException {
-        selectedOption = Main.NEXT_GAME;
-        super.enter(container, game);
+        nextState = Main.NEXT_GAME;
     }
 
     private ComponentListener doneClicked = new ComponentListener() {
         @Override
         public void componentActivated(AbstractComponent ac) {
-            selectedOption = Main.MAINMENUSTATE;
+            nextState = Main.MAINMENUSTATE;
         }
     };
 

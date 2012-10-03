@@ -24,7 +24,7 @@ import simplex.util.GridCoord;
  * @author Emil
  * @author Samuel
  */
-public class LevelFileHandler {
+public class LevelFileHandler{
     
     private static String level_name = "default_level.yml";
 
