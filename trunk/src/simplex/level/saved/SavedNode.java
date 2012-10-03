@@ -10,23 +10,14 @@ import simplex.util.GridCoord;
  */
 public abstract class SavedNode extends SavedEntity  {
 
-    private int id;
     private GridCoord coord;
 
     public SavedNode() {
     }
 
-    SavedNode(GridCoord coord, int id) {
+    public SavedNode(GridCoord coord, int id) {
         super(id);
         this.coord = coord;
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public GridCoord getCoord() {
@@ -36,8 +27,6 @@ public abstract class SavedNode extends SavedEntity  {
     public void setCoord(GridCoord coord) {
         this.coord = coord;
     }
-
-    
 
     @Override
     public abstract Node create();

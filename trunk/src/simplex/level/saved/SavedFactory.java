@@ -17,7 +17,7 @@ public class SavedFactory extends SavedNode {
     public SavedFactory() {
     }
 
-    SavedFactory(Resource resource, GridCoord coord, int id) {
+    public SavedFactory(Resource resource, GridCoord coord, int id) {
         super(coord, id);
         this.resource = resource;
     }

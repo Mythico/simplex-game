@@ -16,7 +16,7 @@ public class SavedEater extends SavedNode {
     private SavedEater() {
     }
 
-    SavedEater(int fraction, GridCoord coord, int id) {
+    public SavedEater(int fraction, GridCoord coord, int id) {
         super(coord, id);
         this.fraction = fraction;
     }
