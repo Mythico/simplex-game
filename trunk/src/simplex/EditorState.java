@@ -174,11 +174,12 @@ public class EditorState extends BasicGameState {
     private void selectNode(Node n) {
         unselect();
         selectedNode = n;
+        NodeSpecification spec = null;
         if (selectedNode != null) {
             selectedNode.setSelected(true);
-            final NodeSpecification spec = selectedNode.getNodeSpecification();
-            setNodeGui(spec);
+            spec = selectedNode.getNodeSpecification();
         }
+        setNodeGui(spec);
     }
 
     private void unselect() {
@@ -238,29 +239,37 @@ public class EditorState extends BasicGameState {
             label.setText("Factory");
             label1.setText("Resource Rate");
             label2.setText("Resource Type");
+            label1.setVisible(true);
+            label2.setVisible(true);
             spinner1.setVisible(true);
             spinner2.setVisible(true);
         } else if (spec instanceof ConsumerSpecification) {
             label.setText("Consumer");
             label1.setText("Resource Rate");
             label2.setText("Resource Type");
+            label1.setVisible(true);
+            label2.setVisible(true);
             spinner1.setVisible(true);
             spinner2.setVisible(true);
         } else if (spec instanceof EaterSpecification) {
             label.setText("Eater");
             label1.setText("Fraction");
-            label2.setText("");
+            label1.setVisible(true);
+            label2.setVisible(false);
             spinner1.setVisible(true);
             spinner2.setVisible(false);
         } else if (spec instanceof SplitterSpecification) {
             label.setText("Splitter");
-            label1.setText("");
-            label2.setText("");
+            label1.setVisible(false);
+            label2.setVisible(false);
             spinner1.setVisible(false);
             spinner2.setVisible(false);
         } else {
+            label.setText("Select a node");
             spinner1.setVisible(false);
             spinner2.setVisible(false);
+            label1.setVisible(false);
+            label2.setVisible(false);
         }
         ((Component) doc.getElement("btn")).setVisible(true);
     }
