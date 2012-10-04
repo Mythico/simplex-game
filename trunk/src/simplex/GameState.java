@@ -73,10 +73,6 @@ public class GameState extends EngineState {
         }
         super.update(gc, sbg, delta);
         
-        if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
-            setNextState(Main.MAINMENUSTATE);
-        }
-        
         List<Connection> connections = level.getConnections();
         
         //TODO: Make the switching a part of connection
@@ -95,6 +91,8 @@ public class GameState extends EngineState {
     public void keyReleased(int key, char c) {
         if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
             gc.setPaused(!gc.isPaused());
+        } else if(Input.KEY_ESCAPE == key){
+            setNextState(Main.MAINMENUSTATE);            
         }
     }
 
