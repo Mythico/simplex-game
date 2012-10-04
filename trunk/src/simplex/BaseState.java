@@ -31,12 +31,6 @@ public abstract class BaseState extends BasicGameState {
         return stateId;
     }
 
-    @Override
-    public void enter(GameContainer container, StateBasedGame game)
-            throws SlickException {
-        nextState = stateId;
-    }
-
     protected void loadGui(GameContainer gc, String filename) throws SlickException {
 
         try {
@@ -79,9 +73,13 @@ public abstract class BaseState extends BasicGameState {
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
-
         if (nextState != stateId) {
-            sbg.enterState(nextState);
+            //Have to reset the nextState variable or  you will
+            //instantly switch to the same nextstate when entering
+            //this state again.
+            int temp = nextState;
+            nextState = stateId;
+            sbg.enterState(temp);
         }
         if(desktop != null){
             desktop.update(delta);

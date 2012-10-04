@@ -1,12 +1,13 @@
 package simplex;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import mdes.oxy.Button;
 import mdes.oxy.Label;
+import mdes.oxy.Panel;
+import mdes.oxy.Position;
 import mdes.oxy.Spinner;
+import mdes.oxy.TextField;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -46,6 +47,7 @@ public class EditorState extends EngineState {
         super.init(gc, sbg);
         loadGui(gc, "EditorGui.xml");
         setNodeGui(null); // Set no selected node
+        getGuiComponent("MenuPanel").setVisible(false);
     }
 
     @Override
@@ -57,6 +59,16 @@ public class EditorState extends EngineState {
         } else if (connection != null && selectedNode != null) {
             connection.render(g);
         }
+
+        if (pickedNode != null) {
+            setEscapeButton("Remove Node");
+        } else if (connection != null) {
+            setEscapeButton("Remove Connection");
+        } else if (selectedNode != null) {
+            setEscapeButton("Unselect Node");
+        } else {
+            setEscapeButton("Back");
+        }
     }
 
     @Override
@@ -65,31 +77,19 @@ public class EditorState extends EngineState {
 
         super.update(gc, sbg, delta);
 
-        if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
-            if (pickedNode != null) {
-                level.removeNode(pickedNode);
-                pickedNode = null;
-            } else if (connection != null) {
-                connection = null;
-            } else if (selectedNode != null) {
-                unselect();
-            } else {
-                try {
-                    LevelFileHandler lfh = new LevelFileHandler();
-                    lfh.saveLevel(level);
-                } catch (IOException ex) {
-                    Logger.getLogger(EditorState.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
-                sbg.enterState(Main.MAINMENUSTATE);
-            }
-        }
-
         GridCoord coord = GridConversions.mouseToGridCoord(gc.getInput()
                 .getAbsoluteMouseX(), gc.getInput().getAbsoluteMouseY());
         if (pickedNode != null) {
             pickedNode.setGridPosition(coord);
         } else if (connection != null && selectedNode != null) {
             connection.getEndNode().setGridPosition(coord);
+        }
+    }
+
+    @Override
+    public void keyReleased(int key, char c) {
+        if (Input.KEY_ESCAPE == key) {
+            escape();
         }
     }
 
@@ -163,6 +163,49 @@ public class EditorState extends EngineState {
         connection.setEndNode(NodeFactory.instance().createDummyNode());
     }
 
+    public void escape() {
+        if (pickedNode != null) {
+            level.removeNode(pickedNode);
+            pickedNode = null;
+        } else if (connection != null) {
+            connection = null;
+        } else if (selectedNode != null) {
+            unselect();
+        } else {
+            setNextState(Main.MAINMENUSTATE);
+        }
+    }
+
+    public void save(String filename) {
+        System.out.println("Saveing");
+        LevelFileHandler lfh = LevelFileHandler.instance();
+        lfh.saveLevel(level, filename);
+        getGuiComponent("MenuPanel").setVisible(false);
+    }
+
+    public void load(String filename) {
+        System.out.println("Loading");
+        LevelFileHandler lfh = LevelFileHandler.instance();
+        level = lfh.loadLevel(filename);
+        getGuiComponent("MenuPanel").setVisible(false);
+    }
+
+    public void toggleVisible(Panel panel) {
+        panel.setVisible(!panel.isVisible());
+    }
+
+    public void showMenu(String name) {
+        Panel p = getGuiComponent("MenuPanel");
+        Button b = getGuiComponent("menu_btn");
+        TextField f = getGuiComponent("menu_field");
+
+        p.setVisible(!p.isVisible() || !b.getText().equalsIgnoreCase(name));
+
+        b.setText(Character.toUpperCase(name.charAt(0)) + name.substring(1));
+        b.setAction(name + "(menu_field.text)");
+        f.setAction(name + "(menu_field.text)");
+    }
+
     public void setNodeData(int data1, int data2) {
 
         if (selectedNode == null) {
@@ -231,5 +274,20 @@ public class EditorState extends EngineState {
             label2.setVisible(false);
             button.setVisible(false);
         }
+    }
+
+    /**
+     * Set the text on the escape button.
+     * Also move the other buttons to match the escape button new size.
+     * @param text 
+     */
+    private void setEscapeButton(String text) {
+        Button b1 = getGuiComponent("menu1_btn");
+        b1.setText(text);
+        Button b2 = getGuiComponent("menu2_btn");
+        b2.setX(new Position(b1.getX() + b1.getWidth()));
+        Button b3 = getGuiComponent("menu3_btn");
+        b3.setX(new Position(b2.getX() + b2.getWidth()));
+        
     }
 }
