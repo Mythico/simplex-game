@@ -4,35 +4,46 @@
 
 <desktop>
     
-	<subSkin>
-			<image name="FactoryImage" 		ref="img/factory_node.png"/>
-			<image name="ConsumerImage" 	ref="img/consumer_node.png"/>
-			<image name="EaterImage" 		ref="img/dummy_node.png"/>
-			<image name="SplitterImage" 	ref="img/dummy_node.png"/>
-			<image name="ConnectionImage" 	ref="img/connection.png"/>
-			<button name="img"></button>
-	</subSkin>
+    <subSkin>
+        <image name="FactoryImage" 		ref="img/factory_node.png"/>
+        <image name="ConsumerImage" 	ref="img/consumer_node.png"/>
+        <image name="EaterImage" 		ref="img/dummy_node.png"/>
+        <image name="SplitterImage" 	ref="img/dummy_node.png"/>
+        <image name="ConnectionImage" 	ref="img/connection.png"/>
+        <button name="img"></button>
+    </subSkin>
+    
+    <panel name="MenuPanel"  opaque="true" location="0px, 30px"  size="300px, 30px" background="#f0f0f0">
+        <label text="Filename" location="10px, 6px" />
+       <textField name="menu_field" cols="10" editable="true" location="80px, 1px" />
+        <button name="menu_btn" text="save" location="220px,3px"/>
+    </panel>
+        
+    <panel name="TopBar" opaque="true" location="0%, 0%" size="100%, 30px" background="#f0f0f0">											
+        <button name="menu1_btn" text="Back" location="0px, 3px" action="escape()"/>									
+        <button name="menu2_btn" text="Save" location="80px, 3px" action="showMenu('save')"/>
+        <button name="menu3_btn" text="Load" location="160px, 3px" action="showMenu('load')"/>        
+    </panel>
+    
 	
-	<panel name="BottomBar" opaque="true" location="25%, 90%" size="50%, 10%" background="#f0f0f0">
+    <panel name="BottomBar" opaque="true" location="25%, 90%" size="50%, 10%" background="#f0f0f0">
 					
-		<label name="nodeLabel" text="Select a node" location="10px, 10%" />	
-		<label name="label1" text="" location="10px, 25px"/>
-		<label name="label2" text="" location="10px, 45px"/>
-		<spinner name="spinner1" cols="5" min="0" max="5" location="100px, 20px"/>	
-		<spinner name="spinner2" cols="5" min="0" max="5" location="100px, 40px"/>	
+        <label name="nodeLabel" text="Select a node" location="10px, 10%" />	
+        <label name="label1" text="" location="10px, 25px"/>
+        <label name="label2" text="" location="10px, 45px"/>
+        <spinner name="spinner1" cols="5" min="0" max="5" location="100px, 20px"/>	
+        <spinner name="spinner2" cols="5" min="0" max="5" location="100px, 40px"/>	
 						
-		 <button name="btn" text="Ok" location="80%, 40%" 
-			 action="setNodeData(spinner1.value, spinner2.value)"/>
+        <button name="btn" text="Ok" location="80%, 40%" 
+                action="setNodeData(spinner1.value, spinner2.value)"/>
 	
-	</panel>
+    </panel>
 	
-	<panel name="SidePanel" opaque="true" location="95%, 25%" size="5%, 50%" background="#f0f0f0">
-		
-		
-		<button image="FactoryImage"  	theme="img" location="0px, 0px" action="spawnFactory()"/>
-		<button image="ConsumerImage"  	theme="img" location="0px, 10%" action="spawnConsumer()"/>
-		<button image="EaterImage"  	theme="img" location="0px, 20%" action="spawnEater()"/>
-		<button image="SplitterImage"  	theme="img" location="0px, 30%" action="spawnSplitter()"/>
-		<button image="ConnectionImage" theme="img" location="0px, 40%" action="spawnConnection()"/>
-	</panel>
+    <panel name="SidePanel" opaque="true" location="95%, 25%" size="5%, 50%" background="#f0f0f0">
+        <button image="FactoryImage"  	theme="img" location="0px, 0px" action="spawnFactory()"/>
+        <button image="ConsumerImage"  	theme="img" location="0px, 10%" action="spawnConsumer()"/>
+        <button image="EaterImage"  	theme="img" location="0px, 20%" action="spawnEater()"/>
+        <button image="SplitterImage"  	theme="img" location="0px, 30%" action="spawnSplitter()"/>
+        <button image="ConnectionImage" theme="img" location="0px, 40%" action="spawnConnection()"/>
+    </panel>
 </desktop>
