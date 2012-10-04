@@ -1,7 +1,5 @@
 package simplex;
 
-import java.io.IOException;
-import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -72,13 +70,6 @@ public abstract class EngineState extends BaseState {
     @Override
     public void enter(GameContainer container, StateBasedGame game)
             throws SlickException {
-        super.enter(container, game);
-        try {
-            LevelFileHandler lfh = new LevelFileHandler();
-            level = lfh.loadLevel();
-        } catch (IOException ex) {
-            Logger.getLogger(GameState.class.getName())
-                    .log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        level = LevelFileHandler.instance().loadLevel();
     }
 }

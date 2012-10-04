@@ -24,26 +24,25 @@ import simplex.util.GridCoord;
  * @author Emil
  * @author Samuel
  */
-public class LevelFileHandler{
+public final class LevelFileHandler{
     
-    private static String level_name = "default_level.yml";
+    private static LevelFileHandler instance;
+    private String setLevel = "default_level.yml";
 
-    public static void setLevelName(String name){
-        level_name = name;
+    
+    public static LevelFileHandler instance() {
+        if(instance == null){
+            instance = new LevelFileHandler();
+        }
+        return instance;
+    }    
+    
+    public void setLevel(String level){
+        setLevel = level;
     }
     
-    public static String getLevelName() {
-        return level_name;
-    }
-    
 
-    private final File file;
-
-    public LevelFileHandler() throws IOException {
-        file = new File("level/" + getLevelName());
-    }
-
-    public void saveLevel(Level level) {
+    public void saveLevel(Level level, String filename) {    
         Map<GridCoord, Node> nodes = level.getNodes();
         List<Connection> connections = level.getConnections();
 
@@ -53,7 +52,7 @@ public class LevelFileHandler{
         List<SavedNode> savedNodes = createSavedNodes(nodes);
         List<SavedConnection> savedConn = createSavedConnections(connections);
 
-        try (FileWriter fw = new FileWriter(file)) {
+        try (FileWriter fw = new FileWriter("level/" + filename)) {
             List list = new LinkedList();
             list.addAll(savedNodes);
             list.addAll(savedConn);
@@ -64,11 +63,15 @@ public class LevelFileHandler{
         }
 
     }
+    
+    public Level loadLevel(){
+        return loadLevel(setLevel);
+    }
 
-    public Level loadLevel() {
+    public Level loadLevel(String filename) { 
         Level level = new Level();
         List<SavedEntity> savedObjects = new LinkedList<>();
-        try (FileReader fr = new FileReader(file)) {
+        try (FileReader fr = new FileReader("level/" +filename)) {
             Yaml yaml = new Yaml();
             for (Object o : yaml.loadAll(fr)) {
                 savedObjects.add((SavedEntity) o);
