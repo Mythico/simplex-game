@@ -27,7 +27,6 @@ import simplex.util.ImageManager;
 public class GameState extends EngineState {
 
     private List<MouseOverArea> tempConnSwap = new LinkedList<>();
-    private GameContainer gc;
     private long startTime;
     private int clicks;
     private long endTime;
@@ -40,7 +39,6 @@ public class GameState extends EngineState {
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
         super.init(gc, sbg);
-        this.gc = gc;
         loadGui(gc, "GameGui.xml");
 
     }

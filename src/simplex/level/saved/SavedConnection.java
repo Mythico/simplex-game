@@ -43,7 +43,7 @@ public class SavedConnection extends SavedEntity {
         Connection conn = new Connection();
         Node n1 = SavedNodeFactory.instance().getNode(startNodeId);
         Node n2 = SavedNodeFactory.instance().getNode(endNodeId);
-        NodeFactory.instance().bind(n1, n2, conn);
+        conn.bind(n1, n2);
         return conn;
     }
     

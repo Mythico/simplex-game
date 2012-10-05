@@ -47,16 +47,4 @@ public class NodeFactory {
         return new Node(new SplitterSpecification());
     }
 
-    /**
-     * Finds a node between to positions and bind a connection between them.
-     *
-     * @param startNode Start node
-     * @param endNode End node
-     * @param conn The connection
-     */
-    public void bind(Node startNode, Node endNode, Connection conn) {
-        conn.setStartNode(startNode);
-        conn.setEndNode(endNode);
-    }
-
 }
