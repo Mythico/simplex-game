@@ -78,7 +78,12 @@ public class ImageManager {
             resourceMap = new HashMap<>();
             nodeResourceMap.put(spec, resourceMap);
         }
-        final Resource r = spec.getResource();
+        final Resource r;
+        if (spec instanceof ConsumerSpecification) {
+            r = ((ConsumerSpecification) spec).getExpectedResource();
+        } else {
+            r = spec.getResource();
+        }
         Image img = resourceMap.get(r);
 
         if (img == null) {
