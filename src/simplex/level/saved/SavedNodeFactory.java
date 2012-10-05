@@ -40,8 +40,8 @@ public final class SavedNodeFactory {
         if (spec instanceof FactorySpecification) {
             final Resource res = spec.getResource();
             return new SavedFactory(res, coord, id);
-        } else if (spec instanceof ConsumerSpecification) {
-            final Resource res = spec.getResource();
+        } else if (spec instanceof ConsumerSpecification) {            
+            Resource res = ((ConsumerSpecification)spec).getExpectedResource();
             return new SavedConsumer(res, coord, id);
         } else if (spec instanceof EaterSpecification) {
             final int fraction = ((EaterSpecification) spec).getFraction();
