@@ -1,6 +1,6 @@
 package simplex.entity.specification;
 
-import java.util.HashMap;
+import java.util.Objects;
 import simplex.entity.Resource;
 
 /**
@@ -25,6 +25,27 @@ public class DummySpecification implements NodeSpecification {
         return resource;
     }
 
-    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.resource);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DummySpecification other = (DummySpecification) obj;
+        if (!Objects.equals(this.resource, other.resource)) {
+            return false;
+        }
+        return true;
+    }
+
     
 }

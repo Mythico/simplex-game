@@ -1,6 +1,7 @@
 package simplex.entity.specification;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import simplex.entity.Resource;
 
 /**
@@ -33,4 +34,28 @@ public class SplitterSpecification implements NodeSpecification {
         }
         return values.get(iterator);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.resource);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SplitterSpecification other = (SplitterSpecification) obj;
+        if (!Objects.equals(this.resource, other.resource)) {
+            return false;
+        }
+        return true;
+    }
+
+    
 }
