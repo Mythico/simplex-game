@@ -1,5 +1,6 @@
 package simplex.entity.specification;
 
+import java.util.Objects;
 import simplex.entity.Resource;
 
 /**
@@ -40,4 +41,34 @@ public class ConsumerSpecification implements NodeSpecification {
     public boolean isHappy() {
         return happy;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.expectedResource);
+        hash = 61 * hash + (this.happy ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ConsumerSpecification other = (ConsumerSpecification) obj;
+        if (!Objects.equals(this.expectedResource, other.expectedResource)) {
+            return false;
+        }
+        if (this.happy != other.happy) {
+            return false;
+        }
+        return true;
+    }
+
+ 
+    
+    
 }

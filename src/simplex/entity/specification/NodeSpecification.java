@@ -24,4 +24,6 @@ public interface NodeSpecification {
      */
     public Resource getResource();
     
+    
+    
 }

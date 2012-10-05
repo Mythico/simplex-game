@@ -62,8 +62,10 @@ public class Resource {
             r.type = BLACK;
         } else if (r1.type == WHITE) {
             r.type = r2.getType();
+            r.rate = r2.getRate();
         } else if (r2.type == WHITE) {
             r.type = r1.type;
+            r.rate = r1.getRate();
         } else {
             r.type = (r1.type + r2.type) / 2;
         }

@@ -1,5 +1,6 @@
 package simplex.entity.specification;
 
+import java.util.Objects;
 import simplex.entity.Resource;
 
 /**
@@ -21,4 +22,28 @@ public class FactorySpecification implements NodeSpecification {
     public Resource getResource() {
         return resource;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.resource);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FactorySpecification other = (FactorySpecification) obj;
+        if (!Objects.equals(this.resource, other.resource)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
