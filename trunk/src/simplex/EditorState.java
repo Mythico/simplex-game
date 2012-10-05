@@ -106,7 +106,7 @@ public class EditorState extends EngineState {
             } else if (connection != null && selectedNode != null) {
                 Node node = nodes.get(coords);
                 if (node != null) {
-                    NodeFactory.instance().bind(selectedNode, node, connection);
+                    connection.bind(selectedNode, node);
                     connections.add(connection);
                     connection = null;
                     unselect();

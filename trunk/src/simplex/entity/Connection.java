@@ -1,6 +1,5 @@
 package simplex.entity;
 
-import simplex.entity.specification.NodeSpecification;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -8,6 +7,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
+import simplex.entity.specification.NodeSpecification;
 import simplex.util.ImageManager;
 
 /**
@@ -37,6 +37,17 @@ public class Connection implements Entity {
     }
 
     public void setEndNode(Node endNode) {
+        this.endNode = endNode;
+    }
+    
+    /**
+     * Binds two nodes to the connection
+     *
+     * @param startNode Start node
+     * @param endNode End node
+     */
+    public void bind(Node startNode, Node endNode){        
+        this.startNode = startNode;
         this.endNode = endNode;
     }
 
