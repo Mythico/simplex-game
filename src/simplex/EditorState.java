@@ -213,7 +213,7 @@ public class EditorState extends EngineState {
         TextField f = getGuiComponent("menu_field");
 
         p.setVisible(!p.isVisible() || !b.getText().equalsIgnoreCase(name));
-
+        
         b.setText(Character.toUpperCase(name.charAt(0)) + name.substring(1));
         b.setAction(name + "(menu_field.text)");
         f.setAction(name + "(menu_field.text)");
