@@ -20,7 +20,6 @@ public abstract class EngineState extends BaseState {
     protected int height = 16;
     protected int width = 16;
     protected Level level = new Level();
-    protected GameContainer gc;
 
     public EngineState(int stateId) {
         super(stateId);
@@ -32,7 +31,6 @@ public abstract class EngineState extends BaseState {
         super.init(gc, sbg);
         GridConversions.setGameSize(width, height);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
-        this.gc = gc;
     }
 
     @Override
@@ -69,9 +67,9 @@ public abstract class EngineState extends BaseState {
     }
 
     @Override
-    public void enter(GameContainer container, StateBasedGame game)
+    public void enter(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
-        super.enter(gc, game);
+        super.enter(gc, sbg);
         level = LevelFileHandler.instance().loadLevel();
     }
 }

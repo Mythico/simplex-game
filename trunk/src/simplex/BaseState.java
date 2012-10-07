@@ -32,12 +32,16 @@ public abstract class BaseState extends BasicGameState {
     }
 
     @Override
-    public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        desktop = loadGui(container);
+    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        reloadGUI(gc);
     }
 
     protected abstract Desktop loadGui(GameContainer gc) throws SlickException;
 
+    protected void reloadGUI(GameContainer gc) throws SlickException{
+        desktop = loadGui(gc);
+    }
+    
     @Override
     public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
         desktop.setVisible(true);

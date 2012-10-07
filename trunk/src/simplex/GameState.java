@@ -38,10 +38,8 @@ public class GameState extends EngineState {
     }
 
     @Override
-    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        super.enter(container, game);
-        
-        
+    public void enter(GameContainer gc, StateBasedGame game) throws SlickException {
+        super.enter(gc, game);
 
         List<Connection> connections = level.getConnections();
         tempConnSwap.clear();
@@ -106,9 +104,9 @@ public class GameState extends EngineState {
 
     @Override
     public void keyReleased(int key, char c) {
-        if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
+        /*if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
             gc.setPaused(!gc.isPaused());
-        } else if (Input.KEY_ESCAPE == key) {
+        } else */if (Input.KEY_ESCAPE == key) {
             setNextState(Main.MAINMENUSTATE);
         }
     }

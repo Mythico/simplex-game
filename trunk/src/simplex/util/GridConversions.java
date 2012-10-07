@@ -42,9 +42,17 @@ public class GridConversions {
     public static float getGridWidth(){
         return screenWidth / gameWidth;
     }
-    
+        
     public static float getGridHeight(){
         return screenHeight / gameHeight;
+    }
+
+    public static int getGameWidth() {
+        return gameWidth;
+    }
+
+    public static int getGameHeight() {
+        return gameHeight;
     }
 
     public static GridCoord screenToGrid(Vector2f position) {
