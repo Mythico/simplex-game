@@ -3,7 +3,9 @@ package simplex;
 import java.util.List;
 import java.util.Map;
 import mdes.oxy.Button;
+import mdes.oxy.Desktop;
 import mdes.oxy.Label;
+import mdes.oxy.OxyException;
 import mdes.oxy.Panel;
 import mdes.oxy.Position;
 import mdes.oxy.Spinner;
@@ -45,10 +47,21 @@ public class EditorState extends EngineState {
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
         super.init(gc, sbg);
-        loadGui(gc, "EditorGui.xml");
         setNodeGui(null); // Set no selected node
         getGuiComponent("MenuPanel").setVisible(false);
     }
+
+    @Override
+    protected Desktop loadGui(GameContainer gc) throws SlickException {
+        try {
+            return Desktop.parse(EditorState.this, gc, "gui/EditorGui.xml");
+        } catch (OxyException e) {
+            System.err.println(e);
+            throw new SlickException("Can't load gui");
+        }
+    }
+    
+    
 
     @Override
     public void renderContent(GameContainer gc, StateBasedGame sbg, Graphics g) {

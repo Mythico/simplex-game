@@ -3,7 +3,9 @@ package simplex;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import mdes.oxy.Desktop;
 import mdes.oxy.Label;
+import mdes.oxy.OxyException;
 import mdes.oxy.Panel;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -36,16 +38,10 @@ public class GameState extends EngineState {
     }
 
     @Override
-    public void init(GameContainer gc, StateBasedGame sbg)
-            throws SlickException {
-        super.init(gc, sbg);
-        loadGui(gc, "GameGui.xml");
-
-    }
-
-    @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         super.enter(container, game);
+        
+        
 
         List<Connection> connections = level.getConnections();
         tempConnSwap.clear();
@@ -59,6 +55,17 @@ public class GameState extends EngineState {
         startTime = System.currentTimeMillis();
         endTime = -1;
         clicks = 0;
+    }
+    
+    
+    @Override
+    protected Desktop loadGui(GameContainer gc) throws SlickException {
+        try {
+            return Desktop.parse(GameState.this, gc, "gui/GameGui.xml");
+        } catch (OxyException e) {
+            System.err.println(e);
+            throw new SlickException("Can't load gui");
+        }
     }
 
     @Override

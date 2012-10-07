@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<desktop>
+           
+    
+    <panel name="MainMenuPanel" opaque="true" location="15%, 15%" size="300px, 70%" background="#f0f0f0">
+											
+        <button name="btn_level"   text="Select Level" location="10px, 10px" action="goToLevel()"/>
+        <button name="btn_editor"  text="Editor"       location="10px, 30px" action="goToEditor()"/>
+        <button name="btn_score"   text="High Score"   location="10px, 50px" action="goToScore()"/>
+        <button name="btn_tut"     text="Tutorial"     location="10px, 70px" action="goToTutorial()"/>
+        <button name="btn_quit"    text="Quit"         location="10px, 90px" action="goToQuit()"/>
+	
+    </panel>  
+    
+</desktop>

@@ -4,6 +4,8 @@
  */
 package simplex;
 
+import mdes.oxy.Desktop;
+import mdes.oxy.OxyException;
 import org.newdawn.slick.*;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
@@ -30,6 +32,18 @@ public class NextGameState extends BaseState {
         doneButton = new MouseOverArea(gc, doneImage, 10, 100, doneClicked);
     }
 
+    
+    @Override
+    protected Desktop loadGui(GameContainer gc) throws SlickException {
+        /*try {
+            return Desktop.parse(EditorState.this, gc, "gui/EditorGui.xml");
+        } catch (OxyException e) {
+            System.err.println(e);
+            throw new SlickException("Can't load gui");
+        }*/ //TODO: add xml file
+        return null;
+    }
+    
     @Override
     protected void renderBackground(GameContainer gc, StateBasedGame sbg,
             Graphics g) {

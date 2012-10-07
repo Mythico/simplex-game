@@ -1,14 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex;
 
+import mdes.oxy.Desktop;
+import mdes.oxy.OxyException;
 import org.newdawn.slick.*;
-import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.ComponentListener;
-import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.state.StateBasedGame;
 
 /**
  *
@@ -17,60 +11,40 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MainMenuState extends BaseState {
 
-    private MouseOverArea playButton;
-    private MouseOverArea editButton;
-    private MouseOverArea quitButton;
 
     public MainMenuState(int stateId) {
         super(stateId);
     }
-
+    
     @Override
-    public void init(GameContainer gc, StateBasedGame sbg)
-            throws SlickException {
-
-        Image playImage = new Image("img/play.png");
-        Image editImage = new Image("img/edit.png");
-        Image quitImage = new Image("img/quit.png");
-        playButton = new MouseOverArea(gc, playImage, 10, 100, playClicked);
-        editButton = new MouseOverArea(gc, editImage, 10, 164, editClicked);
-        quitButton = new MouseOverArea(gc, quitImage, 10, 228, quitClicked);
-    }
-
-    @Override
-    protected void renderBackground(GameContainer gc, StateBasedGame sbg,
-            Graphics g) {
-    }
-
-    @Override
-    protected void renderContent(GameContainer gc, StateBasedGame sbg,
-            Graphics g) {
-        playButton.render(gc, g);
-        editButton.render(gc, g);
-        quitButton.render(gc, g);
-    }
-
-    @Override
-    protected void renderForeground(GameContainer gc, StateBasedGame sgb,
-            Graphics g) {
-    }
-
-    private ComponentListener playClicked = new ComponentListener() {
-        @Override
-        public void componentActivated(AbstractComponent ac) {
-            setNextState(Main.GAMESTATE);
+    protected Desktop loadGui(GameContainer gc) throws SlickException {
+        try {
+            return Desktop.parse(MainMenuState.this, gc, "gui/MainMenuGui.xml");
+        } catch (OxyException e) {
+            System.err.println(e);
+            throw new SlickException("Can't load gui");
         }
-    };
-    private ComponentListener editClicked = new ComponentListener() {
-        @Override
-        public void componentActivated(AbstractComponent ac) {
+    }
+    
+    public void goToLevel(){
+        setNextState(Main.NEXT_GAME);
+    }
+    
+    public void goToEditor(){
             setNextState(Main.EDITSTATE);
-        }
-    };
-    private ComponentListener quitClicked = new ComponentListener() {
-        @Override
-        public void componentActivated(AbstractComponent ac) {
-            System.exit(0);
-        }
-    };
+    }
+    
+    public void goToScore(){
+        //TODO:
+        int x = 0;
+    }
+    
+    public void goToTutorial(){
+        //TODO:
+    }
+    
+    public void goToQuit(){
+        setQuit();
+    }
+
 }
