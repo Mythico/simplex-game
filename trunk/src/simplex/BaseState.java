@@ -2,7 +2,6 @@ package simplex;
 
 import mdes.oxy.Component;
 import mdes.oxy.Desktop;
-import mdes.oxy.OxyException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -20,6 +19,7 @@ public abstract class BaseState extends BasicGameState {
     private final int stateId;
     private int nextState;
     private Desktop desktop;
+    private boolean quit;
 
     public BaseState(int stateId) {
         this.stateId = stateId;
@@ -31,17 +31,26 @@ public abstract class BaseState extends BasicGameState {
         return stateId;
     }
 
-    protected void loadGui(GameContainer gc, String filename) throws SlickException {
-
-        try {
-            desktop = Desktop.parse(this, gc, "gui/" + filename);
-        } catch (OxyException e) {
-            System.err.println(e);
-            throw new SlickException("Can't load gui");
-        }
+    @Override
+    public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        desktop = loadGui(container);
     }
-    
-    protected <T extends Component> T getGuiComponent(String name){        
+
+    protected abstract Desktop loadGui(GameContainer gc) throws SlickException;
+
+    @Override
+    public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        nextState = stateId;
+    }
+
+    /**
+     * A helper method to find Gui components in the document.
+     *
+     * @param <T>
+     * @param name
+     * @return
+     */
+    protected <T extends Component> T getGuiComponent(String name) {
         return (T) desktop.getDoc().getElement(name);
     }
 
@@ -54,39 +63,35 @@ public abstract class BaseState extends BasicGameState {
     }
 
     protected void renderBackground(GameContainer container,
-            StateBasedGame game, Graphics g){
-        
+            StateBasedGame game, Graphics g) {
     }
 
     protected void renderContent(GameContainer container,
-            StateBasedGame game, Graphics g){
-        
+            StateBasedGame game, Graphics g) {
     }
 
     protected void renderForeground(GameContainer container,
-            StateBasedGame game, Graphics g){
-        if(desktop != null){
-            desktop.render(g);
-        }
+            StateBasedGame game, Graphics g) {
+        desktop.render(g);
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
+        if (quit) {
+            gc.exit();
+        }
         if (nextState != stateId) {
-            //Have to reset the nextState variable or  you will
-            //instantly switch to the same nextstate when entering
-            //this state again.
-            int temp = nextState;
-            nextState = stateId;
-            sbg.enterState(temp);
+            sbg.enterState(nextState);
         }
-        if(desktop != null){
-            desktop.update(delta);
-        }
+        desktop.update(delta);
     }
 
     protected void setNextState(int state) {
         nextState = state;
+    }
+
+    protected void setQuit() {
+        quit = true;
     }
 }

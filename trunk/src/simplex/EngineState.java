@@ -1,5 +1,6 @@
 package simplex;
 
+import mdes.oxy.Desktop;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -28,12 +29,14 @@ public abstract class EngineState extends BaseState {
 
     @Override
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        super.init(gc, sbg);
         GridConversions.setGameSize(width, height);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
         this.gc = gc;
     }
-    
-    
+
+    @Override
+    protected abstract Desktop loadGui(GameContainer gc) throws SlickException;
 
     @Override
     protected void renderBackground(GameContainer gc, StateBasedGame sbg,
