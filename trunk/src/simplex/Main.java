@@ -24,6 +24,7 @@ public class Main extends StateBasedGame {
         addState(new GameState(GAMESTATE));
         addState(new EditorState(EDITSTATE));
         addState(new NextGameState(NEXT_GAME));
+        enterState(MAINMENUSTATE);
     }
 
     public static void main(String[] args) throws SlickException {

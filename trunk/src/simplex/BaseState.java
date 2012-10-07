@@ -40,8 +40,16 @@ public abstract class BaseState extends BasicGameState {
 
     @Override
     public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        nextState = stateId;
+        desktop.setVisible(true);
     }
+
+    @Override
+    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
+        nextState = stateId;
+        desktop.setVisible(false);
+    }
+    
+    
 
     /**
      * A helper method to find Gui components in the document.

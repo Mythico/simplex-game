@@ -71,6 +71,7 @@ public abstract class EngineState extends BaseState {
     @Override
     public void enter(GameContainer container, StateBasedGame game)
             throws SlickException {
+        super.enter(gc, game);
         level = LevelFileHandler.instance().loadLevel();
     }
 }
