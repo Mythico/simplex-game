@@ -39,7 +39,13 @@ public abstract class BaseState extends BasicGameState {
     protected abstract Desktop loadGui(GameContainer gc) throws SlickException;
 
     protected void reloadGUI(GameContainer gc) throws SlickException{
+        if(desktop != null){
+            desktop.setVisible(false);
+        }
         desktop = loadGui(gc);
+        if(desktop != null){
+            desktop.setVisible(true);
+        }
     }
     
     @Override
