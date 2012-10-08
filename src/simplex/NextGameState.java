@@ -31,22 +31,16 @@ public class NextGameState extends BaseState {
     @Override
     public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
         super.enter(gc, sbg);
-
-        createGui();
         reloadGUI(gc);
     }
 
     @Override
     protected Desktop loadGui(GameContainer gc) throws SlickException {
+        createGui();
         try {
             return Desktop.parse(NextGameState.this, gc, "gui/LevelSelectGui.xml");
         } catch (OxyException e) {
-            createGui(); //Retry once
-            try {
-                return Desktop.parse(NextGameState.this, gc, "gui/LevelSelectGui.xml");
-            } catch (OxyException ex) {
-                throw new SlickException(ex.getMessage(), ex);
-            }
+            throw new SlickException(e.getMessage(), e);
         }
 
     }
