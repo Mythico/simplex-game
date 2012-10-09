@@ -135,7 +135,7 @@ class ResourceBall {
         this.endPos = endPos;
         this.resource = r;
 
-        float k = 0.05f * (float) r.getRate();
+        float k = 0.05f;
         dir = endPos.copy().sub(startPos).normalise().scale(k);
     }
 
