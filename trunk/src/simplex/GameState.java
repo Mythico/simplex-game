@@ -44,7 +44,10 @@ public class GameState extends EngineState {
         List<Connection> connections = level.getConnections();
         tempConnSwap.clear();
         for (Connection conn : connections) {
-            Vector2f middle = conn.getStartNode().getPosition();
+            final Vector2f startPos = conn.getStartNode().getPosition();
+            final Vector2f endPos = conn.getEndNode().getPosition();
+            
+            Vector2f middle = (startPos.copy().add(endPos)).scale(0.5f);            
             tempConnSwap.add(new MouseOverArea(gc, ImageManager.connection_swap_icon, (int) middle.x, (int) middle.y));
             conn.swapDirection();
         }
