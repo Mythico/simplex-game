@@ -38,6 +38,9 @@ public class ImageManager {
     private static Image green_resource;
     private static Image blue_resource;
     private static Map<NodeSpecification, Map<Resource, Image>> nodeResourceMap;
+    private static Map<Integer, Image> redResourceMap;
+    private static Map<Integer, Image> blueResourceMap;
+    private static Map<Integer, Image> greenResourceMap;
 
     public static void init() throws SlickException {
         dummy_node = new Image("img/dummy_node.png", Color.white);
@@ -56,19 +59,29 @@ public class ImageManager {
         blue_resource = new Image("img/blue_resource.png");
 
         nodeResourceMap = new HashMap<>();
+        redResourceMap = new HashMap<>();
     }
 
     public static Image get(Resource resource) {
         switch (resource.getType()) {
-            case Resource.RED:
-                return red_resource;
+            case Resource.RED:                
+                return get(red_resource, resource.getRate(), redResourceMap);
             case Resource.BLUE:
-                return blue_resource;
+                return get(blue_resource, resource.getRate(), redResourceMap);
             case Resource.GREEN:
-                return green_resource;
+                return get(green_resource, resource.getRate(), redResourceMap);
             default:
                 return white_resource;
         }
+    }
+    
+    private static Image get(Image source, int size, Map<Integer, Image> map){
+        Image img = map.get(size);
+        if(img == null){
+            img = source.getScaledCopy(0.5f * size);
+            map.put(size, img);
+        }
+        return img;
     }
 
     public static Image get(NodeSpecification spec) {
