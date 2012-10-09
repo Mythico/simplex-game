@@ -1,5 +1,7 @@
 package simplex.entity.specification;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Objects;
 import simplex.entity.Resource;
 
@@ -13,16 +15,21 @@ import simplex.entity.Resource;
  */
 public class DummySpecification implements NodeSpecification {
 
-    private Resource resource = Resource.NIL;
+    private Deque<Resource> resource = new LinkedList<>();
     
     @Override
     public void setResource(Resource other) {
-        resource = Resource.combine(resource, other);
+        if(resource != Resource.NIL){
+            resource.add(other);
+        }
     }
 
     @Override
     public Resource getResource() {
-        return resource;
+        if(resource.isEmpty()){
+            return Resource.NIL;
+        }        
+        return resource.poll();
     }
 
     @Override

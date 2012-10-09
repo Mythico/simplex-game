@@ -1,7 +1,8 @@
 package simplex.entity.specification;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
 import simplex.entity.Resource;
 
 /**
@@ -14,25 +15,32 @@ import simplex.entity.Resource;
  */
 public class SplitterSpecification implements NodeSpecification {
 
-    private Resource resource = Resource.NIL;
-    private int iterator = 0;
+    private Queue<Resource> resource = new LinkedList<>();
 
     @Override
     public void setResource(Resource other) {
-        resource = Resource.combine(resource, other);
+        if (Resource.NIL == other) {
+            return;
+        }
+        int rate = other.getRate();
+        if (other.getType() == Resource.RED) {
+            resource.add(Resource.parse(Resource.BLUE, rate));
+            resource.add(Resource.parse(Resource.GREEN, rate));
+        } else if (other.getType() == Resource.GREEN) {
+            resource.add(Resource.parse(Resource.BLUE, rate));
+            resource.add(Resource.parse(Resource.RED, rate));
+        } else if (other.getType() == Resource.BLUE) {
+            resource.add(Resource.parse(Resource.GREEN, rate));
+            resource.add(Resource.parse(Resource.RED, rate));
+        }
     }
 
     @Override
     public Resource getResource() {
-        ArrayList<Resource> values = Resource.split(resource);
-        if (values.isEmpty()) {
-            return null;
+        if(resource.isEmpty()){
+            return Resource.NIL;
         }
-        iterator++;
-        if (iterator >= values.size()) {
-            iterator = 0;
-        }
-        return values.get(iterator);
+        return resource.poll();
     }
 
     @Override
@@ -56,6 +64,4 @@ public class SplitterSpecification implements NodeSpecification {
         }
         return true;
     }
-
-    
 }

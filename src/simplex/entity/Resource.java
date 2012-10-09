@@ -53,31 +53,7 @@ public class Resource {
     public void setRate(int rate) {
         this.rate = rate;
     }
-
-    public static Resource combine(Resource r1, Resource r2) {
-        Resource r = new Resource();
-        r.rate = (r1.rate + r2.rate) / 2;
-
-        if (r1.type == BLACK || r2.type == BLACK) { //TODO: Need better combine method
-            r.type = BLACK;
-        } else if (r1.type == WHITE) {
-            r.type = r2.getType();
-            r.rate = r2.getRate();
-        } else if (r2.type == WHITE) {
-            r.type = r1.type;
-            r.rate = r1.getRate();
-        } else {
-            r.type = (r1.type + r2.type) / 2;
-        }
-        return r;
-    }
     
-    public static ArrayList<Resource> split(Resource resource) {
-        ArrayList<Resource> list = new ArrayList<>(); //TODO: Not implemented
-        list.add(resource);
-        return list;        
-    }
-
     @Override
     public int hashCode() {
         int hash = 3;

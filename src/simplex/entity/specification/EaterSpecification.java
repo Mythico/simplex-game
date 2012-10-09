@@ -1,7 +1,8 @@
 package simplex.entity.specification;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
 import simplex.entity.Resource;
 
 /**
@@ -14,8 +15,9 @@ import simplex.entity.Resource;
  */
 public class EaterSpecification implements NodeSpecification {
 
-    private Resource resource = Resource.NIL;
+    private Queue<Resource> resource = new LinkedList<>();
     private int fraction = 1;
+    private int counter = 0;
 
     public void setFraction(int fraction) {
         this.fraction = fraction;
@@ -27,13 +29,23 @@ public class EaterSpecification implements NodeSpecification {
 
     @Override
     public void setResource(Resource other) {
-        resource = Resource.combine(resource, other);
-        resource.setRate(resource.getRate()/fraction);
+        if(Resource.NIL == other){
+            return;
+        }
+        if(counter < fraction){
+            counter++;
+        } else{
+            resource.add(other);
+            counter=0;
+        }
     }
 
     @Override
     public Resource getResource() {
-        return resource;
+        if(resource.isEmpty()){
+            return Resource.NIL;
+        }
+        return resource.poll();
     }
 
     @Override

@@ -11,7 +11,6 @@ import simplex.entity.Resource;
  */
 public class ConsumerSpecification implements NodeSpecification {
 
-    private Resource resource = Resource.NIL;
     private Resource expectedResource = Resource.NIL;
     private boolean happy = false;
 
@@ -21,16 +20,12 @@ public class ConsumerSpecification implements NodeSpecification {
 
     public void setExpectedResource(Resource expectedResource) {
         this.expectedResource = expectedResource;
-    }   
+    }
 
     @Override
-    public void setResource(Resource other) {
-        resource = Resource.combine(resource, other);
-                
-        if(!happy && expectedResource.getType() == resource.getType()
-                && expectedResource.getRate() <= resource.getRate()){
-            happy = true;
-        }
+    public void setResource(Resource resource) {
+        happy = (!happy && expectedResource.getType() == resource.getType()
+                && expectedResource.getRate() <= resource.getRate());
     }
 
     @Override
@@ -67,8 +62,4 @@ public class ConsumerSpecification implements NodeSpecification {
         }
         return true;
     }
-
- 
-    
-    
 }
