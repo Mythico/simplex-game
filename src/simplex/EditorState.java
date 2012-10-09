@@ -173,6 +173,7 @@ public class EditorState extends EngineState {
 
     public void spawnConnection() {
         connection = new Connection();
+        connection.setStartNode(NodeFactory.instance().createDummyNode());
         connection.setEndNode(NodeFactory.instance().createDummyNode());
     }
 
