@@ -51,12 +51,11 @@ public class Resource {
     public void setRate(int rate) {
         this.rate = rate;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 47 * hash + this.type;
-        hash = 47 * hash + this.rate;
+        hash = 17 * hash + this.type;
         return hash;
     }
 
@@ -72,11 +71,10 @@ public class Resource {
         if (this.type != other.type) {
             return false;
         }
-        if (this.rate != other.rate) {
-            return false;
-        }
         return true;
     }
+    
+    
     
     
 }
