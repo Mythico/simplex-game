@@ -2,7 +2,6 @@ package simplex.level.saved;
 
 import simplex.entity.Connection;
 import simplex.entity.Node;
-import simplex.entity.NodeFactory;
 
 /**
  *

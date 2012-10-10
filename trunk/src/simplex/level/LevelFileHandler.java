@@ -40,7 +40,6 @@ public final class LevelFileHandler{
         setLevel = level;
     }
     
-
     public void saveLevel(Level level, String filename) {    
         Map<GridCoord, Node> nodes = level.getNodes();
         List<Connection> connections = level.getConnections();
@@ -52,7 +51,7 @@ public final class LevelFileHandler{
         List<SavedConnection> savedConn = createSavedConnections(connections);
 
         try (FileWriter fw = new FileWriter("level/" + filename)) {
-            List list = new LinkedList();
+            List<SavedEntity> list = new LinkedList<SavedEntity>();
             list.addAll(savedNodes);
             list.addAll(savedConn);
             Yaml yaml = new Yaml();

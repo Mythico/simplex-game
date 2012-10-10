@@ -68,6 +68,7 @@ public abstract class BaseState extends BasicGameState {
      * @param name
      * @return
      */
+    @SuppressWarnings("unchecked")
     protected <T extends Component> T getGuiComponent(String name) {
         return (T) desktop.getDoc().getElement(name);
     }
