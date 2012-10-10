@@ -119,8 +119,6 @@ public class GameState extends EngineState {
         clicks++;
     }
     
-    
-
     private boolean levelIsDone() {
         Map<GridCoord, Node> nodes = level.getNodes();
         //TODO: do a better check.

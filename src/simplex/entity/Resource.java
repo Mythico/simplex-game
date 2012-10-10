@@ -1,7 +1,5 @@
 package simplex.entity;
 
-import java.util.ArrayList;
-
 /**
  * A class containing the resource data.
  *
