@@ -9,6 +9,7 @@ import mdes.oxy.OxyException;
 import mdes.oxy.Panel;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
@@ -44,12 +45,20 @@ public class GameState extends EngineState {
         List<Connection> connections = level.getConnections();
         tempConnSwap.clear();
         for (Connection conn : connections) {
+            conn.swapDirection();
             final Vector2f startPos = conn.getStartNode().getPosition();
             final Vector2f endPos = conn.getEndNode().getPosition();
-            
-            Vector2f middle = (startPos.copy().add(endPos)).scale(0.5f);            
-            tempConnSwap.add(new MouseOverArea(gc, ImageManager.connection_swap_icon, (int) middle.x, (int) middle.y));
-            conn.swapDirection();
+
+            Vector2f middle = (startPos.copy().add(endPos)).scale(0.5f);
+
+            Image img;
+            if ((startPos.x - endPos.x) < 0) {
+                img = ImageManager.connection_swap_right_icon;
+            } else {
+                img = ImageManager.connection_swap_left_icon;
+            }
+
+            tempConnSwap.add(new MouseOverArea(gc, img, (int) middle.x, (int) middle.y));
         }
         Panel panel = getGuiComponent("ScorePanel");
         panel.setVisible(false);
@@ -57,8 +66,7 @@ public class GameState extends EngineState {
         endTime = -1;
         clicks = 0;
     }
-    
-    
+
     @Override
     protected Desktop loadGui(GameContainer gc) throws SlickException {
         try {
@@ -79,12 +87,12 @@ public class GameState extends EngineState {
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {        
+    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         super.update(gc, sbg, delta);
         if (delta == 0 || endTime != -1) {
             return;
         }
-        
+
         if (levelIsDone()) {
             Panel panel = getGuiComponent("ScorePanel");
             endTime = (System.currentTimeMillis() - startTime) / 1000;
@@ -98,8 +106,20 @@ public class GameState extends EngineState {
         //TODO: Make the switching a part of connection
         if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             for (int i = 0; i < tempConnSwap.size(); i++) {
-                if (tempConnSwap.get(i).isMouseOver()) {
-                    connections.get(i).swapDirection();
+                final MouseOverArea moa = tempConnSwap.get(i);
+                if (moa.isMouseOver()) {
+                    final Connection conn = connections.get(i);
+                    conn.swapDirection();
+                    Vector2f startPos = conn.getStartNode().getPosition();
+                    Vector2f endPos = conn.getEndNode().getPosition();
+                    Image img;
+                    if ((startPos.x - endPos.x) < 0) {
+                        img = ImageManager.connection_swap_right_icon;
+                    } else {
+                        img = ImageManager.connection_swap_left_icon;
+                    }
+                    moa.setNormalImage(img);
+                    moa.setMouseOverImage(img);
                 }
             }
         }
@@ -108,8 +128,8 @@ public class GameState extends EngineState {
     @Override
     public void keyReleased(int key, char c) {
         /*if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
-            gc.setPaused(!gc.isPaused());
-        } else */if (Input.KEY_ESCAPE == key) {
+         gc.setPaused(!gc.isPaused());
+         } else */        if (Input.KEY_ESCAPE == key) {
             setNextState(Main.MAINMENUSTATE);
         }
     }
@@ -118,7 +138,7 @@ public class GameState extends EngineState {
     public void mouseReleased(int button, int x, int y) {
         clicks++;
     }
-    
+
     private boolean levelIsDone() {
         Map<GridCoord, Node> nodes = level.getNodes();
         //TODO: do a better check.
