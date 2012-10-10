@@ -47,8 +47,8 @@ public class ImageManager {
         factory_node = new Image("img/factory_node.png", Color.white);
         consumer_node = new Image("img/consumer_node.png", Color.white);
         happy_consumer_node = new Image("img/happy_consumer_node.png", Color.white);
-        eater_node = new Image("img/dummy_node.png", Color.white);
-        splitter_node = new Image("img/dummy_node.png", Color.white);
+        eater_node = new Image("img/eater_node.png", Color.white);
+        splitter_node = new Image("img/splitter_node.png", Color.white);
 
         connection_icon = new Image("img/connection.png", Color.white);
         connection_swap_icon = new Image("img/connection_swap.png", Color.white);
