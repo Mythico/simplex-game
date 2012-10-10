@@ -32,7 +32,8 @@ public class ImageManager {
     private static Image eater_node;
     private static Image splitter_node;
     private static Image connection_icon;
-    public static Image connection_swap_icon;
+    public static Image connection_swap_left_icon;
+    public static Image connection_swap_right_icon;
     private static Image white_resource;
     private static Image red_resource;
     private static Image green_resource;
@@ -51,7 +52,8 @@ public class ImageManager {
         splitter_node = new Image("img/splitter_node.png", Color.white);
 
         connection_icon = new Image("img/connection.png", Color.white);
-        connection_swap_icon = new Image("img/connection_swap.png", Color.white);
+        connection_swap_left_icon = new Image("img/connection_swap_left.png", Color.white);
+        connection_swap_right_icon = new Image("img/connection_swap_right.png", Color.white);
 
         white_resource = new Image("img/white_resource.png");
         red_resource = new Image("img/red_resource.png");
