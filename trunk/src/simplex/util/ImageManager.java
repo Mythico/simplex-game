@@ -17,6 +17,7 @@ import simplex.entity.specification.EaterSpecification;
 import simplex.entity.specification.FactorySpecification;
 import simplex.entity.specification.NodeSpecification;
 import simplex.entity.Resource;
+import simplex.entity.specification.DummySpecification;
 import simplex.entity.specification.SplitterSpecification;
 
 /**
@@ -62,24 +63,26 @@ public class ImageManager {
 
         nodeResourceMap = new HashMap<>();
         redResourceMap = new HashMap<>();
+        blueResourceMap = new HashMap<>();
+        greenResourceMap = new HashMap<>();
     }
 
     public static Image get(Resource resource) {
         switch (resource.getType()) {
-            case Resource.RED:                
+            case Resource.RED:
                 return get(red_resource, resource.getRate(), redResourceMap);
             case Resource.BLUE:
-                return get(blue_resource, resource.getRate(), redResourceMap);
+                return get(blue_resource, resource.getRate(), blueResourceMap);
             case Resource.GREEN:
-                return get(green_resource, resource.getRate(), redResourceMap);
+                return get(green_resource, resource.getRate(), greenResourceMap);
             default:
                 return white_resource;
         }
     }
-    
-    private static Image get(Image source, int size, Map<Integer, Image> map){
+
+    private static Image get(Image source, int size, Map<Integer, Image> map) {
         Image img = map.get(size);
-        if(img == null){
+        if (img == null) {
             img = source.getScaledCopy(0.5f * size);
             map.put(size, img);
         }
@@ -87,6 +90,14 @@ public class ImageManager {
     }
 
     public static Image get(NodeSpecification spec) {
+        if (spec instanceof EaterSpecification) {
+            return eater_node;
+        } else if (spec instanceof SplitterSpecification) {
+            return splitter_node;
+        } else if (spec instanceof DummySpecification) {
+            return dummy_node;
+        }
+
         Map<Resource, Image> resourceMap = nodeResourceMap.get(spec);
 
         if (resourceMap == null) {
@@ -110,10 +121,6 @@ public class ImageManager {
                 } else {
                     img = createResourceImage(consumer_node, r);
                 }
-            } else if (spec instanceof EaterSpecification) {
-                img = createResourceImage(eater_node, r);
-            } else if (spec instanceof SplitterSpecification) {
-                img = createResourceImage(splitter_node, r);
             } else {
                 img = createResourceImage(dummy_node, r);
             }

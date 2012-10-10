@@ -24,7 +24,7 @@ public class ConsumerSpecification implements NodeSpecification {
 
     @Override
     public void setResource(Resource resource) {
-        happy = (!happy && expectedResource.getType() == resource.getType()
+        happy = (expectedResource.getType() == resource.getType()
                 && expectedResource.getRate() <= resource.getRate());
     }
 
