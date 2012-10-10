@@ -5,9 +5,9 @@
 <desktop>
     
     <subSkin>
-        <image name="FactoryImage" 		ref="img/factory_node.png"/>
+        <image name="FactoryImage" 	ref="img/factory_node.png"/>
         <image name="ConsumerImage" 	ref="img/consumer_node.png"/>
-        <image name="EaterImage" 		ref="img/eater_node.png"/>
+        <image name="EaterImage" 	ref="img/eater_node.png"/>
         <image name="SplitterImage" 	ref="img/splitter_node.png"/>
         <image name="ConnectionImage" 	ref="img/connection.png"/>
         <button name="img"></button>

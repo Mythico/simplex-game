@@ -59,6 +59,8 @@ public class NextGameState extends BaseState {
         panel.append("<panel name=\"LevelSelect\" location=\"0px,0px\" "
                 + "opaque=\"true\" background=\"#f0f0f0\" "
                 + "size=\"100%,100%\">\n");
+        
+        panel.append("<label text=\"Level Select\" location=\"5px,5px\" />\n");
 
         for (int i = 0; i < files.length; i++) {
             panel.append(createButton(i, files[i]));
@@ -90,7 +92,7 @@ public class NextGameState extends BaseState {
         //action="setLevel(filename)"\>
         return "<button name=\"" + name + "\" "
                 + "text=\"" + name + "\" "
-                + "location=\"" + x + "px," + y + "px\" "
+                + "location=\"" + x + "px," + (30+y) + "px\" "
                 + "action=\"setLevel(" + name + ")\" />\n";
 
     }
