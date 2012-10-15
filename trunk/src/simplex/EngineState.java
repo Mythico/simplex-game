@@ -23,7 +23,7 @@ public abstract class EngineState extends BaseState {
 
     public EngineState(int stateId) {
         super(stateId);
-        
+
     }
 
     @Override
@@ -42,11 +42,13 @@ public abstract class EngineState extends BaseState {
         final int gwidth = gc.getWidth() / width;
         final int gheight = gc.getHeight() / height;
         // Draw grid
+        g.setColor(Color.darkGray);
+        g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
         for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                // Toggle colour
-                g.setColor(((i + j) % 2 == 0) ? Color.darkGray : Color.gray);
-                g.fillRect(j * gwidth, i * gheight, gwidth, gheight);
+            for (int j = 0; j < height; j += 2) {
+                int x = j + (i%2);
+                g.setColor(Color.gray);
+                g.fillRect(x * gwidth, i * gheight, gwidth, gheight);
             }
         }
     }
@@ -60,7 +62,7 @@ public abstract class EngineState extends BaseState {
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int delta)
             throws SlickException {
-        super.update(gc, sbg, delta);        
+        super.update(gc, sbg, delta);
         if (level != null) {
             level.update(delta);
         }
