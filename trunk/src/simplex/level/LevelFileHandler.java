@@ -26,7 +26,7 @@ import simplex.util.GridCoord;
 public final class LevelFileHandler{
     
     private static LevelFileHandler instance;
-    private String setLevel = "default_level.yml";
+    private String setLevel = "default_level";
 
     
     public static LevelFileHandler instance() {
@@ -50,8 +50,8 @@ public final class LevelFileHandler{
         List<SavedNode> savedNodes = createSavedNodes(nodes);
         List<SavedConnection> savedConn = createSavedConnections(connections);
 
-        try (FileWriter fw = new FileWriter("level/" + filename)) {
-            List<SavedEntity> list = new LinkedList<SavedEntity>();
+        try (FileWriter fw = new FileWriter("level/" + filename + ".yml")) {
+            List<SavedEntity> list = new LinkedList<>();
             list.addAll(savedNodes);
             list.addAll(savedConn);
             Yaml yaml = new Yaml();
@@ -67,9 +67,9 @@ public final class LevelFileHandler{
     }
 
     public Level loadLevel(String filename) { 
-        Level level = new Level();
+        Level level = new Level(filename);
         List<SavedEntity> savedObjects = new LinkedList<>();
-        try (FileReader fr = new FileReader("level/" +filename)) {
+        try (FileReader fr = new FileReader("level/" +filename + ".yml")) {
             Yaml yaml = new Yaml();
             for (Object o : yaml.loadAll(fr)) {
                 savedObjects.add((SavedEntity) o);

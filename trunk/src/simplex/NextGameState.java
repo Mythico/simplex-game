@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex;
 
 import java.io.File;
@@ -21,6 +17,7 @@ import simplex.util.GridConversions;
 /**
  *
  * @author Emil
+ * @author Samuel
  */
 public class NextGameState extends BaseState {
 
@@ -98,7 +95,7 @@ public class NextGameState extends BaseState {
     }
 
     public void setLevel(Button levelButton) {
-        LevelFileHandler.instance().setLevel(levelButton.getName() + ".yml");
+        LevelFileHandler.instance().setLevel(levelButton.getName());
         setNextState(Main.GAMESTATE);
     }
 }
