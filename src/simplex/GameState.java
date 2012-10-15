@@ -129,7 +129,7 @@ public class GameState extends EngineState {
     public void keyReleased(int key, char c) {
         /*if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
          gc.setPaused(!gc.isPaused());
-         } else */        if (Input.KEY_ESCAPE == key) {
+         } else */ if (Input.KEY_ESCAPE == key) {
             setNextState(Main.MAINMENUSTATE);
         }
     }
@@ -156,6 +156,7 @@ public class GameState extends EngineState {
      * Used by the GUI to switch to the next level.
      */
     public void goToNext() {
+        saveHighScore();
         setNextState(Main.NEXT_GAME);
     }
 
@@ -163,6 +164,13 @@ public class GameState extends EngineState {
      * Used by the GUI to switch to main menu.
      */
     public void goToMain() {
+        saveHighScore();
         setNextState(Main.MAINMENUSTATE);
+    }
+
+    private void saveHighScore() {
+        String time = this.<Label>getGuiComponent("time").getText();
+        String clicks = this.<Label>getGuiComponent("clicks").getText();        
+        HighScore.save(level.getName(), time, clicks);
     }
 }
