@@ -190,6 +190,11 @@ public class EditorState extends EngineState {
         }
     }
 
+    /**
+     * GUI function.
+     * Saves a level to disk.
+     * @param filename The name of the level that will be saved.
+     */
     public void save(String filename) {
         System.out.println("Saveing");
         LevelFileHandler lfh = LevelFileHandler.instance();
@@ -197,6 +202,11 @@ public class EditorState extends EngineState {
         getGuiComponent("MenuPanel").setVisible(false);
     }
 
+    /**
+     * GUI function.
+     * Loads a level from disk.
+     * @param filename The name of the level that will be loaded.
+     */
     public void load(String filename) {
         System.out.println("Loading");
         LevelFileHandler lfh = LevelFileHandler.instance();
