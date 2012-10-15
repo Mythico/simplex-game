@@ -129,6 +129,7 @@ class ResourceBall {
     private final Resource resource;
     private final Vector2f endPos;
     private final Vector2f dir;
+    private Image img;
 
     public ResourceBall(Vector2f startPos, Vector2f endPos, Resource r) {
         this.position = startPos.copy();
@@ -136,16 +137,17 @@ class ResourceBall {
         this.resource = r;
 
         float k = 0.05f;
+        img = ImageManager.get(resource);
         dir = endPos.copy().sub(startPos).normalise().scale(k);
     }
 
     void render(Graphics g) {
-        Image img = ImageManager.get(resource);
         g.drawImage(img, position.x, position.y);
     }
 
     void update(int delta) {
         position.add(dir);
+        img = ImageManager.get(resource);
     }
 
     Resource getResource() {
