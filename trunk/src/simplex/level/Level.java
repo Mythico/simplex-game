@@ -21,23 +21,60 @@ public class Level {
     
     private Map<GridCoord, Node> nodes = new HashMap<>();
     private List<Connection> connections = new LinkedList<>();
+    private final String name;
 
+    public Level(String name) {
+        this.name = name;
+    }
+
+    public Level() {
+        name = "";
+    }
+    
+    /**
+     * Get the name of the level.
+     * @return The name of the level.
+     */
+    public String getName(){
+        return name;
+    }
+
+    /**
+     * Get the nodes on this level.
+     * @return Nodes on this level
+     */
     public Map<GridCoord, Node> getNodes() {
         return nodes;
     }
 
+    /**
+     * Set the nodes on this level.
+     * @param nodes The nodes to be set.
+     */
     public void setNodes(Map<GridCoord, Node> nodes) {
         this.nodes = nodes;
     }
 
+    /**
+     * Get the connection on this level.
+     * @return The connection of the level.
+     */
     public List<Connection> getConnections() {
         return connections;
     }
 
+    /**
+     * Set the connection on this level.
+     * @param connections The connection to be set.
+     */
     public void setConnections(List<Connection> connections) {
         this.connections = connections;
     }
 
+    /**
+     * Render the level.
+     * @param g The graphics the level will be rendered with.
+     */
     public void render(Graphics g) {        
         if (nodes != null) {
             for (Node node : nodes.values()) {
@@ -52,6 +89,10 @@ public class Level {
         }
     }
 
+    /**
+     * Update the level
+     * @param delta Time from last update.
+     */
     public void update(int delta) {
         if (nodes != null) {
             for (Node node : nodes.values()) {
