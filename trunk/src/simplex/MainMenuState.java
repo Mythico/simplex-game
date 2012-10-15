@@ -11,11 +11,10 @@ import org.newdawn.slick.*;
  */
 public class MainMenuState extends BaseState {
 
-
     public MainMenuState(int stateId) {
         super(stateId);
     }
-    
+
     @Override
     protected Desktop loadGui(GameContainer gc) throws SlickException {
         try {
@@ -25,26 +24,24 @@ public class MainMenuState extends BaseState {
             throw new SlickException("Can't load gui");
         }
     }
-    
-    public void goToLevel(){
+
+    public void goToLevel() {
         setNextState(Main.NEXT_GAME);
     }
-    
-    public void goToEditor(){
-            setNextState(Main.EDITSTATE);
-    }
-    
-    public void goToScore(){
-        //TODO:
-        int x = 0;
-    }
-    
-    public void goToTutorial(){
-        //TODO:
-    }
-    
-    public void goToQuit(){
-        setQuit();
+
+    public void goToEditor() {
+        setNextState(Main.EDITSTATE);
     }
 
+    public void goToScore() {
+        setNextState(Main.HIGH_SCORE);
+    }
+
+    public void goToTutorial() {
+        //TODO:
+    }
+
+    public void goToQuit() {
+        setQuit();
+    }
 }
