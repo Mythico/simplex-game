@@ -3,8 +3,8 @@ package simplex.level.saved;
 import simplex.entity.Entity;
 
 /**
- * An abstract superclass for all SavedObjects that 
- * will be saved in the level file.
+ * An abstract superclass for all SavedEntities that 
+ * will be serialized to a YAML objects.
  * 
  * @author Emil
  * @author Samuel
