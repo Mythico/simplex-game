@@ -12,6 +12,11 @@ public class GridCoord {
     
     public GridCoord() {}
 
+    /**
+     * Create a GridCoord with the coordinates x and y.
+     * @param x Coordinate x.
+     * @param y Coordinate y.
+     */
     public GridCoord(int x, int y) {
         this.x = x;
         this.y = y;
