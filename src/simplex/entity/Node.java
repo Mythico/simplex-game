@@ -33,7 +33,7 @@ public class Node implements Entity{
         g.drawImage(img, x, y);
         if(selected){
             g.setColor(Color.green);
-            g.drawRect(x, y, GridConversions.getGridWidth(), GridConversions.getGridWidth());
+            g.drawRect(x, y, GridConversions.getGridWidth(), GridConversions.getGridHeight());
         }
     }
 

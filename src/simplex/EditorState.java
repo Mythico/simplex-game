@@ -58,7 +58,7 @@ public class EditorState extends EngineState {
             return Desktop.parse(EditorState.this, gc, "gui/EditorGui.xml");
         } catch (OxyException e) {
             System.err.println(e);
-            throw new SlickException("Can't load gui");
+            throw new SlickException("Can't load the gui.");
         }
     }
     
@@ -115,9 +115,12 @@ public class EditorState extends EngineState {
         List<Connection> connections = level.getConnections();
         if (Input.MOUSE_LEFT_BUTTON == button) {
             if (pickedNode != null) {
+                // Place node:
                 nodes.put(coords, pickedNode);
+                selectNode(pickedNode);
                 pickedNode = null;
             } else if (connection != null && selectedNode != null) {
+                // Bind connection:
                 Node node = nodes.get(coords);
                 if (node != null) {
                     connection.bind(selectedNode, node);
@@ -126,12 +129,14 @@ public class EditorState extends EngineState {
                     unselect();
                 }
             } else if (nodes != null) {
+                // Select node:
                 selectNode(nodes.get(coords));
                 if (connection != null) {
                     connection.setStartNode(selectedNode);
                 }
             } else {
                 selectNode(null);
+                unselect();
             }
         } else if (Input.MOUSE_RIGHT_BUTTON == button) {
             // If a node is deleted:
