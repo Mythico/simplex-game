@@ -1,6 +1,7 @@
 package simplex.level.saved;
 
 import simplex.entity.Node;
+import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 
 /**
@@ -21,12 +22,11 @@ public abstract class SavedNode extends SavedEntity  {
 
     /**
      * Creates a new SavedNode with coordinates and an id.
-     * @param coord The coordinates node that is being saved.
-     * @param id  The id of the node that is being saved.
+     * @param node The node that will be saved.
      */
-    public SavedNode(GridCoord coord, int id) {
-        super(id);
-        this.coord = coord;
+    public SavedNode(Node node) {
+        super(node);
+        this.coord = GridConversions.screenToGrid(node.getPosition());
     }
 
     /**

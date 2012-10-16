@@ -2,7 +2,6 @@ package simplex.level.saved;
 
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
-import simplex.util.GridCoord;
 
 /**
  *
@@ -14,8 +13,8 @@ public class SavedSplitter extends SavedNode {
     private SavedSplitter() {
     }
 
-    public SavedSplitter(GridCoord coord, int id) {
-        super(coord, id);
+    public SavedSplitter(Node node) {
+        super(node);
     }
 
     @Override

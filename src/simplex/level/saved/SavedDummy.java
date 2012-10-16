@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex.level.saved;
 
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
-import simplex.util.GridCoord;
 
 /**
  *
@@ -18,8 +13,8 @@ public class SavedDummy extends SavedNode {
     private SavedDummy() {
     }
 
-    public SavedDummy(GridCoord coord, int id) {
-        super(coord, id);
+    public SavedDummy(Node node) {
+        super(node);
     }
 
     @Override

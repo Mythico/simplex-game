@@ -4,7 +4,7 @@ import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.Resource;
 import simplex.entity.specification.ConsumerSpecification;
-import simplex.util.GridCoord;
+import simplex.entity.specification.NodeSpecification;
 
 /**
  *
@@ -17,9 +17,11 @@ public class SavedConsumer extends SavedNode {
     private SavedConsumer() {
     }
 
-    public SavedConsumer(Resource resource, GridCoord coord, int id) {
-        super(coord, id);
-        this.resource = resource;
+    public SavedConsumer(Node node) {
+        super(node);
+        NodeSpecification spec = node.getNodeSpecification();
+        ConsumerSpecification consumerSpec = (ConsumerSpecification) spec;
+        this.resource = consumerSpec.getExpectedResource();
     }
 
     @Override

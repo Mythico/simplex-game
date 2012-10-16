@@ -12,7 +12,6 @@ import org.yaml.snakeyaml.Yaml;
 import simplex.entity.Connection;
 import simplex.entity.Node;
 import simplex.level.saved.SavedConnection;
-import simplex.level.saved.SavedConnectionFactory;
 import simplex.level.saved.SavedEntity;
 import simplex.level.saved.SavedNode;
 import simplex.level.saved.SavedNodeFactory;
@@ -100,10 +99,8 @@ public final class LevelFileHandler{
 
     private List<SavedConnection> createSavedConnections(List<Connection> conns) {
         List<SavedConnection> savedConnections = new LinkedList<>();
-        SavedConnectionFactory factory = SavedConnectionFactory.instance();
         for (Connection conn : conns) {
-            SavedConnection savedConn = factory.create(conn);
-            savedConnections.add(savedConn);
+            savedConnections.add(new SavedConnection(conn));
         }
         return savedConnections;
     }

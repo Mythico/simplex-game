@@ -14,17 +14,17 @@ public abstract class SavedEntity {
 
     /**
      * Creates a new empty SavedEntity.
-     * This constructor should only be used during the deserialization.
+     * This constructor should only be used during the deserialization. 
      */
     public SavedEntity() {
     }
 
     /**
      * Create a new SavedEntity with an id.
-     * @param id The id of the SavedEntity
+     * @param entity  The entity to be saved.
      */
-    public SavedEntity(int id) {
-        this.id = id;
+    public SavedEntity(Entity entity) {
+        this.id = entity.getId();
     }
 
     /**

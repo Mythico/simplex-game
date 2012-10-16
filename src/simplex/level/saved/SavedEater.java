@@ -1,9 +1,9 @@
 package simplex.level.saved;
 
-import simplex.entity.specification.EaterSpecification;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
-import simplex.util.GridCoord;
+import simplex.entity.specification.EaterSpecification;
+import simplex.entity.specification.NodeSpecification;
 
 /**
  *
@@ -16,9 +16,11 @@ public class SavedEater extends SavedNode {
     private SavedEater() {
     }
 
-    public SavedEater(int fraction, GridCoord coord, int id) {
-        super(coord, id);
-        this.fraction = fraction;
+    public SavedEater(Node node) {
+        super(node);
+        NodeSpecification spec = node.getNodeSpecification();
+        EaterSpecification eaterSpecification = (EaterSpecification) spec;
+        this.fraction = eaterSpecification.getFraction();
     }
 
     public int getFraction() {
