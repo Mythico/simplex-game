@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Vector2f;
 import simplex.entity.specification.NodeSpecification;
 import simplex.util.ImageManager;
 
+
 /**
  *
  * @author Emil
@@ -20,8 +21,14 @@ public class Connection implements Entity {
     private Deque<ResourceBall> movingResources = new LinkedList<>();
     private Node endNode;
     private Node startNode;
+    private final int id;
 
     public Connection() {
+        id = NodeFactory.instance().getNewId();
+    }
+    @Override
+    public int getId() {
+        return id;
     }
 
     public Node getStartNode() {
@@ -122,7 +129,6 @@ public class Connection implements Entity {
         return endNode.equals(node) || startNode.equals(node);
     }
 }
-
 class ResourceBall {
 
     private final Vector2f position;

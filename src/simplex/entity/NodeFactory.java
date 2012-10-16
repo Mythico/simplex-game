@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex.entity;
 
-import simplex.entity.specification.DummySpecification;
 import simplex.entity.specification.ConsumerSpecification;
-import simplex.entity.specification.SplitterSpecification;
+import simplex.entity.specification.DummySpecification;
 import simplex.entity.specification.EaterSpecification;
 import simplex.entity.specification.FactorySpecification;
+import simplex.entity.specification.SplitterSpecification;
 
 /**
  *
@@ -17,6 +13,7 @@ import simplex.entity.specification.FactorySpecification;
 public class NodeFactory {
 
     private static NodeFactory nodeFactory;
+    private int id = 0;
 
     private NodeFactory() {}
 
@@ -45,6 +42,10 @@ public class NodeFactory {
 
     public Node createSplitterNode() {
         return new Node(new SplitterSpecification());
+    }
+
+    public int getNewId() {
+        return id++;
     }
 
 }
