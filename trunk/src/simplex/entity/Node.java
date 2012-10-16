@@ -1,10 +1,10 @@
 package simplex.entity;
 
-import simplex.entity.specification.NodeSpecification;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
+import simplex.entity.specification.NodeSpecification;
 import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 import simplex.util.ImageManager;
@@ -20,11 +20,20 @@ public class Node implements Entity{
 
     private NodeSpecification nodeSpecification;
     private boolean selected;
+    private final int id;
     
-    public Node() {}
+    public Node() {
+        this(null);
+    }
 
-    Node(NodeSpecification spec) {
+    Node(NodeSpecification spec) {        
         nodeSpecification = spec;        
+        id = NodeFactory.instance().getNewId();
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override

@@ -10,6 +10,12 @@ import org.newdawn.slick.Graphics;
 public interface Entity {
     
     /**
+     * Returns an unique id for this entity
+     * @return The id of this entity.
+     */
+    public int getId();
+    
+    /**
      * Update the level
      * @param delta Time from last update.
      */
