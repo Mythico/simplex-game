@@ -1,5 +1,6 @@
 package simplex;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import mdes.oxy.Button;
@@ -133,6 +134,16 @@ public class EditorState extends EngineState {
                 selectNode(null);
             }
         } else if (Input.MOUSE_RIGHT_BUTTON == button) {
+            // If a node is deleted:
+            if (pickedNode != null) {
+                Iterator<Connection> i = connections.iterator();
+                while (i.hasNext()) {
+                    Connection conn = i.next();
+                    if (conn.isConnectedTo(pickedNode)) {
+                        i.remove();
+                    }
+                }                
+            }
             selectedNode = pickedNode = nodes.remove(coords);
         }
     }

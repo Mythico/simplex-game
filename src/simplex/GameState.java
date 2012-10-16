@@ -73,7 +73,7 @@ public class GameState extends EngineState {
             return Desktop.parse(GameState.this, gc, "gui/GameGui.xml");
         } catch (OxyException e) {
             System.err.println(e);
-            throw new SlickException("Can't load gui");
+            throw new SlickException("Can't load the gui.");
         }
     }
 
