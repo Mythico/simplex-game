@@ -44,6 +44,11 @@ public class ImageManager {
     private static Map<Integer, Image> blueResourceMap;
     private static Map<Integer, Image> greenResourceMap;
 
+    /**
+     * Initiates all the statically created images.
+     * This method must be called in the main initialization method.
+     * @throws SlickException 
+     */
     public static void init() throws SlickException {
         dummy_node = new Image("img/dummy_node.png", Color.white);
         factory_node = new Image("img/factory_node.png", Color.white);
@@ -67,6 +72,12 @@ public class ImageManager {
         greenResourceMap = new HashMap<>();
     }
 
+    /**
+     * Check if there exist a cashed copy of an image representing the resource,
+     * otherwise creates a new image and save it in the cash.
+     * @param resource The resource the image will be created from.
+     * @return Image representing a resource.
+     */
     public static Image get(Resource resource) {
         switch (resource.getType()) {
             case Resource.RED:
