@@ -26,6 +26,10 @@ public abstract class BaseState extends BasicGameState {
         nextState = stateId;
     }
 
+    /**
+     * Get the id of the state.
+     * @return The id of the state.
+     */
     @Override
     public int getID() {
         return stateId;
@@ -36,8 +40,19 @@ public abstract class BaseState extends BasicGameState {
         reloadGUI(gc);
     }
 
+    /**
+     * Loads the Graphical User interface of this state.
+     * @param gc The game container the GUI will use.
+     * @return The the Graphical User Interface of this state.
+     * @throws SlickException 
+     */
     protected abstract Desktop loadGui(GameContainer gc) throws SlickException;
 
+    /**
+     * Reloads the Graphical User Interface.
+     * @param gc The game container the GUI will use.
+     * @throws SlickException 
+     */
     protected void reloadGUI(GameContainer gc) throws SlickException{
         if(desktop != null){
             desktop.setVisible(false);
@@ -47,7 +62,7 @@ public abstract class BaseState extends BasicGameState {
             desktop.setVisible(true);
         }
     }
-    
+
     @Override
     public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
         desktop.setVisible(true);
@@ -106,10 +121,19 @@ public abstract class BaseState extends BasicGameState {
         desktop.update(delta);
     }
 
+    /**
+     * Set the next state the game will enter. If the state is different from
+     * the current state it will change in the next update.
+     * @param state The new state.
+     */
     protected void setNextState(int state) {
         nextState = state;
     }
 
+    /**
+     * Signals the state that it should to quit.
+     * The program will quit on the next update.
+     */
     protected void setQuit() {
         quit = true;
     }
