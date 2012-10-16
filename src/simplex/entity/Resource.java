@@ -8,7 +8,7 @@ package simplex.entity;
  */
 public class Resource {
 
-    public final static Resource NIL = new Resource();
+    public final static Resource NIL = new NilResource();
 
     public static Resource parse(int type, int rate) {
         return new Resource(type, rate);
@@ -27,7 +27,7 @@ public class Resource {
     private int type;
     private int rate;
 
-    private Resource() {
+    protected Resource() {
         this(0, 0);
     }
 
@@ -54,8 +54,9 @@ public class Resource {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + this.type;
+        int hash = 7;
+        hash = 31 * hash + this.type;
+        hash = 31 * hash + this.rate;
         return hash;
     }
 
@@ -71,7 +72,37 @@ public class Resource {
         if (this.type != other.type) {
             return false;
         }
+        if (this.rate != other.rate) {
+            return false;
+        }
         return true;
+    }
+
+    public Resource copy() {
+        return new Resource(type, rate);
+    }
+}
+
+final class NilResource extends Resource {   
+    
+    
+    /**
+     * Can't copy the nil resource.
+     * @return 
+     */
+    @Override
+    public Resource copy() {
+        return this;
+    }
+
+    @Override
+    public int getType() {
+        return WHITE;
+    }
+
+    @Override
+    public int getRate() {
+        return 0;
     }
     
     

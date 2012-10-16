@@ -90,13 +90,19 @@ public class ImageManager {
     }
 
     public static Image get(NodeSpecification spec) {
-        if (spec instanceof EaterSpecification) {
+        final Resource r;
+        if (spec instanceof ConsumerSpecification) {
+            r = ((ConsumerSpecification) spec).getExpectedResource();
+        } else if (spec instanceof FactorySpecification) {
+            r = ((FactorySpecification) spec).getExpectedResource();
+        } else if (spec instanceof EaterSpecification) {
             return eater_node;
         } else if (spec instanceof SplitterSpecification) {
             return splitter_node;
-        } else if (spec instanceof DummySpecification) {
+        } else {
             return dummy_node;
         }
+
 
         Map<Resource, Image> resourceMap = nodeResourceMap.get(spec);
 
@@ -104,12 +110,7 @@ public class ImageManager {
             resourceMap = new HashMap<>();
             nodeResourceMap.put(spec, resourceMap);
         }
-        final Resource r;
-        if (spec instanceof ConsumerSpecification) {
-            r = ((ConsumerSpecification) spec).getExpectedResource();
-        } else {
-            r = spec.getResource();
-        }
+
         Image img = resourceMap.get(r);
 
         if (img == null) {

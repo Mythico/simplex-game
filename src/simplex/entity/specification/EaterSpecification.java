@@ -29,20 +29,19 @@ public class EaterSpecification implements NodeSpecification {
 
     @Override
     public void setResource(Resource other) {
-        if(Resource.NIL == other){
+        if (Resource.NIL == other) {
             return;
         }
-        if(counter < fraction){
-            counter++;
-        } else{
+        int rate = other.getRate() / fraction;
+        if (rate > 0) {
+            other.setRate(rate);
             resource.add(other);
-            counter=0;
         }
     }
 
     @Override
     public Resource getResource() {
-        if(resource.isEmpty()){
+        if (resource.isEmpty()) {
             return Resource.NIL;
         }
         return resource.poll();
