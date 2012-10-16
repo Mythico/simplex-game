@@ -3,7 +3,6 @@ package simplex.level.saved;
 import java.util.HashMap;
 import java.util.Map;
 import simplex.entity.Node;
-import simplex.entity.Resource;
 import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.EaterSpecification;
 import simplex.entity.specification.FactorySpecification;
@@ -31,25 +30,20 @@ public final class SavedNodeFactory {
         }
         return instance;
     }
-    private int id;
 
     public SavedNode create(GridCoord coord, Node node) {
-        id++;
-        addNode(id, node);
+        addNode(node.getId(), node);
         final NodeSpecification spec = node.getNodeSpecification();
         if (spec instanceof FactorySpecification) {
-            final Resource res = spec.getResource();
-            return new SavedFactory(res, coord, id);
+            return new SavedFactory(node);
         } else if (spec instanceof ConsumerSpecification) {            
-            Resource res = ((ConsumerSpecification)spec).getExpectedResource();
-            return new SavedConsumer(res, coord, id);
+            return new SavedConsumer(node);
         } else if (spec instanceof EaterSpecification) {
-            final int fraction = ((EaterSpecification) spec).getFraction();
-            return new SavedEater(fraction, coord, id);
+            return new SavedEater(node);
         } else if (spec instanceof SplitterSpecification) {
-            return new SavedSplitter(coord, id);
+            return new SavedSplitter(node);
         } else {
-            return new SavedDummy(coord, id);
+            return new SavedDummy(node);
         }
     }
     

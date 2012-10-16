@@ -15,10 +15,10 @@ public class SavedConnection extends SavedEntity {
     public SavedConnection() {
     }
 
-    public SavedConnection(int startNodeId, int endNodeId, int id) {
-        super(id);
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
+    public SavedConnection(Connection conn) {
+        super(conn);
+        this.startNodeId = conn.getStartNode().getId();
+        this.endNodeId = conn.getEndNode().getId();
     }
 
     public int getStartNodeId() {

@@ -3,7 +3,8 @@ package simplex.level.saved;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.Resource;
-import simplex.util.GridCoord;
+import simplex.entity.specification.FactorySpecification;
+import simplex.entity.specification.NodeSpecification;
 
 /**
  *
@@ -16,9 +17,11 @@ public class SavedFactory extends SavedNode {
     public SavedFactory() {
     }
 
-    public SavedFactory(Resource resource, GridCoord coord, int id) {
-        super(coord, id);
-        this.resource = resource;
+    public SavedFactory(Node node) {
+        super(node);
+        final NodeSpecification spec = node.getNodeSpecification();
+        FactorySpecification factorySpec = (FactorySpecification) spec;
+        this.resource = factorySpec.getExpectedResource();
     }
 
     public Resource getResource() {
