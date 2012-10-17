@@ -13,6 +13,8 @@ public class Main extends StateBasedGame {
     public static final int EDITSTATE = 2;
     public static final int NEXT_GAME = 3;
     public static final int HIGH_SCORE = 4;
+    public static final int TUTORIAL = 5;
+    public static final int NEXT_TUTORIAL = 6;
 
     public Main() {
         super("Simplex");
@@ -26,6 +28,8 @@ public class Main extends StateBasedGame {
         addState(new EditorState(EDITSTATE));
         addState(new NextGameState(NEXT_GAME));
         addState(new HighScoreState(HIGH_SCORE));
+        addState(new TutorialState(TUTORIAL));
+        addState(new NextTutorialState(NEXT_TUTORIAL));
         enterState(MAINMENUSTATE);
     }
 

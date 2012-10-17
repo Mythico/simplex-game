@@ -17,12 +17,14 @@ public final class SavedConnectionFactory {
         }
         return instance;
     }
-    private int id;
+    //private int id;
 
     public SavedConnection create(Connection conn) {
+        /*
         id++;
         int startId = SavedNodeFactory.instance().getId(conn.getStartNode());
         int endId = SavedNodeFactory.instance().getId(conn.getEndNode());
-        return new SavedConnection(startId, endId, id);
+        */
+        return new SavedConnection(conn);
     }
 }

@@ -38,7 +38,7 @@ public class MainMenuState extends BaseState {
     }
 
     public void goToTutorial() {
-        //TODO:
+        setNextState(Main.NEXT_TUTORIAL);
     }
 
     public void goToQuit() {

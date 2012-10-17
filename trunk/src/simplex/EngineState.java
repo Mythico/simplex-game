@@ -23,7 +23,6 @@ public abstract class EngineState extends BaseState {
 
     public EngineState(int stateId) {
         super(stateId);
-
     }
 
     @Override

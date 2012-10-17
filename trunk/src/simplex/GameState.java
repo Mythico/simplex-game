@@ -61,7 +61,8 @@ public class GameState extends EngineState {
             tempConnSwap.add(new MouseOverArea(gc, img, (int) middle.x, (int) middle.y));
         }
         Panel panel = getGuiComponent("ScorePanel");
-        panel.setVisible(false);
+        if (panel != null)
+            panel.setVisible(false);
         startTime = System.currentTimeMillis();
         endTime = -1;
         clicks = 0;
@@ -73,7 +74,7 @@ public class GameState extends EngineState {
             return Desktop.parse(GameState.this, gc, "gui/GameGui.xml");
         } catch (OxyException e) {
             System.err.println(e);
-            throw new SlickException("Can't load the gui.");
+            throw new SlickException("Can't load the game gui.");
         }
     }
 
@@ -95,10 +96,12 @@ public class GameState extends EngineState {
 
         if (levelIsDone()) {
             Panel panel = getGuiComponent("ScorePanel");
-            endTime = (System.currentTimeMillis() - startTime) / 1000;
-            this.<Label>getGuiComponent("time").setText("" + endTime);
-            this.<Label>getGuiComponent("clicks").setText("" + clicks);
-            panel.setVisible(true);
+            if (panel != null) {
+                endTime = (System.currentTimeMillis() - startTime) / 1000;
+                this.<Label>getGuiComponent("time").setText("" + endTime);
+                this.<Label>getGuiComponent("clicks").setText("" + clicks);
+                panel.setVisible(true);
+            }
         }
 
         List<Connection> connections = level.getConnections();
@@ -170,7 +173,7 @@ public class GameState extends EngineState {
 
     private void saveHighScore() {
         String time = this.<Label>getGuiComponent("time").getText();
-        String clicks = this.<Label>getGuiComponent("clicks").getText();        
+        String clicks = this.<Label>getGuiComponent("clicks").getText();
         HighScore.save(level.getName(), time, clicks);
     }
 }

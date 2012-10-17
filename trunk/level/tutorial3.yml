@@ -1,0 +1,24 @@
+!!simplex.level.saved.SavedEater
+coord: {x: 7, y: 4}
+fraction: 2
+id: 77
+--- !!simplex.level.saved.SavedEater
+coord: {x: 7, y: 7}
+fraction: 2
+id: 78
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 3, y: 4}
+id: 79
+resource: {rate: 4, type: 2}
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 3, y: 7}
+id: 80
+resource: {rate: 4, type: 2}
+--- !!simplex.level.saved.SavedConsumer
+coord: {x: 11, y: 5}
+id: 81
+resource: {rate: 3, type: 2}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 77, id: 82, startNodeId: 79}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 81, id: 83, startNodeId: 77}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 81, id: 84, startNodeId: 78}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 78, id: 85, startNodeId: 80}

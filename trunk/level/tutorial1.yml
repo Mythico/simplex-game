@@ -1,0 +1,9 @@
+!!simplex.level.saved.SavedConsumer
+coord: {x: 12, y: 7}
+id: 1
+resource: {rate: 4, type: 3}
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 3, y: 7}
+id: 2
+resource: {rate: 4, type: 3}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1, id: 1, startNodeId: 2}
