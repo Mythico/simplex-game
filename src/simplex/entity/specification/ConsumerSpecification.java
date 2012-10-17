@@ -9,7 +9,7 @@ import simplex.entity.Resource;
  * @author Emil
  * @author Samuel
  */
-public class ConsumerSpecification implements NodeSpecification {
+public class ConsumerSpecification extends NodeSpecification {
 
     private Resource expectedResource = Resource.NIL;
     private boolean happy = false;
@@ -26,11 +26,6 @@ public class ConsumerSpecification implements NodeSpecification {
     public void setResource(Resource resource) {
         happy = (expectedResource.getType() == resource.getType()
                 && expectedResource.getRate() <= resource.getRate());
-    }
-
-    @Override
-    public Resource getResource() {
-        return Resource.NIL;
     }
 
     public boolean isHappy() {

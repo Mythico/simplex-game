@@ -1,8 +1,6 @@
 package simplex.entity.specification;
 
-import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 import simplex.entity.Resource;
@@ -13,42 +11,30 @@ import simplex.entity.Resource;
  * @author Emil
  * @author Samuel
  */
-public class FactorySpecification implements NodeSpecification {
+public class FactorySpecification extends NodeSpecification {
 
     private Resource resource = Resource.NIL;
-    private Queue<Resource> resources = new LinkedList<>();
-    private TimerTask spawn = new TimerTask() {
-
+    private final Timer timer = new Timer();
+    private final TimerTask spawnResources = new TimerTask() {
         @Override
         public void run() {
-            if(resource != Resource.NIL){
-                resources.add(resource.copy());
+            if (resource != Resource.NIL) {
+                notifyObservers(resource.copy());
             }
         }
     };
-    private Timer timer = new Timer();
 
-    public FactorySpecification() {        
-        long period = 1000;
-        timer.scheduleAtFixedRate(spawn, period, period);
-    }
-
-    
-    
-    @Override
-    public void setResource(Resource resource) {        
-        this.resource = resource;        
+    public FactorySpecification() {
+        final long period = 1000; //ms
+        timer.scheduleAtFixedRate(spawnResources, period, period);
     }
 
     @Override
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
     public Resource getResource() {
-        if(resources.isEmpty()){
-            return Resource.NIL;
-        }
-        return resources.poll();
-    }
-    
-    public Resource getExpectedResource(){
         return resource;
     }
 

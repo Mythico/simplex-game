@@ -21,7 +21,7 @@ public class SavedFactory extends SavedNode {
         super(node);
         final NodeSpecification spec = node.getNodeSpecification();
         FactorySpecification factorySpec = (FactorySpecification) spec;
-        this.resource = factorySpec.getExpectedResource();
+        this.resource = factorySpec.getResource();
     }
 
     public Resource getResource() {

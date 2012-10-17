@@ -1,8 +1,5 @@
 package simplex.entity.specification;
 
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
 import simplex.entity.Resource;
 
 /**
@@ -13,45 +10,35 @@ import simplex.entity.Resource;
  * @author Emil
  * @author Samuel
  */
-public class CombinerSpecification implements NodeSpecification {
+public class CombinerSpecification extends NodeSpecification {
 
-    private Queue<Resource> resource = new LinkedList<>();
+    private Resource bufferedResource = Resource.NIL;
 
     @Override
     public void setResource(Resource other) {
         if (Resource.NIL == other) {
             return;
         }
-        resource.add(other);
-    }
 
-    @Override
-    public Resource getResource() {
-        if (resource.isEmpty()) {
-            return Resource.NIL;
-        }
-        return resource.poll();
-    }
+        if (bufferedResource == Resource.NIL) {
+            bufferedResource = other;
+        } else {
+            final int type1 = bufferedResource.getType();
+            final int type2 = other.getType();
+            other.setRate(other.getRate() + bufferedResource.getRate());
+            if (type1 == Resource.RED && type2 == Resource.BLUE
+                    || type1 == Resource.BLUE && type2 == Resource.RED) {
+                other.setType(Resource.GREEN);
+            } else if (type1 == Resource.RED && type2 == Resource.GREEN
+                    || type1 == Resource.GREEN && type2 == Resource.RED) {
+                other.setType(Resource.BLUE);
+            } else if (type1 == Resource.GREEN && type2 == Resource.BLUE
+                    || type1 == Resource.BLUE && type2 == Resource.GREEN) {
+                other.setType(Resource.RED);
+            }
+            bufferedResource = Resource.NIL;
+            notifyObservers(other);
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.resource);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final CombinerSpecification other = (CombinerSpecification) obj;
-        if (!Objects.equals(this.resource, other.resource)) {
-            return false;
-        }
-        return true;
     }
 }

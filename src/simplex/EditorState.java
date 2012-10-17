@@ -273,7 +273,7 @@ public class EditorState extends EngineState {
         Button button = getGuiComponent("btn");
 
         if (spec instanceof FactorySpecification) {
-            Resource r = ((FactorySpecification)spec).getExpectedResource();
+            Resource r = ((FactorySpecification)spec).getResource();
             label.setText("Factory");
             label1.setText("Resource Rate");
             label2.setText("Resource Type");

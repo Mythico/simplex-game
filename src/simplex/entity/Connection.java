@@ -8,17 +8,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import simplex.entity.specification.NodeSpecification;
+import simplex.entity.specification.Observer;
 import simplex.util.ImageManager;
-
 
 /**
  *
  * @author Emil
  * @author Samuel
  */
-public class Connection implements Entity {
+public class Connection implements Entity, Observer {
 
-    private Deque<ResourceBall> movingResources = new LinkedList<>();
+    private final Deque<ResourceBall> movingResources = new LinkedList<>();
     private Node endNode;
     private Node startNode;
     private final int id;
@@ -26,6 +26,7 @@ public class Connection implements Entity {
     public Connection() {
         id = NodeFactory.instance().getNewId();
     }
+
     @Override
     public int getId() {
         return id;
@@ -36,7 +37,11 @@ public class Connection implements Entity {
     }
 
     public void setStartNode(Node startNode) {
+        if (this.startNode != null) {
+            this.startNode.getNodeSpecification().deleteObserver(this);
+        }
         this.startNode = startNode;
+        startNode.getNodeSpecification().addObserver(this);
     }
 
     public Node getEndNode() {
@@ -46,14 +51,14 @@ public class Connection implements Entity {
     public void setEndNode(Node endNode) {
         this.endNode = endNode;
     }
-    
+
     /**
      * Binds two nodes to the connection
      *
      * @param startNode Start node
      * @param endNode End node
      */
-    public void bind(Node startNode, Node endNode){        
+    public void bind(Node startNode, Node endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
     }
@@ -66,69 +71,68 @@ public class Connection implements Entity {
         g.setColor(Color.cyan);
         g.drawLine(startPos.x + 17, startPos.y + 17, endPos.x + 17,
                 endPos.y + 17);
-        for (ResourceBall resourceBall : movingResources) {
-            resourceBall.render(g);
+        synchronized (movingResources) {
+            for (ResourceBall resourceBall : movingResources) {
+                resourceBall.render(g);
+            }
         }
 
     }
 
     @Override
     public void update(int delta) {
-        Vector2f startPos = startNode.getPosition();
-        Vector2f endPos = endNode.getPosition();
+        synchronized (movingResources) {
+            Iterator<ResourceBall> it = movingResources.iterator();
+            while (it.hasNext()) {
 
-        final Resource r = startNode.getNodeSpecification().getResource();
+                ResourceBall resourceBall = it.next();
+                resourceBall.update(delta);
 
-
-        // Move another waiting resource to the movingResource queue
-        // if there is waiting resources and if the first moving resource has
-        // moved far enough.
-        if (r.getRate() > 0 && (movingResources.isEmpty() || isTimeForNextBall())) {
-            movingResources.add(new ResourceBall(startPos, endPos, r));
-        }
-
-        Iterator<ResourceBall> it = movingResources.iterator();
-        while (it.hasNext()) {
-
-            ResourceBall resourceBall = it.next();
-            resourceBall.update(delta);
-
-            // Reset the moving resource when it has moved from start to end
-            if (resourceBall.hasReachedEnd()) {
-                final NodeSpecification spec = endNode.getNodeSpecification();
-                spec.setResource(resourceBall.getResource());
-                it.remove();
+                // Reset the moving resource when it has moved from start to end
+                if (resourceBall.hasReachedEnd()) {
+                    final NodeSpecification spec = endNode.getNodeSpecification();
+                    spec.setResource(resourceBall.getResource());
+                    it.remove();
+                }
             }
         }
     }
 
-    private boolean isTimeForNextBall() {
-
-        Vector2f startPos = startNode.getPosition();
-        Vector2f endPos = endNode.getPosition();
-
-        float halfDistance = startPos.distanceSquared(endPos) / 2;
-        final Vector2f ballPos = movingResources.peekLast().getPosition();
-        float ballDistance = startPos.distanceSquared(ballPos);
-
-        return halfDistance < ballDistance;
-    }
-
     public void swapDirection() {
         Node temp = startNode;
-        startNode = endNode;
-        endNode = temp;
+        setStartNode(endNode);
+        setEndNode(temp);
     }
 
     /**
      * Check if this connection is connected to the node.
+     *
      * @param node The node to be checked against.
      * @return True if this connection is connected, otherwise false.
      */
     public boolean isConnectedTo(Node node) {
         return endNode.equals(node) || startNode.equals(node);
     }
+
+    @Override
+    public void update(Resource r) {
+        if (r == null) {
+            return;
+        }
+        Vector2f startPos = startNode.getPosition();
+        Vector2f endPos = endNode.getPosition();
+
+        // Move another waiting resource to the movingResource queue
+        // if there is waiting resources and if the first moving resource has
+        // moved far enough.
+        synchronized (movingResources) {
+            if (r.getRate() > 0 && (movingResources.isEmpty())) {
+                movingResources.add(new ResourceBall(startPos, endPos, r));
+            }
+        }
+    }
 }
+
 class ResourceBall {
 
     private final Vector2f position;

@@ -1,8 +1,5 @@
 package simplex.entity.specification;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Objects;
 import simplex.entity.Resource;
 
 /**
@@ -13,46 +10,12 @@ import simplex.entity.Resource;
  * @author Emil
  * @author Samuel
  */
-public class DummySpecification implements NodeSpecification {
-
-    private Deque<Resource> resource = new LinkedList<>();
+public class DummySpecification extends NodeSpecification {
     
     @Override
-    public void setResource(Resource other) {
+    public void setResource(Resource resource) {
         if(resource != Resource.NIL){
-            resource.add(other);
+            notifyObservers(resource);
         }
-    }
-
-    @Override
-    public Resource getResource() {
-        if(resource.isEmpty()){
-            return Resource.NIL;
-        }        
-        return resource.poll();
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.resource);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final DummySpecification other = (DummySpecification) obj;
-        if (!Objects.equals(this.resource, other.resource)) {
-            return false;
-        }
-        return true;
-    }
-
-    
+    }    
 }
