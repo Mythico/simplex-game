@@ -1,5 +1,6 @@
 package simplex.entity;
 
+import simplex.entity.specification.CombinerSpecification;
 import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.DummySpecification;
 import simplex.entity.specification.EaterSpecification;
@@ -42,6 +43,10 @@ public class NodeFactory {
 
     public Node createSplitterNode() {
         return new Node(new SplitterSpecification());
+    }
+    
+    public Node createCombinerNode() {
+        return new Node(new CombinerSpecification());
     }
 
     public int getNewId() {

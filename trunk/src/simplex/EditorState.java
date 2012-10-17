@@ -61,8 +61,6 @@ public class EditorState extends EngineState {
             throw new SlickException("Can't load the gui.");
         }
     }
-    
-    
 
     @Override
     public void renderContent(GameContainer gc, StateBasedGame sbg, Graphics g) {
@@ -275,29 +273,37 @@ public class EditorState extends EngineState {
         Button button = getGuiComponent("btn");
 
         if (spec instanceof FactorySpecification) {
+            Resource r = ((FactorySpecification)spec).getExpectedResource();
             label.setText("Factory");
             label1.setText("Resource Rate");
             label2.setText("Resource Type");
             label1.setVisible(true);
             label2.setVisible(true);
             spinner1.setVisible(true);
+            spinner1.setValue(r.getRate());
             spinner2.setVisible(true);
+            spinner2.setValue(r.getType());
             button.setVisible(true);
         } else if (spec instanceof ConsumerSpecification) {
+            Resource r = ((ConsumerSpecification)spec).getExpectedResource();
             label.setText("Consumer");
             label1.setText("Resource Rate");
             label2.setText("Resource Type");
             label1.setVisible(true);
             label2.setVisible(true);
             spinner1.setVisible(true);
+            spinner1.setValue(r.getRate());
             spinner2.setVisible(true);
+            spinner2.setValue(r.getType());
             button.setVisible(true);
         } else if (spec instanceof EaterSpecification) {
+            int fraction = ((EaterSpecification)spec).getFraction();
             label.setText("Eater");
             label1.setText("Fraction");
             label1.setVisible(true);
             label2.setVisible(false);
             spinner1.setVisible(true);
+            spinner1.setValue(fraction);
             spinner2.setVisible(false);
             button.setVisible(true);
         } else if (spec instanceof SplitterSpecification) {
