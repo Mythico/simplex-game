@@ -135,6 +135,7 @@ public class EditorState extends EngineState {
                     connection.setStartNode(selectedNode);
                 }
             } else {
+                // Unselect:
                 selectNode(null);
                 unselect();
             }
