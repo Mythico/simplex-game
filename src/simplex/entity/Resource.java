@@ -85,7 +85,6 @@ public class Resource {
 
 final class NilResource extends Resource {   
     
-    
     /**
      * Can't copy the nil resource.
      * @return 
@@ -104,8 +103,4 @@ final class NilResource extends Resource {
     public int getRate() {
         return 0;
     }
-    
-    
-    
-    
 }
