@@ -3,6 +3,7 @@ package simplex.level.saved;
 import java.util.HashMap;
 import java.util.Map;
 import simplex.entity.Node;
+import simplex.entity.specification.CombinerSpecification;
 import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.EaterSpecification;
 import simplex.entity.specification.FactorySpecification;
@@ -42,6 +43,8 @@ public final class SavedNodeFactory {
             return new SavedEater(node);
         } else if (spec instanceof SplitterSpecification) {
             return new SavedSplitter(node);
+        } else if (spec instanceof CombinerSpecification) {
+            return new SavedCombiner(node);
         } else {
             return new SavedDummy(node);
         }
