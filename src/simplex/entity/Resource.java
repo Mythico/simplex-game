@@ -15,14 +15,9 @@ public class Resource {
     }
 
     public static final int WHITE = 0;
-    public static final int BLACK = 1;
     public static final int RED = 2;
     public static final int BLUE = 3;
     public static final int GREEN = 4;
-    public static final int PURPLE = 5;
-    public static final int YELLOW = 6;
-    public static final int TEAL = 7;
-    public static final int ORANGE = 8;
 
     private int type;
     private int rate;
