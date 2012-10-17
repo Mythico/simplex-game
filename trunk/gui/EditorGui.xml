@@ -9,6 +9,7 @@
         <image name="ConsumerImage" 	ref="img/consumer_node.png"/>
         <image name="EaterImage" 	ref="img/eater_node.png"/>
         <image name="SplitterImage" 	ref="img/splitter_node.png"/>
+        <image name="CombinerImage" 	ref="img/combiner_node.png"/>
         <image name="ConnectionImage" 	ref="img/connection.png"/>
         <button name="img"></button>
     </subSkin>
@@ -44,6 +45,7 @@
         <button image="ConsumerImage"  	theme="img" location="0px, 10%" action="spawnConsumer()"/>
         <button image="EaterImage"  	theme="img" location="0px, 20%" action="spawnEater()"/>
         <button image="SplitterImage"  	theme="img" location="0px, 30%" action="spawnSplitter()"/>
-        <button image="ConnectionImage" theme="img" location="0px, 40%" action="spawnConnection()"/>
+        <button image="CombinerImage"  	theme="img" location="0px, 40%" action="spawnCombiner()"/>
+        <button image="ConnectionImage" theme="img" location="0px, 50%" action="spawnConnection()"/>
     </panel>
 </desktop>

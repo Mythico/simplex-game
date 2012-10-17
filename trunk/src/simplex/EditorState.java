@@ -20,6 +20,7 @@ import simplex.entity.Connection;
 import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 import simplex.entity.Resource;
+import simplex.entity.specification.CombinerSpecification;
 import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.EaterSpecification;
 import simplex.entity.specification.FactorySpecification;
@@ -146,7 +147,7 @@ public class EditorState extends EngineState {
                     if (conn.isConnectedTo(pickedNode)) {
                         i.remove();
                     }
-                }                
+                }
             }
             selectedNode = pickedNode = nodes.remove(coords);
         }
@@ -185,10 +186,20 @@ public class EditorState extends EngineState {
     public void spawnSplitter() {
         pickedNode = NodeFactory.instance().createSplitterNode();
     }
+    
+    public void spawnCombiner() {
+        pickedNode = NodeFactory.instance().createCombinerNode();
+    }
 
     public void spawnConnection() {
         connection = new Connection();
-        connection.setStartNode(NodeFactory.instance().createDummyNode());
+        Node startNode;
+        if(selectedNode == null){
+            startNode = NodeFactory.instance().createDummyNode();
+        } else{
+            startNode = selectedNode;
+        }
+        connection.setStartNode(startNode);
         connection.setEndNode(NodeFactory.instance().createDummyNode());
     }
 
@@ -206,8 +217,8 @@ public class EditorState extends EngineState {
     }
 
     /**
-     * GUI function.
-     * Saves a level to disk.
+     * GUI function. Saves a level to disk.
+     *
      * @param filename The name of the level that will be saved.
      */
     public void save(String filename) {
@@ -218,8 +229,8 @@ public class EditorState extends EngineState {
     }
 
     /**
-     * GUI function.
-     * Loads a level from disk.
+     * GUI function. Loads a level from disk.
+     *
      * @param filename The name of the level that will be loaded.
      */
     public void load(String filename) {
@@ -239,7 +250,7 @@ public class EditorState extends EngineState {
         TextField f = getGuiComponent("menu_field");
 
         p.setVisible(!p.isVisible() || !b.getText().equalsIgnoreCase(name));
-        
+
         b.setText(Character.toUpperCase(name.charAt(0)) + name.substring(1));
         b.setAction(name + "(menu_field.text)");
         f.setAction(name + "(menu_field.text)");
@@ -272,8 +283,15 @@ public class EditorState extends EngineState {
         Spinner spinner2 = getGuiComponent("spinner2");
         Button button = getGuiComponent("btn");
 
+        //Set the default the visibility.
+        spinner1.setVisible(false);
+        spinner2.setVisible(false);
+        label1.setVisible(false);
+        label2.setVisible(false);
+        button.setVisible(true);
+
         if (spec instanceof FactorySpecification) {
-            Resource r = ((FactorySpecification)spec).getResource();
+            Resource r = ((FactorySpecification) spec).getResource();
             label.setText("Factory");
             label1.setText("Resource Rate");
             label2.setText("Resource Type");
@@ -283,9 +301,8 @@ public class EditorState extends EngineState {
             spinner1.setValue(r.getRate());
             spinner2.setVisible(true);
             spinner2.setValue(r.getType());
-            button.setVisible(true);
         } else if (spec instanceof ConsumerSpecification) {
-            Resource r = ((ConsumerSpecification)spec).getExpectedResource();
+            Resource r = ((ConsumerSpecification) spec).getExpectedResource();
             label.setText("Consumer");
             label1.setText("Resource Rate");
             label2.setText("Resource Type");
@@ -295,38 +312,28 @@ public class EditorState extends EngineState {
             spinner1.setValue(r.getRate());
             spinner2.setVisible(true);
             spinner2.setValue(r.getType());
-            button.setVisible(true);
         } else if (spec instanceof EaterSpecification) {
-            int fraction = ((EaterSpecification)spec).getFraction();
+            int fraction = ((EaterSpecification) spec).getFraction();
             label.setText("Eater");
             label1.setText("Fraction");
             label1.setVisible(true);
-            label2.setVisible(false);
             spinner1.setVisible(true);
             spinner1.setValue(fraction);
-            spinner2.setVisible(false);
-            button.setVisible(true);
         } else if (spec instanceof SplitterSpecification) {
             label.setText("Splitter");
-            label1.setVisible(false);
-            label2.setVisible(false);
-            spinner1.setVisible(false);
-            spinner2.setVisible(false);
-            button.setVisible(true);
+        } else if (spec instanceof CombinerSpecification) {
+            label.setText("Combiner");
         } else {
             label.setText("Select a node");
-            spinner1.setVisible(false);
-            spinner2.setVisible(false);
-            label1.setVisible(false);
-            label2.setVisible(false);
             button.setVisible(false);
         }
     }
 
     /**
-     * Set the text on the escape button.
-     * Also move the other buttons to match the escape button new size.
-     * @param text 
+     * Set the text on the escape button. Also move the other buttons to match
+     * the escape button new size.
+     *
+     * @param text
      */
     private void setEscapeButton(String text) {
         Button b1 = getGuiComponent("menu1_btn");
@@ -335,6 +342,6 @@ public class EditorState extends EngineState {
         b2.setX(new Position(b1.getX() + b1.getWidth()));
         Button b3 = getGuiComponent("menu3_btn");
         b3.setX(new Position(b2.getX() + b2.getWidth()));
-        
+
     }
 }

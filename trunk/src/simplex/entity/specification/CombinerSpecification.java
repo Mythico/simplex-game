@@ -38,7 +38,6 @@ public class CombinerSpecification extends NodeSpecification {
             }
             bufferedResource = Resource.NIL;
             notifyObservers(other);
-
         }
     }
 }

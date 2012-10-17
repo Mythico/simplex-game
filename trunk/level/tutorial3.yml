@@ -1,24 +1,28 @@
 !!simplex.level.saved.SavedEater
+coord: {x: 7, y: 8}
+fraction: 2
+id: 11
+--- !!simplex.level.saved.SavedEater
 coord: {x: 7, y: 4}
 fraction: 2
-id: 77
---- !!simplex.level.saved.SavedEater
-coord: {x: 7, y: 7}
-fraction: 2
-id: 78
+id: 12
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 3, y: 8}
+id: 13
+resource: {rate: 4, type: 2}
 --- !!simplex.level.saved.SavedFactory
 coord: {x: 3, y: 4}
-id: 79
-resource: {rate: 4, type: 2}
---- !!simplex.level.saved.SavedFactory
-coord: {x: 3, y: 7}
-id: 80
+id: 15
 resource: {rate: 4, type: 2}
 --- !!simplex.level.saved.SavedConsumer
-coord: {x: 11, y: 5}
-id: 81
-resource: {rate: 3, type: 2}
---- !!simplex.level.saved.SavedConnection {endNodeId: 77, id: 82, startNodeId: 79}
---- !!simplex.level.saved.SavedConnection {endNodeId: 81, id: 83, startNodeId: 77}
---- !!simplex.level.saved.SavedConnection {endNodeId: 81, id: 84, startNodeId: 78}
---- !!simplex.level.saved.SavedConnection {endNodeId: 78, id: 85, startNodeId: 80}
+coord: {x: 13, y: 6}
+id: 14
+resource: {rate: 4, type: 2}
+--- !!simplex.level.saved.SavedCombiner
+coord: {x: 10, y: 6}
+id: 22
+--- !!simplex.level.saved.SavedConnection {endNodeId: 12, id: 17, startNodeId: 15}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 11, id: 18, startNodeId: 13}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 22, id: 23, startNodeId: 11}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 14, id: 26, startNodeId: 22}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 22, id: 29, startNodeId: 12}
