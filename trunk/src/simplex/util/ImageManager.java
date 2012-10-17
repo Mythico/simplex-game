@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simplex.util;
 
 import java.util.HashMap;
@@ -12,17 +8,18 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import simplex.entity.Resource;
+import simplex.entity.specification.CombinerSpecification;
 import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.EaterSpecification;
 import simplex.entity.specification.FactorySpecification;
 import simplex.entity.specification.NodeSpecification;
-import simplex.entity.Resource;
-import simplex.entity.specification.DummySpecification;
 import simplex.entity.specification.SplitterSpecification;
 
 /**
  *
- * @author Emil, Samuel
+ * @author Emil
+ * @author Samuel
  */
 public class ImageManager {
 
@@ -32,7 +29,7 @@ public class ImageManager {
     private static Image happy_consumer_node;
     private static Image eater_node;
     private static Image splitter_node;
-    private static Image connection_icon;
+    private static Image combiner_node;
     public static Image connection_swap_left_icon;
     public static Image connection_swap_right_icon;
     private static Image white_resource;
@@ -56,8 +53,8 @@ public class ImageManager {
         happy_consumer_node = new Image("img/happy_consumer_node.png", Color.white);
         eater_node = new Image("img/eater_node.png", Color.white);
         splitter_node = new Image("img/splitter_node.png", Color.white);
+        combiner_node = new Image("img/combiner_node.png", Color.white);
 
-        connection_icon = new Image("img/connection.png", Color.white);
         connection_swap_left_icon = new Image("img/connection_swap_left.png", Color.white);
         connection_swap_right_icon = new Image("img/connection_swap_right.png", Color.white);
 
@@ -110,6 +107,8 @@ public class ImageManager {
             return eater_node;
         } else if (spec instanceof SplitterSpecification) {
             return splitter_node;
+        } else if (spec instanceof CombinerSpecification) {
+            return combiner_node;
         } else {
             return dummy_node;
         }
