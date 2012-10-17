@@ -1,8 +1,5 @@
 package simplex.entity.specification;
 
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
 import simplex.entity.Resource;
 
 /**
@@ -13,11 +10,9 @@ import simplex.entity.Resource;
  * @author Emil
  * @author Samuel
  */
-public class EaterSpecification implements NodeSpecification {
+public class EaterSpecification extends NodeSpecification {
 
-    private Queue<Resource> resource = new LinkedList<>();
     private int fraction = 1;
-    private int counter = 0;
 
     public void setFraction(int fraction) {
         this.fraction = fraction;
@@ -28,44 +23,14 @@ public class EaterSpecification implements NodeSpecification {
     }
 
     @Override
-    public void setResource(Resource other) {
-        if (Resource.NIL == other) {
+    public void setResource(Resource resource) {
+        if (Resource.NIL == resource) {
             return;
         }
-        int rate = other.getRate() / fraction;
+        int rate = resource.getRate() / fraction;
         if (rate > 0) {
-            other.setRate(rate);
-            resource.add(other);
+            resource.setRate(rate);
+            notifyObservers(resource);
         }
-    }
-
-    @Override
-    public Resource getResource() {
-        if (resource.isEmpty()) {
-            return Resource.NIL;
-        }
-        return resource.poll();
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.resource);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EaterSpecification other = (EaterSpecification) obj;
-        if (!Objects.equals(this.resource, other.resource)) {
-            return false;
-        }
-        return true;
     }
 }

@@ -105,7 +105,7 @@ public class ImageManager {
         if (spec instanceof ConsumerSpecification) {
             r = ((ConsumerSpecification) spec).getExpectedResource();
         } else if (spec instanceof FactorySpecification) {
-            r = ((FactorySpecification) spec).getExpectedResource();
+            r = ((FactorySpecification) spec).getResource();
         } else if (spec instanceof EaterSpecification) {
             return eater_node;
         } else if (spec instanceof SplitterSpecification) {
