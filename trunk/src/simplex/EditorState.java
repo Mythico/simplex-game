@@ -193,11 +193,12 @@ public class EditorState extends EngineState {
 
     public void spawnConnection() {
         connection = new Connection();
-        Node startNode;
-        if(selectedNode == null){
-            startNode = NodeFactory.instance().createDummyNode();
-        } else{
-            startNode = selectedNode;
+        Node startNode = NodeFactory.instance().createDummyNode();
+        if(selectedNode != null){
+            float x = selectedNode.getPosition().x;
+            float y = selectedNode.getPosition().y;
+            startNode.setX(x);
+            startNode.setY(y);
         }
         connection.setStartNode(startNode);
         connection.setEndNode(NodeFactory.instance().createDummyNode());
