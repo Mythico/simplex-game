@@ -14,6 +14,7 @@ import simplex.entity.specification.NodeSpecification;
 public class SavedConsumer extends SavedNode {
     private Resource resource;
 
+    @SuppressWarnings("unused")
     private SavedConsumer() {
     }
 

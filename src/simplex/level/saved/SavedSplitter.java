@@ -10,6 +10,7 @@ import simplex.entity.NodeFactory;
  */
 public class SavedSplitter extends SavedNode {
 
+    @SuppressWarnings("unused")
     private SavedSplitter() {
     }
 

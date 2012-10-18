@@ -10,6 +10,7 @@ import simplex.entity.NodeFactory;
  */
 public class SavedDummy extends SavedNode {
 
+    @SuppressWarnings("unused")
     private SavedDummy() {
     }
 
