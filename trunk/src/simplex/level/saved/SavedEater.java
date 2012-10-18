@@ -13,6 +13,7 @@ import simplex.entity.specification.NodeSpecification;
 public class SavedEater extends SavedNode {
     private int fraction;
 
+    @SuppressWarnings("unused")
     private SavedEater() {
     }
 

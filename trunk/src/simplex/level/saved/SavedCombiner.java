@@ -10,6 +10,7 @@ import simplex.entity.NodeFactory;
  */
 public class SavedCombiner extends SavedNode {
 
+    @SuppressWarnings("unused")
     private SavedCombiner() {
     }
 
