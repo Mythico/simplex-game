@@ -4,6 +4,8 @@ import mdes.oxy.Desktop;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import simplex.level.Level;
@@ -20,6 +22,7 @@ public abstract class EngineState extends BaseState {
     protected int height = 16;
     protected int width = 16;
     protected Level level = new Level();
+    private Image background;
 
     public EngineState(int stateId) {
         super(stateId);
@@ -30,14 +33,8 @@ public abstract class EngineState extends BaseState {
         super.init(gc, sbg);
         GridConversions.setGameSize(width, height);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
-    }
-
-    @Override
-    protected abstract Desktop loadGui(GameContainer gc) throws SlickException;
-
-    @Override
-    protected void renderBackground(GameContainer gc, StateBasedGame sbg,
-            Graphics g) {
+        background = new ImageBuffer(gc.getWidth(), gc.getHeight()).getImage();
+        Graphics g = background.getGraphics();
         final int gwidth = gc.getWidth() / width;
         final int gheight = gc.getHeight() / height;
         // Draw grid
@@ -50,6 +47,15 @@ public abstract class EngineState extends BaseState {
                 g.fillRect(x * gwidth, i * gheight, gwidth, gheight);
             }
         }
+    }
+
+    @Override
+    protected abstract Desktop loadGui(GameContainer gc) throws SlickException;
+
+    @Override
+    protected void renderBackground(GameContainer gc, StateBasedGame sbg,
+            Graphics g) {
+        g.drawImage(background, 0, 0);
     }
 
     @Override
