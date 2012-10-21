@@ -53,7 +53,13 @@ public class NextGameState extends BaseState {
         StringBuilder panel = new StringBuilder();
         panel.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         panel.append("<desktop>\n");
-        panel.append("<panel name=\"LevelSelect\" location=\"0px,0px\" "
+        panel.append("<panel name=\"TopBar\" location=\"0%, 0%\" "
+                + "opaque=\"true\" background=\"#f0f0f0\" "
+                + "size=\"100%, 30px\">\n");
+        panel.append("<button name=\"menu1_btn\" text=\"Back\" "
+                + "location=\"0px, 3px\" action=\"goToMain()\" />\n");
+        panel.append("</panel>\n");
+        panel.append("<panel name=\"LevelSelect\" location=\"0px,30px\" "
                 + "opaque=\"true\" background=\"#f0f0f0\" "
                 + "size=\"100%,100%\">\n");
         
@@ -92,6 +98,13 @@ public class NextGameState extends BaseState {
                 + "location=\"" + x + "px," + (30+y) + "px\" "
                 + "action=\"setLevel(" + name + ")\" />\n";
 
+    }
+
+    /**
+     * Used by the GUI to switch to main menu.
+     */
+    public void goToMain() {
+        setNextState(Main.MAINMENUSTATE);
     }
 
     public void setLevel(Button levelButton) {
