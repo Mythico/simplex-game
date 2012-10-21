@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <desktop>
     
+    <panel name="TopBar" opaque="true" location="0%, 0%" size="100%, 30px" background="#f0f0f0">
+        <button name="menu1_btn" text="Back" location="0px, 3px" action="goToMain()"/>
+    </panel>
     
     <subSkin>
         <image name="FactoryImage" 	ref="img/factory_node.png"/>
         <image name="ConsumerImage" 	ref="img/happy_consumer_node.png"/>
         <image name="EaterImage" 	ref="img/eater_node.png"/>
+        <image name="CombinerImage"	ref="img/combiner_node.png"/>
         <image name="SplitterImage" 	ref="img/splitter_node.png"/>
         <image name="ConnectionImage" 	ref="img/connection.png"/>
         <label name="img"></label>
@@ -15,9 +19,8 @@
         <label text="Tutorial: Factory and Consumer" location="155px,55px" />
 
         <label text="Click the arrow on the connection between" location="160px,85px" />
-        <label text="resources into the colors which together" location="160px,105px" />
-        <label text="the factory and the consumer to allow the" location="160px,125px" />
-        <label text="resources to move." location="160px,145px" />
+        <label text="the factory and the consumer to allow the" location="160px,105px" />
+        <label text="resources to move." location="160px,125px" />
         <label text="Factory:" location="170px,170px" />
         <label image="FactoryImage" theme="img" location="230px,165px" />
         <label text="Consumer:" location="300px,170px" />
@@ -39,12 +42,16 @@
     
     
     <panel name="Tutorial_3" location="0px,0px" opaque="true" background="#f0f0f0" size="100%,100%">
-        <label text="Tutorial: Eater" location="155px,55px" />
+        <label text="Tutorial: Eater and Combiner" location="155px,55px" />
 
         <label text="The eater node absorbs a set fraction of the" location="160px,85px" />
         <label text="resources, the absorbed resources are lost." location="160px,105px" />
-        <label text="Eater:" location="170px,150px" />
-        <label image="EaterImage" theme="img" location="230px,145px" />
+        <label text="The combiner node combines the resources from" location="160px,125px" />
+        <label text="incoming connections." location="160px,145px" />
+        <label text="Eater:" location="170px,170px" />
+        <label image="EaterImage" theme="img" location="230px,165px" />
+        <label text="Combiner:" location="270px,170px" />
+        <label image="CombinerImage" theme="img" location="340px,165px" />
         <button name="tutorial3" text="Continue Tutorial" location="150px,200px" action="setLevel(tutorial3)" />
     </panel>
     

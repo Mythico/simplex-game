@@ -4,7 +4,7 @@
 
 <desktop>
         
-    <panel name="TopBar" opaque="true" location="0%, 0%" size="100%, 30px" background="#f0f0f0">											
+    <panel name="TopBar" opaque="true" location="0%, 0%" size="100%, 30px" background="#f0f0f0">
         <button name="menu1_btn" text="Back" location="0px, 3px" action="goToMain()"/>
     </panel>
     
