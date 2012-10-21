@@ -156,7 +156,7 @@ class ResourceBall {
     }
 
     void update(int delta) {
-        position.add(dir);
+        position.add(dir.copy().scale(delta));
         img = ImageManager.get(resource);
     }
 
