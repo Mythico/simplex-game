@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-
 <desktop>
            
-    
     <panel name="MainMenuPanel" opaque="true" location="15%, 15%" size="300px, 70%" background="#f0f0f0">
 											
         <button name="btn_level"   text="Select Level" location="10px, 10px" action="goToLevel()"/>

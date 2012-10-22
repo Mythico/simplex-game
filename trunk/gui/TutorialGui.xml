@@ -28,7 +28,6 @@
         <button name="tutorial1" text="Continue Tutorial" location="150px,200px" action="setLevel(tutorial1)" />
     </panel>
     
-    
     <panel name="Tutorial_2" location="0px,0px" opaque="true" background="#f0f0f0" size="100%,100%">
         <label text="Tutorial: Splitter" location="155px,55px" />
 
@@ -40,20 +39,18 @@
         <button name="tutorial2" text="Continue Tutorial" location="150px,200px" action="setLevel(tutorial2)" />
     </panel>
     
-    
     <panel name="Tutorial_3" location="0px,0px" opaque="true" background="#f0f0f0" size="100%,100%">
         <label text="Tutorial: Eater and Combiner" location="155px,55px" />
 
         <label text="The eater node absorbs a set fraction of the" location="160px,85px" />
         <label text="resources, the absorbed resources are lost." location="160px,105px" />
-        <label text="The combiner node combines the resources from" location="160px,125px" />
-        <label text="incoming connections." location="160px,145px" />
+        <label text="The combiner node combines the next two incoming" location="160px,125px" />
+        <label text="resources." location="160px,145px" />
         <label text="Eater:" location="170px,170px" />
         <label image="EaterImage" theme="img" location="230px,165px" />
         <label text="Combiner:" location="270px,170px" />
         <label image="CombinerImage" theme="img" location="340px,165px" />
         <button name="tutorial3" text="Continue Tutorial" location="150px,200px" action="setLevel(tutorial3)" />
     </panel>
-    
     
 </desktop>
