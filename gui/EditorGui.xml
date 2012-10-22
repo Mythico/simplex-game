@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-
 <desktop>
     
     <subSkin>
@@ -26,7 +24,6 @@
         <button name="menu3_btn" text="Load" location="160px, 3px" action="showMenu('load')"/>        
     </panel>
     
-	
     <panel name="BottomBar" opaque="true" location="25%, 90%" size="50%, 10%" background="#f0f0f0">
 					
         <label name="nodeLabel" text="Select a node" location="10px, 10%" />	
@@ -48,4 +45,5 @@
         <button image="CombinerImage"  	theme="img" location="0px, 40%" action="spawnCombiner()"/>
         <button image="ConnectionImage" theme="img" location="0px, 50%" action="spawnConnection()"/>
     </panel>
+    
 </desktop>
