@@ -4,7 +4,9 @@ import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 
 /**
- *
+ * A Saved Combiner used for serializing and de serializing a node with
+ * CombinerSpecification as its node specification.
+ * 
  * @author Emil
  * @author Samuel
  */

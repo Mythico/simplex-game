@@ -6,6 +6,8 @@ import simplex.entity.specification.EaterSpecification;
 import simplex.entity.specification.NodeSpecification;
 
 /**
+ * A Saved Eater used for serializing and de serializing a node with
+ * EaterSpecification as its node specification.
  *
  * @author Emil
  * @author Samuel
