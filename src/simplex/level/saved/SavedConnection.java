@@ -4,7 +4,8 @@ import simplex.entity.Connection;
 import simplex.entity.Node;
 
 /**
- *
+ * A Saved Connection. Used for serializing and de serializing connections.
+ * 
  * @author Emil
  * @author Samuel
  */

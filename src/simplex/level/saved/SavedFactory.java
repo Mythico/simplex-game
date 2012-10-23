@@ -7,6 +7,8 @@ import simplex.entity.specification.FactorySpecification;
 import simplex.entity.specification.NodeSpecification;
 
 /**
+ * A Saved Factory used for serializing and de serializing a node with
+ * FactorySpecification as its node specification.
  *
  * @author Emil
  * @author Samuel

@@ -4,6 +4,8 @@ import simplex.entity.Node;
 import simplex.entity.NodeFactory;
 
 /**
+ * A Saved Splitter used for serializing and de serializing a node with
+ * SplitterSpecification as its node specification.
  *
  * @author Emil
  * @author Samuel

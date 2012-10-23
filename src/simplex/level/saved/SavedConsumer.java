@@ -7,6 +7,8 @@ import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.NodeSpecification;
 
 /**
+ * A Saved Consumer used for serializing and de serializing a node with
+ * ConsumerSpecification as its node specification.
  *
  * @author Emil
  * @author Samuel
