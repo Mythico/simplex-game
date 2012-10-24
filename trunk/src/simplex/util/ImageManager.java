@@ -17,6 +17,7 @@ import simplex.entity.specification.NodeSpecification;
 import simplex.entity.specification.SplitterSpecification;
 
 /**
+ * An Image manager for loading images.
  *
  * @author Emil
  * @author Samuel
@@ -78,17 +79,24 @@ public class ImageManager {
     public static Image get(Resource resource) {
         switch (resource.getType()) {
             case Resource.RED:
-                return get(red_resource, resource.getRate(), redResourceMap);
+                return getScaled(red_resource, resource.getRate(), redResourceMap);
             case Resource.BLUE:
-                return get(blue_resource, resource.getRate(), blueResourceMap);
+                return getScaled(blue_resource, resource.getRate(), blueResourceMap);
             case Resource.GREEN:
-                return get(green_resource, resource.getRate(), greenResourceMap);
+                return getScaled(green_resource, resource.getRate(), greenResourceMap);
             default:
                 return white_resource;
         }
     }
 
-    private static Image get(Image source, int size, Map<Integer, Image> map) {
+    /**
+     * Get a scaled Image with a from a specified resourceMap.
+     * @param source The source image to fetch the scaled image.
+     * @param size The scale of the image.
+     * @param map The map where scaled images resides in.
+     * @return A scaled Image created from the source image.
+     */
+    private static Image getScaled(Image source, int size, Map<Integer, Image> map) {
         Image img = map.get(size);
         if (img == null) {
             img = source.getScaledCopy(0.5f * size);
@@ -97,6 +105,11 @@ public class ImageManager {
         return img;
     }
 
+    /**
+     * Get the Image of a node specification.
+     * @param spec The node specification.
+     * @return An Image representing the specified NodeSpecification.
+     */
     public static Image get(NodeSpecification spec) {
         final Resource r;
         if (spec instanceof ConsumerSpecification) {
@@ -140,6 +153,12 @@ public class ImageManager {
         return img;
     }
 
+    /**
+     * Create an image of a NodeSpecification with a specified resource on it.
+     * @param background The image that will be the background of the new Image.
+     * @param resource The resouce that will be added to the Image.
+     * @return A new Image with a resource painted on it.
+     */
     private static Image createResourceImage(Image background, Resource resource) {
         Image img = null;
         try {
