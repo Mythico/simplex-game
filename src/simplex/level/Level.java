@@ -13,6 +13,8 @@ import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 
 /**
+ * The level is containing nodes and connection. It is also responsible
+ * for updating and drawing said entities.
  *
  * @author Emil
  * @author Samuel
@@ -23,10 +25,17 @@ public class Level {
     private List<Connection> connections = new LinkedList<>();
     private final String name;
 
+    /**
+     * Create a new Named Level.
+     * @param name The name of the level.
+     */
     public Level(String name) {
         this.name = name;
     }
 
+    /**
+     * Create a new unnamed level.
+     */
     public Level() {
         name = "";
     }
