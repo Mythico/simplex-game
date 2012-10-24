@@ -18,6 +18,11 @@ import simplex.level.saved.SavedNodeFactory;
 import simplex.util.GridCoord;
 
 /**
+ * The level file handler handle loading and saving of levels.
+ * To load a level, you will first have to set the level name and then load it
+ * or load the level with a name as a parameter.
+ * The first way of loading is there for easier communicate between different
+ * StateBasedGames since you can't send messages between states when loaded.
  *
  * @author Emil
  * @author Samuel
@@ -35,10 +40,11 @@ public final class LevelFileHandler{
         return instance;
     }    
     
-    public void setLevel(String level){
-        setLevel = level;
-    }
-    
+    /**
+     * Save a level.
+     * @param level The level that will be saved.
+     * @param filename The filename of said level.
+     */
     public void saveLevel(Level level, String filename) {    
         Map<GridCoord, Node> nodes = level.getNodes();
         List<Connection> connections = level.getConnections();
@@ -61,10 +67,27 @@ public final class LevelFileHandler{
 
     }
     
+    /**
+     * Set the name of the level that will be loaded.
+     * @param level The name of the level.
+     */
+    public void setLevel(String level){
+        setLevel = level;
+    }
+    
+    /**
+     * Load the level specified with setLevel(String level)
+     * @return A level.
+     */
     public Level loadLevel(){
         return loadLevel(setLevel);
     }
 
+    /**
+     * Load a level.
+     * @param filename The name of the level.
+     * @return A level.
+     */
     public Level loadLevel(String filename) { 
         Level level = new Level(filename);
         List<SavedEntity> savedObjects = new LinkedList<>();
@@ -97,6 +120,11 @@ public final class LevelFileHandler{
         return level;
     }
 
+    /**
+     * Create a list of saved Connections
+     * @param conns The connections that is being saved.
+     * @return A list of saved connections.
+     */
     private List<SavedConnection> createSavedConnections(List<Connection> conns) {
         List<SavedConnection> savedConnections = new LinkedList<>();
         for (Connection conn : conns) {
@@ -105,6 +133,11 @@ public final class LevelFileHandler{
         return savedConnections;
     }
 
+    /**
+     * Create a list of saved Nodes
+     * @param conns The nodes that is being saved.
+     * @return A list of saved nodes.
+     */
     private List<SavedNode> createSavedNodes(Map<GridCoord, Node> nodes) {
         List<SavedNode> savedNodes = new LinkedList<>();
         SavedNodeFactory factory = SavedNodeFactory.instance();
