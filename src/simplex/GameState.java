@@ -19,7 +19,6 @@ import simplex.entity.Connection;
 import simplex.entity.Node;
 import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.NodeSpecification;
-import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 import simplex.util.ImageManager;
 
