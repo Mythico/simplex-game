@@ -125,4 +125,12 @@ final class HighScore {
         }
     }
 
+    /**
+     * Clears the highscore.
+     */
+    public static void clear() {
+        scoreMap.clear();
+        save(scoreMap);        
+    }
+
 }
