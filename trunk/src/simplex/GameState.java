@@ -23,6 +23,7 @@ import simplex.util.GridCoord;
 import simplex.util.ImageManager;
 
 /**
+ * The actual playing state.
  *
  * @author Emil
  * @author Samuel
@@ -94,6 +95,7 @@ public class GameState extends EngineState {
             return;
         }
 
+        //If the level is done show how many clicks and how long time it took.
         if (levelIsDone()) {
             Panel panel = getGuiComponent("ScorePanel");
             if (panel != null) {
@@ -142,9 +144,14 @@ public class GameState extends EngineState {
         clicks++;
     }
 
+    /**
+     * Check if there are any unhappy consumers, 
+     * if there are - the level is not completed.
+     * @return whether the level is done or not
+     */
     private boolean levelIsDone() {
         Map<GridCoord, Node> nodes = level.getNodes();
-        //TODO: do a better check.
+        //Check if there are any unhappy consumers
         for (Node node : nodes.values()) {
             NodeSpecification spec = node.getNodeSpecification();
             if (spec instanceof ConsumerSpecification
@@ -171,6 +178,10 @@ public class GameState extends EngineState {
         setNextState(Main.MAINMENUSTATE);
     }
 
+    /**
+     * Save the amount of clicks and the time that has passed since
+     * the level started.
+     */
     private void saveHighScore() {
         String time = this.<Label>getGuiComponent("time").getText();
         String clicks = this.<Label>getGuiComponent("clicks").getText();

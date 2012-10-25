@@ -77,8 +77,7 @@ public abstract class BaseState extends BasicGameState {
     
 
     /**
-     * A helper method to find Gui components in the document.
-     *
+     * A helper method to find Gui components in the document.     *
      * @param <T>
      * @param name
      * @return
@@ -96,14 +95,32 @@ public abstract class BaseState extends BasicGameState {
         renderForeground(container, game, g);
     }
 
+    /**
+     * Render the background
+     * @param container
+     * @param game
+     * @param g
+     */
     protected void renderBackground(GameContainer container,
             StateBasedGame game, Graphics g) {
     }
 
+    /**
+     * Render the gamecontent
+     * @param container
+     * @param game
+     * @param g
+     */
     protected void renderContent(GameContainer container,
             StateBasedGame game, Graphics g) {
     }
 
+    /**
+     * Render the gui
+     * @param container
+     * @param game
+     * @param g
+     */
     protected void renderForeground(GameContainer container,
             StateBasedGame game, Graphics g) {
         desktop.render(g);

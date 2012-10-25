@@ -153,6 +153,10 @@ public class EditorState extends EngineState {
         }
     }
 
+    /**
+     * Select the specified node.
+     * @param n the node to select.
+     */
     private void selectNode(Node n) {
         unselect();
         selectedNode = n;
@@ -164,6 +168,9 @@ public class EditorState extends EngineState {
         setNodeGui(spec);
     }
 
+    /**
+     * If a node is selected, unselect it.
+     */
     private void unselect() {
         if (selectedNode != null) {
             selectedNode.setSelected(false);
@@ -171,26 +178,44 @@ public class EditorState extends EngineState {
         }
     }
 
+    /**
+     * Spawn a factory
+     */
     public void spawnFactory() {
         pickedNode = NodeFactory.instance().createFactoryNode();
     }
 
+    /**
+     * Spawn a consumer
+     */
     public void spawnConsumer() {
         pickedNode = NodeFactory.instance().createConsumerNode();
     }
 
+    /**
+     * Spawn a eater
+     */
     public void spawnEater() {
         pickedNode = NodeFactory.instance().createEaterNode();
     }
 
+    /**
+     * Spawn a splitter
+     */
     public void spawnSplitter() {
         pickedNode = NodeFactory.instance().createSplitterNode();
     }
     
+    /**
+     * Spawn a combiner
+     */
     public void spawnCombiner() {
         pickedNode = NodeFactory.instance().createCombinerNode();
     }
 
+    /**
+     * Spawn a connection
+     */
     public void spawnConnection() {
         connection = new Connection();
         Node startNode = NodeFactory.instance().createDummyNode();
@@ -204,6 +229,10 @@ public class EditorState extends EngineState {
         connection.setEndNode(NodeFactory.instance().createDummyNode());
     }
 
+    /**
+     * Either drop or deselect a node or go to the mainmenu,
+     * depending on what the user is doing.
+     */
     public void escape() {
         if (pickedNode != null) {
             level.removeNode(pickedNode);
@@ -218,8 +247,7 @@ public class EditorState extends EngineState {
     }
 
     /**
-     * GUI function. Saves a level to disk.
-     *
+     * GUI function. Saves a level to disk.     *
      * @param filename The name of the level that will be saved.
      */
     public void save(String filename) {
@@ -230,8 +258,7 @@ public class EditorState extends EngineState {
     }
 
     /**
-     * GUI function. Loads a level from disk.
-     *
+     * GUI function. Loads a level from disk.     *
      * @param filename The name of the level that will be loaded.
      */
     public void load(String filename) {
@@ -241,10 +268,18 @@ public class EditorState extends EngineState {
         getGuiComponent("MenuPanel").setVisible(false);
     }
 
+    /**
+     * Toggle the visibility of the panel
+     * @param panel
+     */
     public void toggleVisible(Panel panel) {
         panel.setVisible(!panel.isVisible());
     }
 
+    /**
+     * GUI function. Shows the save/load menu.
+     * @param name The name of the file specified in the textfield.
+     */
     public void showMenu(String name) {
         Panel p = getGuiComponent("MenuPanel");
         Button b = getGuiComponent("menu_btn");
@@ -257,6 +292,11 @@ public class EditorState extends EngineState {
         f.setAction(name + "(menu_field.text)");
     }
 
+    /**
+     * Set the data on the selected node depending on what type it is. 
+     * @param data1 resource rate if factory or consumer, fraction if eater
+     * @param data2 resource type if factory or consumer
+     */
     public void setNodeData(int data1, int data2) {
 
         if (selectedNode == null) {
@@ -275,6 +315,10 @@ public class EditorState extends EngineState {
         }
     }
 
+    /**
+     * Set the GUI of the bottom panel to match the specification provided.
+     * @param spec the specification to match
+     */
     private void setNodeGui(final NodeSpecification spec) {
 
         Label label = getGuiComponent("nodeLabel");
@@ -291,6 +335,8 @@ public class EditorState extends EngineState {
         label2.setVisible(false);
         button.setVisible(true);
 
+        //Show the correct gui elements depending on what type the 
+        //provided specification is. 
         if (spec instanceof FactorySpecification) {
             Resource r = ((FactorySpecification) spec).getResource();
             label.setText("Factory");
@@ -332,8 +378,7 @@ public class EditorState extends EngineState {
 
     /**
      * Set the text on the escape button. Also move the other buttons to match
-     * the escape button new size.
-     *
+     * the escape button new size.     *
      * @param text
      */
     private void setEscapeButton(String text) {
@@ -343,6 +388,5 @@ public class EditorState extends EngineState {
         b2.setX(new Position(b1.getX() + b1.getWidth()));
         Button b3 = getGuiComponent("menu3_btn");
         b3.setX(new Position(b2.getX() + b2.getWidth()));
-
     }
 }

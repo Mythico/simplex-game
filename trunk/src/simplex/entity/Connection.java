@@ -12,6 +12,7 @@ import simplex.entity.specification.Observer;
 import simplex.util.ImageManager;
 
 /**
+ * A class for the connection between nodes.
  *
  * @author Emil
  * @author Samuel
@@ -53,8 +54,7 @@ public class Connection implements Entity, Observer {
     }
 
     /**
-     * Binds two nodes to the connection
-     *
+     * Binds two nodes to the connection.     *
      * @param startNode Start node
      * @param endNode End node
      */
@@ -68,6 +68,7 @@ public class Connection implements Entity, Observer {
         Vector2f startPos = startNode.getPosition();
         Vector2f endPos = endNode.getPosition();
 
+        // Draw a line between the startNode and the endNode
         g.setColor(Color.cyan);
         g.drawLine(startPos.x + 17, startPos.y + 17, endPos.x + 17,
                 endPos.y + 17);
@@ -98,6 +99,9 @@ public class Connection implements Entity, Observer {
         }
     }
 
+    /**
+     * Swap the direction of the resources on this connection.
+     */
     public void swapDirection() {
         Node temp = startNode;
         setStartNode(endNode);
@@ -133,6 +137,13 @@ public class Connection implements Entity, Observer {
     }
 }
 
+/**
+ * A class for the graphical representation of the resources.
+ * 
+ * @author Samuel
+ * @author Emil
+ *
+ */
 class ResourceBall {
 
     private final Vector2f position;
@@ -164,6 +175,10 @@ class ResourceBall {
         return resource;
     }
 
+    /**
+     * Check whether this resource has reached the end of its path.
+     * @return if the resource has reached the end.
+     */
     boolean hasReachedEnd() {
         final float nearConstant = 1;
         float dist = position.distanceSquared(endPos);

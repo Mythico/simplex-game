@@ -1,6 +1,7 @@
 package simplex;
 
 /**
+ * The state used when playing a tutorial level.
  *
  * @author Emil
  * @author Samuel

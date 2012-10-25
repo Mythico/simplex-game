@@ -29,8 +29,8 @@
         <label name="nodeLabel" text="Select a node" location="10px, 10%" />	
         <label name="label1" text="" location="10px, 25px"/>
         <label name="label2" text="" location="10px, 45px"/>
-        <spinner name="spinner1" cols="5" min="0" max="5" location="100px, 20px"/>	
-        <spinner name="spinner2" cols="5" min="0" max="5" location="100px, 40px"/>	
+        <spinner name="spinner1" cols="5" min="0" max="5" location="100px, 20px" step="1" />
+        <spinner name="spinner2" cols="5" min="0" max="5" location="100px, 40px" step="1" />	
 						
         <button name="btn" text="Ok" location="80%, 40%" 
                 action="setNodeData(spinner1.value, spinner2.value)"/>

@@ -7,7 +7,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import simplex.util.ImageManager;
 
 public class Main extends StateBasedGame {
-
+    
+    //Constants for the different gamestates
     public static final int MAINMENUSTATE = 0;
     public static final int GAMESTATE = 1;
     public static final int EDITSTATE = 2;
