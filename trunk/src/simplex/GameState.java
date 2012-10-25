@@ -52,12 +52,7 @@ public class GameState extends EngineState {
 
             Vector2f middle = (startPos.copy().add(endPos)).scale(0.5f);
 
-            Image img;
-            if ((startPos.x - endPos.x) < 0) {
-                img = ImageManager.connection_swap_right_icon;
-            } else {
-                img = ImageManager.connection_swap_left_icon;
-            }
+            Image img = createDirectionImage(startPos, endPos);
 
             tempConnSwap.add(new MouseOverArea(gc, img, (int) middle.x, (int) middle.y));
         }
@@ -117,12 +112,7 @@ public class GameState extends EngineState {
                     conn.swapDirection();
                     Vector2f startPos = conn.getStartNode().getPosition();
                     Vector2f endPos = conn.getEndNode().getPosition();
-                    Image img;
-                    if ((startPos.x - endPos.x) < 0) {
-                        img = ImageManager.connection_swap_right_icon;
-                    } else {
-                        img = ImageManager.connection_swap_left_icon;
-                    }
+                    Image img = createDirectionImage(startPos, endPos);                    
                     moa.setNormalImage(img);
                     moa.setMouseOverImage(img);
                 }
@@ -186,5 +176,28 @@ public class GameState extends EngineState {
         String time = this.<Label>getGuiComponent("time").getText();
         String clicks = this.<Label>getGuiComponent("clicks").getText();
         HighScore.save(level.getName(), time, clicks);
+    }
+    
+    /**
+     * Creates a new diractional image angle from the start position to the end position.
+     * @param startPos The start position the image will be angled from.
+     * @param endPos The end position the image will be angled from.
+     * @return THe angled image.
+     */
+    private Image createDirectionImage(Vector2f startPos, Vector2f endPos){
+        Image img;
+        Vector2f dist;
+        if ((startPos.x - endPos.x) < 0) {
+            dist = endPos.copy().sub(startPos);
+            img = ImageManager.connection_swap_right_icon;
+        } else {
+            dist = startPos.copy().sub(endPos);
+            img = ImageManager.connection_swap_left_icon;
+        }
+
+        float angle = (float) ((float) Math.atan(dist.y/dist.x) / (Math.PI) * 180);
+        img = img.copy();
+        img.rotate(angle);
+        return img;
     }
 }
