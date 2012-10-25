@@ -17,7 +17,7 @@ import simplex.util.ImageManager;
  */
 public class Node implements Entity{
 
-    private float x, y;;
+    private float x, y;
 
     private NodeSpecification nodeSpecification;
     private boolean selected;
