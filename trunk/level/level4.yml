@@ -1,0 +1,70 @@
+!!simplex.level.saved.SavedCombiner
+coord: {x: 8, y: 1}
+id: 31
+--- !!simplex.level.saved.SavedCombiner
+coord: {x: 11, y: 9}
+id: 39
+--- !!simplex.level.saved.SavedConsumer
+coord: {x: 13, y: 1}
+id: 41
+resource: {rate: 4, type: 4}
+--- !!simplex.level.saved.SavedEater
+coord: {x: 7, y: 11}
+fraction: 1
+id: 40
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 1, y: 11}
+id: 32
+resource: {rate: 8, type: 4}
+--- !!simplex.level.saved.SavedEater
+coord: {x: 7, y: 5}
+fraction: 2
+id: 42
+--- !!simplex.level.saved.SavedEater
+coord: {x: 4, y: 4}
+fraction: 2
+id: 33
+--- !!simplex.level.saved.SavedEater
+coord: {x: 8, y: 8}
+fraction: 2
+id: 34
+--- !!simplex.level.saved.SavedEater
+coord: {x: 3, y: 8}
+fraction: 2
+id: 36
+--- !!simplex.level.saved.SavedEater
+coord: {x: 2, y: 1}
+fraction: 2
+id: 35
+--- !!simplex.level.saved.SavedCombiner
+coord: {x: 11, y: 3}
+id: 37
+--- !!simplex.level.saved.SavedConsumer
+coord: {x: 13, y: 7}
+id: 43
+resource: {rate: 2, type: 2}
+--- !!simplex.level.saved.SavedEater
+coord: {x: 3, y: 6}
+fraction: 1
+id: 44
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 1, y: 5}
+id: 38
+resource: {rate: 8, type: 2}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 44, id: 45, startNodeId: 32}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 44, id: 46, startNodeId: 35}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 36, id: 47, startNodeId: 32}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 43, id: 48, startNodeId: 42}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 33, id: 49, startNodeId: 42}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 33, id: 50, startNodeId: 38}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 34, id: 51, startNodeId: 36}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 31, id: 52, startNodeId: 35}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 41, id: 53, startNodeId: 31}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 31, id: 54, startNodeId: 34}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 40, id: 55, startNodeId: 36}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 43, id: 56, startNodeId: 39}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 39, id: 57, startNodeId: 42}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 39, id: 58, startNodeId: 40}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 41, id: 59, startNodeId: 37}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 37, id: 60, startNodeId: 42}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 37, id: 61, startNodeId: 31}
