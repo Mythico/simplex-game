@@ -52,7 +52,7 @@ public class NextTutorialState extends NextGameState {
         if(currentTutorial > 3) {
             currentTutorial = 1;
         }
-        LevelFileHandler.instance().setLevel(tutorialLevelButton.getName());
+        LevelFileHandler.instance().setLevel("tutorial/" + tutorialLevelButton.getName());
         setNextState(Main.TUTORIAL);
     }
 }
