@@ -13,10 +13,9 @@ import simplex.level.LevelFileHandler;
 import simplex.util.GridConversions;
 
 /**
- * The base-state for the editor and the game states.
- * This state handles the rendering of the background and
- * level updating.
- *
+ * The base-state for the editor and the game states. This state handles the
+ * rendering of the background and level updating.
+ * 
  * @author Emil
  * @author Samuel
  */
@@ -32,24 +31,11 @@ public abstract class EngineState extends BaseState {
     }
 
     @Override
-    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+    public void init(GameContainer gc, StateBasedGame sbg)
+            throws SlickException {
         super.init(gc, sbg);
         GridConversions.setGameSize(width, height);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
-        background = new ImageBuffer(gc.getWidth(), gc.getHeight()).getImage();
-        Graphics g = background.getGraphics();
-        final int gwidth = gc.getWidth() / width;
-        final int gheight = gc.getHeight() / height;
-        // Draw grid
-        g.setColor(Color.darkGray);
-        g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j += 2) {
-                int x = j + (i%2);
-                g.setColor(Color.gray);
-                g.fillRect(x * gwidth, i * gheight, gwidth, gheight);
-            }
-        }
     }
 
     @Override
@@ -58,7 +44,37 @@ public abstract class EngineState extends BaseState {
     @Override
     protected void renderBackground(GameContainer gc, StateBasedGame sbg,
             Graphics g) {
+        if (background == null) {
+            createBackground(gc);
+        }
         g.drawImage(background, 0, 0);
+    }
+
+    /**
+     * Create the background image.
+     * @param gc
+     */
+    private void createBackground(GameContainer gc) {
+        background = new ImageBuffer(gc.getWidth(), gc.getHeight())
+                .getImage();
+        Graphics gr;
+        try {
+            gr = background.getGraphics();
+            final int gwidth = gc.getWidth() / width;
+            final int gheight = gc.getHeight() / height;
+            // Draw grid
+            gr.setColor(Color.darkGray);
+            gr.fillRect(0, 0, gc.getWidth(), gc.getHeight());
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j += 2) {
+                    int x = j + (i % 2);
+                    gr.setColor(Color.gray);
+                    gr.fillRect(x * gwidth, i * gheight, gwidth, gheight);
+                }
+            }
+        } catch (SlickException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
