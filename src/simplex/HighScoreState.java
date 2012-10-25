@@ -45,4 +45,12 @@ public class HighScoreState extends BaseState {
     public void goToMain(){
         setNextState(Main.MAINMENUSTATE);
     }
+    
+
+    /**
+     * GUI function. Clears the highscore.
+     */
+    public void clear(){
+        HighScore.clear();
+    }
 }

@@ -3,7 +3,8 @@
 <desktop>
         
     <panel name="TopBar" opaque="true" location="0%, 0%" size="100%, 30px" background="#f0f0f0">											
-        <button name="menu1_btn" text="Back" location="0px, 3px" action="goToMain()"/>
+        <button name="menu1_btn" text="Back" location="0px, 3px" action="goToMain()"/>											
+        <button name="clear_btn" text="Clear Highscore" location="80px, 3px" action="clear()"/>
     </panel>
     
 </desktop>
