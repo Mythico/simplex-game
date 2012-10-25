@@ -163,7 +163,7 @@ class ResourceBall {
     }
 
     void render(Graphics g) {
-        g.drawImage(img, position.x, position.y);
+        img.drawCentered(position.x, position.y);
     }
 
     void update(int delta) {

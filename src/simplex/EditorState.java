@@ -130,7 +130,7 @@ public class EditorState extends EngineState {
             } else if (nodes != null) {
                 // Select node:
                 selectNode(nodes.get(coords));
-                if (connection != null) {
+                if (connection != null && selectedNode != null) {
                     connection.setStartNode(selectedNode);
                 }
             } else {
@@ -251,7 +251,6 @@ public class EditorState extends EngineState {
      * @param filename The name of the level that will be saved.
      */
     public void save(String filename) {
-        System.out.println("Saveing");
         LevelFileHandler lfh = LevelFileHandler.instance();
         lfh.saveLevel(level, filename);
         getGuiComponent("MenuPanel").setVisible(false);
@@ -262,7 +261,6 @@ public class EditorState extends EngineState {
      * @param filename The name of the level that will be loaded.
      */
     public void load(String filename) {
-        System.out.println("Loading");
         LevelFileHandler lfh = LevelFileHandler.instance();
         level = lfh.loadLevel(filename);
         getGuiComponent("MenuPanel").setVisible(false);
