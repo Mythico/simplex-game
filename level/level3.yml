@@ -1,0 +1,53 @@
+!!simplex.level.saved.SavedCombiner
+coord: {x: 7, y: 11}
+id: 1148
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 1, y: 11}
+id: 1117
+resource: {rate: 4, type: 4}
+--- !!simplex.level.saved.SavedEater
+coord: {x: 7, y: 5}
+fraction: 2
+id: 1119
+--- !!simplex.level.saved.SavedEater
+coord: {x: 5, y: 4}
+fraction: 2
+id: 1118
+--- !!simplex.level.saved.SavedEater
+coord: {x: 2, y: 1}
+fraction: 2
+id: 1122
+--- !!simplex.level.saved.SavedEater
+coord: {x: 10, y: 10}
+fraction: 2
+id: 1123
+--- !!simplex.level.saved.SavedEater
+coord: {x: 3, y: 6}
+fraction: 2
+id: 1141
+--- !!simplex.level.saved.SavedCombiner
+coord: {x: 11, y: 6}
+id: 1161
+--- !!simplex.level.saved.SavedEater
+coord: {x: 4, y: 10}
+fraction: 1
+id: 1127
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 1, y: 5}
+id: 1126
+resource: {rate: 4, type: 4}
+--- !!simplex.level.saved.SavedConsumer
+coord: {x: 13, y: 5}
+id: 1128
+resource: {rate: 2, type: 4}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1127, id: 1136, startNodeId: 1117}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1119, id: 1137, startNodeId: 1118}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1126, id: 1138, startNodeId: 1118}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1122, id: 1142, startNodeId: 1141}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1141, id: 1145, startNodeId: 1117}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1123, id: 1149, startNodeId: 1148}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1148, id: 1152, startNodeId: 1119}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1148, id: 1155, startNodeId: 1127}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1161, id: 1162, startNodeId: 1122}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1128, id: 1165, startNodeId: 1161}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 1161, id: 1168, startNodeId: 1123}

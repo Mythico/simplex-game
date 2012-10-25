@@ -1,0 +1,64 @@
+!!simplex.level.saved.SavedEater
+coord: {x: 10, y: 2}
+fraction: 1
+id: 925
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 1, y: 11}
+id: 926
+resource: {rate: 3, type: 4}
+--- !!simplex.level.saved.SavedEater
+coord: {x: 5, y: 4}
+fraction: 1
+id: 928
+--- !!simplex.level.saved.SavedEater
+coord: {x: 7, y: 5}
+fraction: 1
+id: 927
+--- !!simplex.level.saved.SavedConsumer
+coord: {x: 13, y: 11}
+id: 929
+resource: {rate: 3, type: 2}
+--- !!simplex.level.saved.SavedEater
+coord: {x: 8, y: 7}
+fraction: 1
+id: 931
+--- !!simplex.level.saved.SavedEater
+coord: {x: 2, y: 1}
+fraction: 1
+id: 930
+--- !!simplex.level.saved.SavedEater
+coord: {x: 10, y: 10}
+fraction: 1
+id: 932
+--- !!simplex.level.saved.SavedEater
+coord: {x: 3, y: 6}
+fraction: 1
+id: 933
+--- !!simplex.level.saved.SavedEater
+coord: {x: 7, y: 12}
+fraction: 1
+id: 934
+--- !!simplex.level.saved.SavedFactory
+coord: {x: 1, y: 5}
+id: 936
+resource: {rate: 3, type: 2}
+--- !!simplex.level.saved.SavedEater
+coord: {x: 4, y: 10}
+fraction: 1
+id: 935
+--- !!simplex.level.saved.SavedConsumer
+coord: {x: 13, y: 5}
+id: 937
+resource: {rate: 3, type: 4}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 933, id: 938, startNodeId: 926}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 933, id: 939, startNodeId: 930}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 925, id: 940, startNodeId: 930}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 937, id: 941, startNodeId: 925}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 932, id: 942, startNodeId: 934}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 931, id: 943, startNodeId: 932}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 931, id: 944, startNodeId: 935}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 935, id: 945, startNodeId: 926}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 927, id: 946, startNodeId: 928}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 936, id: 947, startNodeId: 928}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 934, id: 948, startNodeId: 927}
+--- !!simplex.level.saved.SavedConnection {endNodeId: 929, id: 949, startNodeId: 932}
