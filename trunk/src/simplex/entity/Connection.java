@@ -103,6 +103,7 @@ public class Connection implements Entity, Observer {
      * Swap the direction of the resources on this connection.
      */
     public void swapDirection() {
+        movingResources.clear();
         Node temp = startNode;
         setStartNode(endNode);
         setEndNode(temp);

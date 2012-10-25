@@ -20,8 +20,7 @@ public class NextTutorialState extends NextGameState {
     private int currentTutorial = 1;
 
     public NextTutorialState(int stateId) {
-        super(stateId);
-        
+        super(stateId);        
     }
 
     @Override
