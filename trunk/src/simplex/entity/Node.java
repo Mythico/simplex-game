@@ -40,10 +40,12 @@ public class Node implements Entity{
     @Override
     public void render(Graphics g) {
         Image img = ImageManager.get(nodeSpecification);
-        g.drawImage(img, x, y);
+        g.drawImage(img, x - img.getWidth()/2, y - img.getHeight()/2);
         if(selected){
             g.setColor(Color.green);
-            g.drawRect(x, y, GridConversions.getGridWidth(), GridConversions.getGridHeight());
+            float width = GridConversions.getGridWidth();
+            float height = GridConversions.getGridHeight();
+            g.drawRect(x-width/2, y - height/2, width, height);
         }
     }
 
