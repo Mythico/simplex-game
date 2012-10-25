@@ -3,6 +3,7 @@ package simplex.entity;
 import org.newdawn.slick.Graphics;
 
 /**
+ * A superclass for the different entities we have.
  * 
  * @author Emil
  * @author Samuel

@@ -13,6 +13,9 @@ import simplex.level.LevelFileHandler;
 import simplex.util.GridConversions;
 
 /**
+ * The base-state for the editor and the game states.
+ * This state handles the rendering of the background and
+ * level updating.
  *
  * @author Emil
  * @author Samuel

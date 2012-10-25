@@ -15,6 +15,7 @@ import simplex.level.LevelFileHandler;
 import simplex.util.GridConversions;
 
 /**
+ * The state used when selecting which level to play.
  *
  * @author Emil
  * @author Samuel
@@ -42,6 +43,10 @@ public class NextGameState extends BaseState {
 
     }
 
+    /**
+     * Create the GUI for selecting levels.
+     * Generates and appends XML-code to the GUI panel.
+     */
     private void createGui() {
         File levelFolder = new File("level");
         String[] files = levelFolder.list(new FilenameFilter() {
@@ -78,6 +83,12 @@ public class NextGameState extends BaseState {
         }
     }
 
+    /**
+     * Creates a button for a level.
+     * @param nr the number for in which order this button is placed
+     * @param filename the name of the level
+     * @return the XML-code for the button
+     */
     private String createButton(int nr, String filename) {
         final int gameWidth = GridConversions.getGameWidth();
         final float gridWidth = GridConversions.getGridWidth();
@@ -107,6 +118,10 @@ public class NextGameState extends BaseState {
         setNextState(Main.MAINMENUSTATE);
     }
 
+    /**
+     * Used by the GUI to switch to the corresponding level.
+     * @param levelButton the button corresponding to the level.
+     */
     public void setLevel(Button levelButton) {
         LevelFileHandler.instance().setLevel(levelButton.getName());
         setNextState(Main.GAMESTATE);

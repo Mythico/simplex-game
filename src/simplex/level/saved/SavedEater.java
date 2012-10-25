@@ -26,10 +26,18 @@ public class SavedEater extends SavedNode {
         this.fraction = eaterSpecification.getFraction();
     }
 
+    /**
+     * Gets the fraction of the eater.
+     * @return the fraction
+     */
     public int getFraction() {
         return fraction;
     }
-
+    
+    /**
+     * Sets the fraction of the eater.
+     * @param fraction the fraction
+     */
     public void setFraction(int fraction) {
         this.fraction = fraction;
     }   

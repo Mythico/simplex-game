@@ -31,18 +31,34 @@ public class Resource {
         this.rate = rate;
     }
 
+    /**
+     * Get the type of the resource
+     * @return the type
+     */
     public int getType() {
         return type;
     }
 
+    /**
+     * Set the type of the resource
+     * @param type the type
+     */
     public void setType(int type) {
         this.type = type;
     }
 
+    /**
+     * Get the rate of the resource
+     * @return the rate
+     */
     public int getRate() {
         return rate;
     }
 
+    /**
+     * Set the rate of the resource
+     * @param rate the rate
+     */
     public void setRate(int rate) {
         this.rate = rate;
     }
@@ -78,6 +94,14 @@ public class Resource {
     }
 }
 
+/**
+ * A class for a resource which does not have a 
+ * type nor a rate.
+ * 
+ * @author Samuel
+ * @author Emil
+ *
+ */
 final class NilResource extends Resource {   
     
     /**
