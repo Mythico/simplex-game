@@ -45,21 +45,20 @@ public class GridConversions {
      * @return The actual position in the window.
      */
     public static Vector2f gridToScreenCoord(GridCoord coord) {
-        float fx = coord.x * (screenWidth / (float) gameWidth);
-        float fy = coord.y * (screenHeight / (float) gameHeight);
+        float fx = coord.x * gridWidth + gridWidth / 2;
+        float fy = coord.y * gridHeight + gridHeight / 2;
         return new Vector2f(fx, fy);
     }
 
     /**
      * Create a GridCoord for the mouse position mx, my.
-     *
      * @param mx The mouse position horizontal.
      * @param my The mouse position vertical.
-     * @return
+     * @return Return the grid the mouse is hovering over.
      */
     public static GridCoord mouseToGridCoord(int mx, int my) {
-        int x = (mx / (screenWidth / gameWidth));
-        int y = (my / (screenHeight / gameHeight));
+        int x = (int) (mx / gridWidth);
+        int y = (int) (my / gridHeight);
         return new GridCoord(x, y);
     }
 

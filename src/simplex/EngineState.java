@@ -21,8 +21,6 @@ import simplex.util.GridConversions;
  */
 public abstract class EngineState extends BaseState {
 
-    protected int height = 16;
-    protected int width = 16;
     protected Level level = new Level();
     private Image background;
 
@@ -34,7 +32,7 @@ public abstract class EngineState extends BaseState {
     public void init(GameContainer gc, StateBasedGame sbg)
             throws SlickException {
         super.init(gc, sbg);
-        GridConversions.setGameSize(width, height);
+        GridConversions.setGameSize(16, 16);
         GridConversions.setScreenSize(gc.getWidth(), gc.getHeight());
     }
 
@@ -57,19 +55,19 @@ public abstract class EngineState extends BaseState {
     private void createBackground(GameContainer gc) {
         background = new ImageBuffer(gc.getWidth(), gc.getHeight())
                 .getImage();
-        Graphics gr;
+        Graphics g;
         try {
-            gr = background.getGraphics();
-            final int gwidth = gc.getWidth() / width;
-            final int gheight = gc.getHeight() / height;
+            g = background.getGraphics();
+            float gwidth = GridConversions.getGridWidth();
+            float gheight = GridConversions.getGridHeight();
             // Draw grid
-            gr.setColor(Color.darkGray);
-            gr.fillRect(0, 0, gc.getWidth(), gc.getHeight());
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j += 2) {
+            g.setColor(Color.darkGray);
+            g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
+            for (int i = 0; i < GridConversions.getGameHeight(); i++) {
+                for (int j = 0; j < GridConversions.getGameWidth(); j += 2) {
                     int x = j + (i % 2);
-                    gr.setColor(Color.gray);
-                    gr.fillRect(x * gwidth, i * gheight, gwidth, gheight);
+                    g.setColor(Color.gray);
+                    g.fillRect(x * gwidth, i * gheight, gwidth, gheight);
                 }
             }
         } catch (SlickException e) {

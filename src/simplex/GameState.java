@@ -19,6 +19,7 @@ import simplex.entity.Connection;
 import simplex.entity.Node;
 import simplex.entity.specification.ConsumerSpecification;
 import simplex.entity.specification.NodeSpecification;
+import simplex.util.GridConversions;
 import simplex.util.GridCoord;
 import simplex.util.ImageManager;
 
@@ -55,8 +56,8 @@ public class GameState extends EngineState {
 
             Image img = createDirectionImage(startPos, endPos);
 
-            tempConnSwap.add(new MouseOverArea(gc, img, (int) middle.x,
-                    (int) middle.y));
+            tempConnSwap.add(new MouseOverArea(gc, img, (int) (middle.x - img.getWidth()/2),
+                    (int) (middle.y - img.getHeight()/2)));
         }
         Panel panel = getGuiComponent("ScorePanel");
         if (panel != null)

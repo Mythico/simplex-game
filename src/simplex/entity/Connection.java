@@ -72,8 +72,8 @@ public class Connection implements Entity, Observer {
 
         // Draw a line between the startNode and the endNode
         g.setColor(Color.cyan);
-        g.drawLine(startPos.x + 17, startPos.y + 17, endPos.x + 17,
-                endPos.y + 17);
+        g.drawLine(startPos.x, startPos.y, endPos.x,
+                endPos.y);
         synchronized (movingResources) {
             for (ResourceBall resourceBall : movingResources) {
                 resourceBall.render(g);

@@ -149,6 +149,7 @@ public class EditorState extends EngineState {
                     }
                 }
             }
+            // Pick a node:
             selectedNode = pickedNode = nodes.remove(coords);
         }
     }
