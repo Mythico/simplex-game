@@ -7,6 +7,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
+
+import simplex.entity.specification.FactorySpecification;
 import simplex.entity.specification.NodeSpecification;
 import simplex.entity.specification.Observer;
 import simplex.util.ImageManager;
@@ -92,7 +94,9 @@ public class Connection implements Entity, Observer {
                 // Reset the moving resource when it has moved from start to end
                 if (resourceBall.hasReachedEnd()) {
                     final NodeSpecification spec = endNode.getNodeSpecification();
-                    spec.setResource(resourceBall.getResource());
+                    if(!(spec instanceof FactorySpecification)) {
+                        spec.setResource(resourceBall.getResource());
+                    }
                     it.remove();
                 }
             }
