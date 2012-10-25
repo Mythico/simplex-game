@@ -185,7 +185,7 @@ class ResourceBall {
      * @return if the resource has reached the end.
      */
     boolean hasReachedEnd() {
-        final float nearConstant = 1;
+        final float nearConstant = 3.0f;
         float dist = position.distanceSquared(endPos);
         return dist < nearConstant;
     }
