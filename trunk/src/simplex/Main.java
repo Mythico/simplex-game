@@ -32,6 +32,8 @@ public class Main extends StateBasedGame {
         addState(new TutorialState(TUTORIAL));
         addState(new NextTutorialState(NEXT_TUTORIAL));
         enterState(MAINMENUSTATE);
+        
+        gc.setShowFPS(false);
     }
 
     public static void main(String[] args) throws SlickException {

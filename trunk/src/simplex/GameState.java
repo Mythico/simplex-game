@@ -24,7 +24,7 @@ import simplex.util.ImageManager;
 
 /**
  * The actual playing state.
- *
+ * 
  * @author Emil
  * @author Samuel
  */
@@ -40,7 +40,8 @@ public class GameState extends EngineState {
     }
 
     @Override
-    public void enter(GameContainer gc, StateBasedGame game) throws SlickException {
+    public void enter(GameContainer gc, StateBasedGame game)
+            throws SlickException {
         super.enter(gc, game);
 
         List<Connection> connections = level.getConnections();
@@ -54,7 +55,8 @@ public class GameState extends EngineState {
 
             Image img = createDirectionImage(startPos, endPos);
 
-            tempConnSwap.add(new MouseOverArea(gc, img, (int) middle.x, (int) middle.y));
+            tempConnSwap.add(new MouseOverArea(gc, img, (int) middle.x,
+                    (int) middle.y));
         }
         Panel panel = getGuiComponent("ScorePanel");
         if (panel != null)
@@ -84,26 +86,27 @@ public class GameState extends EngineState {
     }
 
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+    public void update(GameContainer gc, StateBasedGame sbg, int delta)
+            throws SlickException {
         super.update(gc, sbg, delta);
         if (delta == 0 || endTime != -1) {
             return;
         }
 
-        //If the level is done show how many clicks and how long time it took.
+        // If the level is done show how many clicks and how long time it took.
         if (levelIsDone()) {
             Panel panel = getGuiComponent("ScorePanel");
             if (panel != null) {
                 endTime = (System.currentTimeMillis() - startTime) / 1000;
-                this.<Label>getGuiComponent("time").setText("" + endTime);
-                this.<Label>getGuiComponent("clicks").setText("" + clicks);
+                this.<Label> getGuiComponent("time").setText("" + endTime);
+                this.<Label> getGuiComponent("clicks").setText("" + clicks);
                 panel.setVisible(true);
             }
         }
 
         List<Connection> connections = level.getConnections();
 
-        //TODO: Make the switching a part of connection
+        // TODO: Make the switching a part of connection
         if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             for (int i = 0; i < tempConnSwap.size(); i++) {
                 final MouseOverArea moa = tempConnSwap.get(i);
@@ -112,7 +115,7 @@ public class GameState extends EngineState {
                     conn.swapDirection();
                     Vector2f startPos = conn.getStartNode().getPosition();
                     Vector2f endPos = conn.getEndNode().getPosition();
-                    Image img = createDirectionImage(startPos, endPos);                    
+                    Image img = createDirectionImage(startPos, endPos);
                     moa.setNormalImage(img);
                     moa.setMouseOverImage(img);
                 }
@@ -122,9 +125,7 @@ public class GameState extends EngineState {
 
     @Override
     public void keyReleased(int key, char c) {
-        /*if (Input.KEY_P == key || Input.KEY_PAUSE == key) {
-         gc.setPaused(!gc.isPaused());
-         } else */ if (Input.KEY_ESCAPE == key) {
+        if (Input.KEY_ESCAPE == key) {
             setNextState(Main.MAINMENUSTATE);
         }
     }
@@ -135,13 +136,13 @@ public class GameState extends EngineState {
     }
 
     /**
-     * Check if there are any unhappy consumers, 
-     * if there are - the level is not completed.
+     * Check if there are any unhappy consumers, if there are - the level is not
+     * completed.
      * @return whether the level is done or not
      */
     private boolean levelIsDone() {
         Map<GridCoord, Node> nodes = level.getNodes();
-        //Check if there are any unhappy consumers
+        // Check if there are any unhappy consumers
         for (Node node : nodes.values()) {
             NodeSpecification spec = node.getNodeSpecification();
             if (spec instanceof ConsumerSpecification
@@ -169,22 +170,23 @@ public class GameState extends EngineState {
     }
 
     /**
-     * Save the amount of clicks and the time that has passed since
-     * the level started.
+     * Save the amount of clicks and the time that has passed since the level
+     * started.
      */
     private void saveHighScore() {
-        String time = this.<Label>getGuiComponent("time").getText();
-        String clicks = this.<Label>getGuiComponent("clicks").getText();
+        String time = this.<Label> getGuiComponent("time").getText();
+        String clicks = this.<Label> getGuiComponent("clicks").getText();
         HighScore.save(level.getName(), time, clicks);
     }
-    
+
     /**
-     * Creates a new diractional image angle from the start position to the end position.
+     * Creates a new directional image angle from the start position to the end
+     * position.
      * @param startPos The start position the image will be angled from.
      * @param endPos The end position the image will be angled from.
      * @return THe angled image.
      */
-    private Image createDirectionImage(Vector2f startPos, Vector2f endPos){
+    private Image createDirectionImage(Vector2f startPos, Vector2f endPos) {
         Image img;
         Vector2f dist;
         if ((startPos.x - endPos.x) < 0) {
@@ -195,7 +197,7 @@ public class GameState extends EngineState {
             img = ImageManager.connection_swap_left_icon;
         }
 
-        float angle = (float) ((float) Math.atan(dist.y/dist.x) / (Math.PI) * 180);
+        float angle = (float) ((float) Math.atan(dist.y / dist.x) / (Math.PI) * 180);
         img = img.copy();
         img.rotate(angle);
         return img;
