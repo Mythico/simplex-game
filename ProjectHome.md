@@ -1,0 +1,1 @@
+A simple resource distribution problem game. A project for the TDDD23 course at Linköping University.
